@@ -1,7 +1,8 @@
-#ifndef _MATRIX4_H_
-#define _MATRIX4_H_
+#ifndef CSE167_MATRIX4_H_
+#define CSE167_MATRIX4_H_
 
 #define M_PI 3.14159265358979323846
+#define kPi 3.14159265358979323846
 
 class Matrix4
 {
@@ -11,7 +12,8 @@ class Matrix4
   public:
     Matrix4();     
     Matrix4& operator=(const Matrix4&);
-    double* getPointer(); 
+
+    double * getPointer(); 
     void identity(); 
     void transpose();
     void makeRotateY(double); 

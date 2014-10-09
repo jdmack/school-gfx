@@ -9,8 +9,6 @@
 #include "matrix4.h"
 #include "main.h"
 
-using namespace std;
-
 namespace Globals
 {
   Cube cube;

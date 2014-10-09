@@ -7,8 +7,6 @@
 #include "matrix4.h"
 #include "main.h"
 
-using namespace std;
-
 int Window::width  = 512;   // set window width in pixels here
 int Window::height = 512;   // set window height in pixels here
 
@@ -24,7 +22,7 @@ void Window::idleCallback()
 // Callback method called by GLUT when graphics window is resized by the user
 void Window::reshapeCallback(int w, int h)
 {
-  cerr << "Window::reshapeCallback called" << endl;
+  std::cerr << "Window::reshapeCallback called" << std::endl;
   width = w;
   height = h;
   glViewport(0, 0, w, h);  // set new viewport size

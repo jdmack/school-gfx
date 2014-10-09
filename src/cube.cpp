@@ -1,8 +1,6 @@
 #include "cube.h"
 #include "matrix4.h"
 
-using namespace std;
-
 Cube::Cube()
 {
   angle = 0.0;
