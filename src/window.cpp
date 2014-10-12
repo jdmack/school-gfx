@@ -3,96 +3,45 @@
 #include <GL/glut.h>
 
 #include "window.h"
-#include "cube.h"
+#include "object.h"
 #include "matrix4.h"
-#include "main.h"
+#include "globals.h"
 
 int Window::width  = 512;   // set window width in pixels here
 int Window::height = 512;   // set window height in pixels here
 
 //----------------------------------------------------------------------------
 // Callback method called when system is idle.
-void Window::idleCallback()
+void Window::idle_callback()
 {
-  Globals::cube.spin(1.0);   // rotate cube; if it spins too fast try smaller values and vice versa
-  displayCallback();         // call display routine to show the cube
+    Globals::focus->spin(1.0);   // rotate cube; if it spins too fast try smaller values and vice versa
+    display_callback();         // call display routine to show the cube
 }
 
 //----------------------------------------------------------------------------
 // Callback method called by GLUT when graphics window is resized by the user
-void Window::reshapeCallback(int w, int h)
+void Window::reshape_callback(int w, int h)
 {
-  std::cerr << "Window::reshapeCallback called" << std::endl;
-  width = w;
-  height = h;
-  glViewport(0, 0, w, h);  // set new viewport size
-  glMatrixMode(GL_PROJECTION);
-  glLoadIdentity();
-  gluPerspective(60.0, double(width)/(double)height, 1.0, 1000.0); // set perspective projection viewing frustum
-  glTranslatef(0, 0, -20);    // move camera back 20 units so that it looks at the origin (or else it's in the origin)
-  glMatrixMode(GL_MODELVIEW);
+    std::cerr << "Window::reshape_callback called" << std::endl;
+    width = w;
+    height = h;
+    glViewport(0, 0, w, h);  // set new viewport size
+    glMatrixMode(GL_PROJECTION);
+    glLoadIdentity();
+    gluPerspective(60.0, double(width)/(double)height, 1.0, 1000.0); // set perspective projection viewing frustum
+    glTranslatef(0, 0, -20);    // move camera back 20 units so that it looks at the origin (or else it's in the origin)
+    glMatrixMode(GL_MODELVIEW);
 }
 
 //----------------------------------------------------------------------------
 // Callback method called by GLUT when window readraw is necessary or when glutPostRedisplay() was called.
-void Window::displayCallback()
+void Window::display_callback()
 {
-  glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);  // clear color and depth buffers
-  glMatrixMode(GL_MODELVIEW);  // make sure we're in Modelview mode
-
-  // Tell OpenGL what ModelView matrix to use:
-  Matrix4 glmatrix;
-  glmatrix = Globals::cube.getMatrix();
-  glmatrix.transpose();
-  glLoadMatrixd(glmatrix.getPointer());
-
-  // Draw all six faces of the cube:
-  glBegin(GL_QUADS);
-    glColor3f(0.0, 1.0, 0.0);		// This makes the cube green; the parameters are for red, green and blue. 
-                                // To change the color of the other faces you will need to repeat this call before each face is drawn.
-    // Draw front face:
-    glNormal3f(0.0, 0.0, 1.0);   
-    glVertex3f(-5.0,  5.0,  5.0);
-    glVertex3f( 5.0,  5.0,  5.0);
-    glVertex3f( 5.0, -5.0,  5.0);
-    glVertex3f(-5.0, -5.0,  5.0);
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);  // clear color and depth buffers
     
-    // Draw left side:
-    glNormal3f(-1.0, 0.0, 0.0);
-    glVertex3f(-5.0,  5.0,  5.0);
-    glVertex3f(-5.0,  5.0, -5.0);
-    glVertex3f(-5.0, -5.0, -5.0);
-    glVertex3f(-5.0, -5.0,  5.0);
-    
-    // Draw right side:
-    glNormal3f(1.0, 0.0, 0.0);
-    glVertex3f( 5.0,  5.0,  5.0);
-    glVertex3f( 5.0,  5.0, -5.0);
-    glVertex3f( 5.0, -5.0, -5.0);
-    glVertex3f( 5.0, -5.0,  5.0);
-  
-    // Draw back face:
-    glNormal3f(0.0, 0.0, -1.0);
-    glVertex3f(-5.0,  5.0, -5.0);
-    glVertex3f( 5.0,  5.0, -5.0);
-    glVertex3f( 5.0, -5.0, -5.0);
-    glVertex3f(-5.0, -5.0, -5.0);
-  
-    // Draw top side:
-    glNormal3f(0.0, 1.0, 0.0);
-    glVertex3f(-5.0,  5.0,  5.0);
-    glVertex3f( 5.0,  5.0,  5.0);
-    glVertex3f( 5.0,  5.0, -5.0);
-    glVertex3f(-5.0,  5.0, -5.0);
-  
-    // Draw bottom side:
-    glNormal3f(0.0, -1.0, 0.0);
-    glVertex3f(-5.0, -5.0, -5.0);
-    glVertex3f( 5.0, -5.0, -5.0);
-    glVertex3f( 5.0, -5.0,  5.0);
-    glVertex3f(-5.0, -5.0,  5.0);
-  glEnd();
-  
-  glFlush();  
-  glutSwapBuffers();
+    // Draw current object
+    Globals::focus->display();
+
+    glFlush();  
+    glutSwapBuffers();
 }
