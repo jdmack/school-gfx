@@ -25,11 +25,15 @@ class Matrix4
 
         void set(int x, int y, double value);
         void set(Matrix4 param);
+
         // Multiply (matrix-times-matrix)
         Matrix4 multiply(Matrix4 param);
 
         // Multiply (matrix-times-vector)
         Vector4 multiply(Vector4 param);
+
+        Matrix4 operator*(Matrix4 & param);
+        Vector4 operator*(Vector4 & param);
 
         // Make a rotation matrix about the x axis
         void rotate_x(double angle);

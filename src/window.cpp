@@ -6,16 +6,19 @@
 #include "object.h"
 #include "matrix4.h"
 #include "globals.h"
+#include "timer.h"
 
 int Window::width  = 512;   // set window width in pixels here
 int Window::height = 512;   // set window height in pixels here
+Timer Window::timer_ = Timer();
 
 //----------------------------------------------------------------------------
 // Callback method called when system is idle.
 void Window::idle_callback()
 {
-    Globals::focus->spin(1.0);   // rotate cube; if it spins too fast try smaller values and vice versa
-    display_callback();         // call display routine to show the cube
+    Globals::focus->update(timer_.get_ticks());
+    timer_.start();
+    display_callback();         // call display routine to show the object
 }
 
 //----------------------------------------------------------------------------

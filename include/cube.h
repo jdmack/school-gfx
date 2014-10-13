@@ -14,6 +14,7 @@ public:
     Cube();
        
     void display();
+    void update(int ticks);
 };
 
 #endif

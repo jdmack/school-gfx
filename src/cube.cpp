@@ -74,3 +74,8 @@ void Cube::display()
     glVertex3f(-5.0, -5.0, 5.0);
     glEnd();
 }
+
+void Cube::update(int ticks)
+{
+    spin(1.0);
+}

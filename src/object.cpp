@@ -21,7 +21,6 @@ void Object::spin(double deg)
     angle += deg;
     if(angle > 360.0 || angle < -360.0) {
         angle = 0.0;
-        std::cout << "set angle 0" << std::endl;
     }
     
     spin_matrix_.rotate_y(deg * spin_);
@@ -43,9 +42,13 @@ void Object::toggle_spin()
 void Object::reset()
 {
     matrix_.identity();
+    spin_matrix_.identity();
     rotate_matrix_.identity();
     translate_matrix_.identity();
     scale_matrix_.identity();
+    set_color(0.0, 1.0, 0.0);
+    position() = Vector3(0.0, 0.0, 0.0);
+
 }
 
 void Object::display()
@@ -109,5 +112,10 @@ void Object::display()
         glVertex3f(5.0, -5.0, 5.0);
         glVertex3f(-5.0, -5.0, 5.0);
     glEnd();
+
+}
+
+void Object::update(int ticks)
+{
 
 }

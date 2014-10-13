@@ -2,6 +2,7 @@
 #define CSE167_OBJECT_H_
 
 #include "matrix4.h"
+#include "vector3.h"
 #include "vector4.h"
 
 class Object
@@ -17,6 +18,7 @@ class Object
         float green_;
         float blue_;
         int spin_;
+        Vector3 position_;
 
     public:
         // constructors
@@ -33,6 +35,7 @@ class Object
         float green() { return green_; }
         float blue() { return blue_; }
         int get_spin() { return spin_; }
+		Vector3& position() { return position_; }
 
         // mutators
         void set_red(float red) { red_ = red; }
@@ -43,9 +46,10 @@ class Object
 
         void spin(double);      // spin cube [degrees]
         void toggle_spin();
-        void reset();
 
         virtual void display();
+        virtual void update(int ticks);
+        virtual void reset();
 };
 
 #endif

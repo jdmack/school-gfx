@@ -98,6 +98,16 @@ Vector4 Matrix4::multiply(Vector4 param)
     return result;
 }
 
+Matrix4 Matrix4::operator*(Matrix4 & param)
+{
+    return multiply(param);
+}
+
+Vector4 Matrix4::operator*(Vector4 & param)
+{
+    return multiply(param);
+}
+
 // Make a rotation matrix about the x axis
 void Matrix4::rotate_x(double angle)
 {
@@ -119,9 +129,6 @@ void Matrix4::rotate_y(double angle)
                    -sin(angle), 0, cos(angle), 0, 
                              0, 0,          0, 1);
     set(multiply(param));
-    
-
-
 }
 
 // Make a rotation matrix about the z axis

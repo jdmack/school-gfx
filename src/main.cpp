@@ -9,6 +9,7 @@
 #include "cube.h"
 #include "matrix4.h"
 #include "globals.h"
+#include "timer.h"
 
 
 
@@ -20,7 +21,9 @@ int main(int argc, char *argv[])
     float specular[]  = {1.0, 1.0, 1.0, 1.0};
     float shininess[] = {100.0};
     float position[]  = {0.0, 10.0, 1.0, 0.0};	    // lightsource position
-  
+
+    Window::timer_.start();
+
     glutInit(&argc, argv);      	      	        // initialize GLUT
     glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB | GLUT_DEPTH);   // open an OpenGL context with double buffering, RGB colors, and depth buffering
     
@@ -75,35 +78,37 @@ void keyboard_callback(unsigned char key, int x, int y)
 
         // 'x'/'X': move cube left/right by a small amount. (5 points)
         case 'x':
-            Globals::focus->translate_matrix().translate(-0.1, 0.0, 0.0);
+            Globals::focus->translate_matrix().translate(-1.0, 0.0, 0.0);
+			Globals::focus->position().x()--;
             break;
         case 'X':
-            Globals::focus->translate_matrix().translate(0.1, 0.0, 0.0);
+            Globals::focus->translate_matrix().translate(1.0, 0.0, 0.0);
+			Globals::focus->position().x()++;
             break;
 
         // 'y'/'Y': move cube down/up by a small amount. (5 points)
         case 'y':
-            Globals::focus->translate_matrix().translate(0.0, -0.1, 0.0);
+            Globals::focus->translate_matrix().translate(0.0, -1.0, 0.0);
+			Globals::focus->position().y()--;
             break;
         case 'Y':
-            Globals::focus->translate_matrix().translate(0.0, 0.1, 0.0);
+            Globals::focus->translate_matrix().translate(0.0, 1.0, 0.0);
+			Globals::focus->position().y()++;
             break;
 
         // 'z'/'Z': move cube into/out of the screen by a small amount. (5 points)
         case 'z':
-            Globals::focus->translate_matrix().translate(0.0, 0.0, -0.1);
+            Globals::focus->translate_matrix().translate(0.0, 0.0, -1.0);
+			Globals::focus->position().z()--;
             break;
         case 'Z':
-            Globals::focus->translate_matrix().translate(0.0, 0.0, 0.1);
+            Globals::focus->translate_matrix().translate(0.0, 0.0, 1.0);
+			Globals::focus->position().z()++;
             break;
         
         // 'r': reset cube position, orientation, size and color. (5 points)
         case 'r':
-            Globals::focus->matrix().identity();
-            Globals::focus->rotate_matrix().identity();
-            Globals::focus->scale_matrix().identity();
-            Globals::focus->translate_matrix().identity();
-            Globals::focus->set_color(0.0, 1.0, 0.0);
+            Globals::focus->reset();
 
             break;
 
@@ -118,53 +123,50 @@ void keyboard_callback(unsigned char key, int x, int y)
             break;
 
 
-        // 'a'/'A': rotate cube about the OpenGL window's z axis by a small number of degrees (e.g., 10) per key 
-        //  press, counterclockwise ('a') or clockwise ('A'). 
-        // The z axis crosses the screen in the center of the OpenGL window. This rotation should not affect the 
-        // spin other than that it will rotate the spin axis with the focus-> (10 points)
-        /*
-        case 'a':
-        focus->rotate_matrix().rotate_z(-.1745);
-        break;
-        case 'A':
-        focus->rotate_matrix().rotate_z(.1745);
-        break;
+			//'o' / 'O': orbit cube about the OpenGL window's z axis by a small number of degrees (e.g., 10) per key press, 
+			// counterclockwise ('o') or clockwise ('O'). The z axis crosses the screen in the center of the OpenGL window. 
+			// This rotation should not affect the spin other than that it will rotate the spin axis with the cube. (10 points)
+        case 'o':
+			Globals::focus->rotate_matrix().rotate_z(-5);
+			break;
+        case 'O':
+			Globals::focus->rotate_matrix().rotate_z(5);
+			break;
 
         // 's'/'S': scale cube down/up (about its center, not the center of the screen). To scale up means to
         // make it bigger (5 points)
         case 's':
-        focus->rotate_matrix().scale(.99, .99, .99);
-        break;
+			Globals::focus->rotate_matrix().scale(.90, .90, .90);
+			break;
         case 'S':
-        focus->rotate_matrix().scale(1.01, 1.01, 1.01);
-        break;
-        */
-    case 'f':
-        Globals::focus->translate_matrix().identity();
-        Globals::focus->rotate_matrix().identity();
-        Globals::focus->scale_matrix().identity();
-        //Globals::focus->translate_matrix().translate(-center.x(), -center.y(), -center.z());
-        //light0_matrix.identity();
-        //light1_matrix.identity();
-        //light2_matrix.identity();
+			Globals::focus->rotate_matrix().scale(1.10, 1.10, 1.10);
+			break;
+		case 'f':
+			Globals::focus->translate_matrix().identity();
+			Globals::focus->rotate_matrix().identity();
+			Globals::focus->scale_matrix().identity();
+			//Globals::focus->translate_matrix().translate(-center.x(), -center.y(), -center.z());
+			//light0_matrix.identity();
+			//light1_matrix.identity();
+			//light2_matrix.identity();
 
-        //if (!cube_flag) {
-        //    focus->scale_matrix().scale(scale_number, scale_number, scale_number);
-        //}
-        break;
+			//if (!cube_flag) {
+			//    focus->scale_matrix().scale(scale_number, scale_number, scale_number);
+			//}
+			break;
 
-    case 'm':       // Model freeze toggle
-        //if (freeze_toggle) {
-        //    freeze_toggle = false;
-        //}
-        //else {
-        //    freeze_toggle = true;
-        //}
-        break;
+		case 'm':       // Model freeze toggle
+			//if (freeze_toggle) {
+			//    freeze_toggle = false;
+			//}
+			//else {
+			//    freeze_toggle = true;
+			//}
+			break;
 
-    case 27:
-        exit(0);
-        break;
+		case 27:
+			exit(0);
+			break;
     }
 
     // With every key press, display the new cube position with your 

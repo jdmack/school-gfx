@@ -8,12 +8,17 @@
 class Ball : public Object
 {
 protected:
-    
+    float radius_;
+    Vector3 velocity_;
+    Vector3 acceleration_;
+
 public:
     // constructors
     Ball();
        
     void display();
+    void update(int ticks);
+    void reset();
 };
 
 #endif
