@@ -8,7 +8,7 @@ TESTTARGET := cube
 SRCEXT := cpp
 SOURCES := $(shell find $(SRCDIR) -type f -name "*.$(SRCEXT)")
 OBJECTS := $(patsubst $(SRCDIR)/%,$(BUILDDIR)/%,$(SOURCES:.$(SRCEXT)=.o))
-CFLAGS := -g3 -O0 -std=c++0x -w #-Wall
+CFLAGS := -g3 -O0 -std=c++0x -Wall #-w
 LIBS = -lglut -lGLU -lGL -lXmu -lXext -lX11 -lm -lXi
 
 

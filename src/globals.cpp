@@ -7,6 +7,6 @@
 namespace Globals
 {
     Object * focus;
-    Ball ball;
-    Cube cube;
+    Ball ball = Ball();
+    Cube cube = Cube();
 };
