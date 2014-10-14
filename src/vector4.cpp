@@ -111,41 +111,41 @@ double & Vector4::operator[](char coordinate)
 // Vector addition
 void Vector4::add(Vector4 param)
 {
-    // TODO(2013-10-03/JM): Need to update for Vector4
     x_ = x_ + param.x();
     y_ = y_ + param.y();
     z_ = z_ + param.z();
+    w_ = w_ + param.w();
 }
 
 // Overload operator '+' for addition
 Vector4 Vector4::operator+(Vector4 param)
 {
-    // TODO(2013-10-03/JM): Need to update for Vector4
     double new_x = x_ + param.x();
     double new_y = y_ + param.y();
     double new_z = z_ + param.z();
+    double new_w = w_ + param.w();
     
-    return Vector4(new_x, new_y, new_z);
+    return Vector4(new_x, new_y, new_z, new_w);
 }
 
 // Vector subtraction
 void Vector4::subtract(Vector4 param)
 {
-    // TODO(2013-10-03/JM): Need to update for Vector4
     x_ = x_ - param.x();
     y_ = y_ - param.y();
     z_ = z_ - param.z();
+    w_ = w_ - param.w();
 }
 
 // Overload operator '-' for subtraction
 Vector4 Vector4::operator-(Vector4 param)
 {
-    // TODO(2013-10-03/JM): Need to update for Vector4
     double new_x = x_ - param.x();
     double new_y = y_ - param.y();
     double new_z = z_ - param.z();
+    double new_w = w_ - param.w();
     
-    return Vector4(new_x, new_y, new_z);
+    return Vector4(new_x, new_y, new_z, new_w);
 }
 
 // Dehomogenize (make fourth component equal to 1)
