@@ -19,10 +19,10 @@ void Cube::display()
     // Tell OpenGL what ObjectView matrix to use:
 
     matrix().identity();
+    matrix().set(matrix().multiply(scale_matrix()));
     matrix().set(matrix().multiply(spin_matrix()));
     matrix().set(matrix().multiply(translate_matrix()));
     matrix().set(matrix().multiply(rotate_matrix()));
-    matrix().set(matrix().multiply(scale_matrix()));
     glLoadMatrixd(matrix().pointer());
 
     // Draw all six faces of the cube:

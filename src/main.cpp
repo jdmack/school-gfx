@@ -136,10 +136,10 @@ void keyboard_callback(unsigned char key, int x, int y)
         // 's'/'S': scale cube down/up (about its center, not the center of the screen). To scale up means to
         // make it bigger (5 points)
         case 's':
-			Globals::focus->rotate_matrix().scale(.90, .90, .90);
+			Globals::focus->scale_matrix().scale(.90, .90, .90);
 			break;
         case 'S':
-			Globals::focus->rotate_matrix().scale(1.10, 1.10, 1.10);
+			Globals::focus->scale_matrix().scale(1.10, 1.10, 1.10);
 			break;
 		case 'f':
 			Globals::focus->translate_matrix().identity();
@@ -173,7 +173,7 @@ void keyboard_callback(unsigned char key, int x, int y)
     // Vector3 print method in the text window. (5 points)
     //std::cout << "Position: ";
     Vector4 pos;
-    Globals::focus->translate_matrix().multiply(pos).print();
+    Globals::focus->matrix().multiply(pos).print();
     //pos.print();
 }
 
