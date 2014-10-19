@@ -15,12 +15,9 @@ Ball::Ball() : Object()
 
     srand(time(NULL));
     int random_direction = rand() % 360;
-    //std::cout << "direction: " << random_direction << std::endl;
-
     Vector2 v = Vector2(30.0, random_direction);
 
     velocity_ = Vector3(v.x_component(), v.y_component(), 0);
-    //velocity_ = Vector3(30.0, 35.0, 0.0);
     acceleration_ = Vector3(0.0, -150.0, 0.0);
 
 }
@@ -31,17 +28,13 @@ void Ball::display()
     glMatrixMode(GL_MODELVIEW);         // make sure we're in Objectview mode
 
     // Tell OpenGL what ObjectView matrix to use:
-
     matrix().identity();
-    matrix().set(matrix().multiply(spin_matrix()));
-    matrix().set(matrix().multiply(translate_matrix()));
-    matrix().set(matrix().multiply(rotate_matrix()));
-    matrix().set(matrix().multiply(scale_matrix()));
+    matrix().set(matrix().multiply(matrix_obj()));
+    matrix().set(matrix().multiply(matrix_o2w()));
     glLoadMatrixd(matrix().pointer());
 
     // Draw sphere
     glutSolidSphere(radius_, 100.0f, 100.0f);
-    
 }
 
 void Ball::update(int ticks)
@@ -56,13 +49,11 @@ void Ball::update(int ticks)
 
     if(position_.x() >= border) {
         velocity_.x() *= -1;
-        //velocity_.x() *= 0.90;
         velocity_.x() += 1.0;
         position_.x() = border;
     }
     else if(position_.x() <= -border) {
         velocity_.x() *= -1;
-        //velocity_.x() *= 0.90;
         velocity_.x() -= 1.0;
         position_.x() = -border;
     }
@@ -83,18 +74,16 @@ void Ball::update(int ticks)
         velocity_.x() += 0.2 * (ticks / 1000.0);
     }
 
-    translate_matrix_.identity();
-    translate_matrix_.translate(position_.x(), position_.y(), position_.z());
+    matrix_o2w_.identity();
+    matrix_o2w_.translate(position_.x(), position_.y(), position_.z());
 }
 
 void Ball::reset()
 {
-    //movement_ = Vector3(1.0, 0.8, 0);
 
     int random_direction = rand() % 360;
-    //std::cout << "direction: " << random_direction << std::endl;
-
     Vector2 v = Vector2(30.0, random_direction);
+
     velocity_ = Vector3(v.x_component(), v.y_component(), 0);
 
     Object::reset();

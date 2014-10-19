@@ -78,31 +78,31 @@ void keyboard_callback(unsigned char key, int x, int y)
 
         // 'x'/'X': move cube left/right by a small amount. (5 points)
         case 'x':
-            Globals::focus->translate_matrix().translate(-1.0, 0.0, 0.0);
+            Globals::focus->matrix_o2w().translate(-1.0, 0.0, 0.0);
 			Globals::focus->position().x()--;
             break;
         case 'X':
-            Globals::focus->translate_matrix().translate(1.0, 0.0, 0.0);
+            Globals::focus->matrix_o2w().translate(1.0, 0.0, 0.0);
 			Globals::focus->position().x()++;
             break;
 
         // 'y'/'Y': move cube down/up by a small amount. (5 points)
         case 'y':
-            Globals::focus->translate_matrix().translate(0.0, -1.0, 0.0);
+            Globals::focus->matrix_o2w().translate(0.0, -1.0, 0.0);
 			Globals::focus->position().y()--;
             break;
         case 'Y':
-            Globals::focus->translate_matrix().translate(0.0, 1.0, 0.0);
+            Globals::focus->matrix_o2w().translate(0.0, 1.0, 0.0);
 			Globals::focus->position().y()++;
             break;
 
         // 'z'/'Z': move cube into/out of the screen by a small amount. (5 points)
         case 'z':
-            Globals::focus->translate_matrix().translate(0.0, 0.0, -1.0);
+            Globals::focus->matrix_o2w().translate(0.0, 0.0, -1.0);
 			Globals::focus->position().z()--;
             break;
         case 'Z':
-            Globals::focus->translate_matrix().translate(0.0, 0.0, 1.0);
+            Globals::focus->matrix_o2w().translate(0.0, 0.0, 1.0);
 			Globals::focus->position().z()++;
             break;
         
@@ -127,25 +127,23 @@ void keyboard_callback(unsigned char key, int x, int y)
 			// counterclockwise ('o') or clockwise ('O'). The z axis crosses the screen in the center of the OpenGL window. 
 			// This rotation should not affect the spin other than that it will rotate the spin axis with the cube. (10 points)
         case 'o':
-			Globals::focus->rotate_matrix().rotate_z(-5);
+			Globals::focus->matrix_o2w().rotate_z(-5);
 			break;
         case 'O':
-			Globals::focus->rotate_matrix().rotate_z(5);
+			Globals::focus->matrix_o2w().rotate_z(5);
 			break;
 
         // 's'/'S': scale cube down/up (about its center, not the center of the screen). To scale up means to
         // make it bigger (5 points)
         case 's':
-			Globals::focus->scale_matrix().scale(.90, .90, .90);
+			Globals::focus->matrix_obj().scale(.90, .90, .90);
 			break;
         case 'S':
-			Globals::focus->scale_matrix().scale(1.10, 1.10, 1.10);
+			Globals::focus->matrix_obj().scale(1.10, 1.10, 1.10);
 			break;
 		case 'f':
-			Globals::focus->translate_matrix().identity();
-			Globals::focus->rotate_matrix().identity();
-			Globals::focus->scale_matrix().identity();
-			//Globals::focus->translate_matrix().translate(-center.x(), -center.y(), -center.z());
+			Globals::focus->matrix_o2w().identity();
+			Globals::focus->matrix_obj().identity();
 			//light0_matrix.identity();
 			//light1_matrix.identity();
 			//light2_matrix.identity();
