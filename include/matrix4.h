@@ -1,4 +1,4 @@
-#ifndef CSE167_MATRIX4_H_
+// #ifndef CSE167_MATRIX4_H_
 #define CSE167_MATRIX4_H_
 
 #include "vector4.h"
@@ -9,15 +9,15 @@ class Matrix4
     protected:
         double m_[4][4];   // matrix elements
         double m_col_[4][4];
-    
+
     public:
         // constructors
         Matrix4();
         Matrix4(const Matrix4 &param);
         // Constructor with 16 parameters to set the values of the matrix
-        Matrix4(double, double, double, double, 
-                double, double, double, double, 
-                double, double, double, double, 
+        Matrix4(double, double, double, double,
+                double, double, double, double,
+                double, double, double, double,
                 double, double, double, double);
 
         // 'get(x,y)' function to read any matrix element

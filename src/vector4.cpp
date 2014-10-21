@@ -95,7 +95,7 @@ void Vector4::set(int coordinate, double value)
         case 3:
             w_ = value;
             break;
-    } 
+    }
 }
 
 // Overload operator '[]' as alternative to 'get' method
@@ -124,7 +124,7 @@ Vector4 Vector4::operator+(Vector4 param)
     double new_y = y_ + param.y();
     double new_z = z_ + param.z();
     double new_w = w_ + param.w();
-    
+
     return Vector4(new_x, new_y, new_z, new_w);
 }
 
@@ -144,13 +144,14 @@ Vector4 Vector4::operator-(Vector4 param)
     double new_y = y_ - param.y();
     double new_z = z_ - param.z();
     double new_w = w_ - param.w();
-    
+
     return Vector4(new_x, new_y, new_z, new_w);
 }
 
 // Dehomogenize (make fourth component equal to 1)
 void Vector4::dehomogenize()
 {
+    // TODO: account for W = 0;
     x_ /= w_;
     y_ /= w_;
     z_ /= w_;
@@ -162,4 +163,3 @@ void Vector4::print()
 {
     std::cout << "(" << x_ << ", " << y_ << ", " << z_ << ", " << w_ << ")" << std::endl;
 }
-
