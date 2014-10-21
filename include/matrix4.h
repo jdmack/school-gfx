@@ -1,4 +1,4 @@
-// #ifndef CSE167_MATRIX4_H_
+#ifndef CSE167_MATRIX4_H_
 #define CSE167_MATRIX4_H_
 
 #include "vector4.h"
