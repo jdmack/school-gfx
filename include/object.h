@@ -9,10 +9,8 @@ class Object
 {
     protected:
         Matrix4 matrix_;
-        Matrix4 spin_matrix_;
-        Matrix4 rotate_matrix_;
-        Matrix4 translate_matrix_;
-        Matrix4 scale_matrix_;
+        Matrix4 matrix_obj_;
+        Matrix4 matrix_o2w_;
         double angle;
         float red_;
         float green_;
@@ -26,10 +24,8 @@ class Object
         
         // accessors
         Matrix4& matrix() { return matrix_; } 
-        Matrix4& spin_matrix() { return spin_matrix_; }
-        Matrix4& rotate_matrix() { return rotate_matrix_; } 
-        Matrix4& translate_matrix() { return translate_matrix_; } 
-        Matrix4& scale_matrix() { return scale_matrix_; } 
+        Matrix4& matrix_obj() { return matrix_obj_; } 
+        Matrix4& matrix_o2w() { return matrix_o2w_; } 
        
         float red() { return red_; }
         float green() { return green_; }

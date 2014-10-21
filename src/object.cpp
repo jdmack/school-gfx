@@ -10,10 +10,8 @@ Object::Object()
     angle = 0.0;
     spin_ = 1;
     matrix_.identity();
-    spin_matrix_.identity();
-    translate_matrix_.identity();
-    rotate_matrix_.identity();
-    scale_matrix_.identity();
+    matrix_obj_.identity();
+    matrix_o2w_.identity();
 }
 
 void Object::spin(double deg)
@@ -23,8 +21,7 @@ void Object::spin(double deg)
         angle = 0.0;
     }
     
-    spin_matrix_.rotate_y(deg * spin_);
-    //matrix_.rotate_y(deg * spin_);
+    matrix_obj_.rotate_y(deg * spin_);
 
 }
 void Object::set_color(float red, float green, float blue)
@@ -42,10 +39,8 @@ void Object::toggle_spin()
 void Object::reset()
 {
     matrix_.identity();
-    spin_matrix_.identity();
-    rotate_matrix_.identity();
-    translate_matrix_.identity();
-    scale_matrix_.identity();
+    matrix_obj_.identity();
+    matrix_o2w_.identity();
     set_color(0.0, 1.0, 0.0);
     position() = Vector3(0.0, 0.0, 0.0);
 
@@ -58,10 +53,8 @@ void Object::display()
     // Tell OpenGL what ObjectView matrix to use:
 
     matrix().identity();
-    matrix().set(matrix().multiply(spin_matrix()));
-    matrix().set(matrix().multiply(translate_matrix()));
-    matrix().set(matrix().multiply(rotate_matrix()));
-    matrix().set(matrix().multiply(scale_matrix()));
+    matrix().set(matrix().multiply(matrix_obj()));
+    matrix().set(matrix().multiply(matrix_o2w()));
     glLoadMatrixd(matrix().pointer());
 
     // Draw all six faces of the cube:
