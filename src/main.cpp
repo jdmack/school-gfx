@@ -168,6 +168,18 @@ void keyboard_callback(unsigned char key, int x, int y)
 			//}
 			break;
 
+        case 'l':
+            glDisable(GL_LIGHTING);
+
+            break;
+
+        case 'L':
+            glEnable(GL_LIGHTING);
+
+            break;
+
+
+
 		case 27:
 			exit(0);
 			break;

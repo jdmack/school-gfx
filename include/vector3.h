@@ -1,6 +1,8 @@
 #ifndef CSE167_VECTOR3_H_
 #define CSE167_VECTOR3_H_
 
+#include <string>
+
 class Vector3
 {
     private:

@@ -16,7 +16,6 @@ Timer Window::timer_ = Timer();
 // Callback method called when system is idle.
 void Window::idle_callback()
 {
-    glEnable(GL_LIGHTING);
     Globals::focus->update(timer_.get_ticks());
     timer_.start();
     display_callback();         // call display routine to show the object
@@ -42,6 +41,7 @@ void Window::reshape_callback(int w, int h)
 void Window::display_callback()
 {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);  // clear color and depth buffers
+    glEnable(GL_LIGHTING);
     
     // Draw current object
     Globals::focus->display(Globals::camera);
