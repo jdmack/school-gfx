@@ -177,87 +177,81 @@ void keyboard_callback(unsigned char key, int x, int y)
 
 void keyboard_special_callback(int key, int x, int y)
 {
-    /*
-    cube_flag = false;
     switch (key) {
         // F1 - Display Cube
-    case GLUT_KEY_F1:
-        std::cout << "\nDisplaying Cube\n----------------------\n";
+        case GLUT_KEY_F1:
+            std::cout << "Display Cube\n";
 
-        scale_number = 0;
-        cube_flag = true;
-        current_object = kCube;
+            Globals::focus = static_cast<Object *>(&Globals::cube);
 
-        glutDisplayFunc(Window::display_cube);
-        glutIdleFunc(idle_callback);
+            break;
 
-        focus->reset();
+        // F2 - Display House View 1
+        case GLUT_KEY_F2:
+            std::cout << "Display House View 1\n";
 
-        break;
+            Globals::focus = static_cast<Object *>(&Globals::house);
 
-        // F2 - Display Dragon
-    case GLUT_KEY_F2:
-        std::cout << "\nDisplaying Dragon\n----------------------\n";
+            break;
 
-        glutDisplayFunc(display_object);
-        glutIdleFunc(idle_callback2);
+        // F3 - Display House View 2
+        case GLUT_KEY_F3:
+            std::cout << "Displaying House View 2\n";
 
-        scale_number = scale_dragon;
-        current_object = kDragon;
+            Globals::focus = static_cast<Object *>(&Globals::house);
 
-        object = object_dragon;
-        focus->reset();
-        calculate_stuff();
-
-        break;
+            break;
 
         // F3 - Display Bunny
-    case GLUT_KEY_F3:
-        std::cout << "\nDisplaying Bunny\n----------------------\n";
+        /*
+        case GLUT_KEY_F3:
+            std::cout << "\nDisplaying Bunny\n----------------------\n";
 
-        glutDisplayFunc(display_object);
-        glutIdleFunc(idle_callback2);
+            glutDisplayFunc(display_object);
+            glutIdleFunc(idle_callback2);
 
-        scale_number = scale_bunny;
-        current_object = kBunny;
+            scale_number = scale_bunny;
+            current_object = kBunny;
 
-        object = object_bunny;
-        focus->reset();
-        calculate_stuff();
+            object = object_bunny;
+            focus->reset();
+            calculate_stuff();
 
-        break;
+            break;
+        */
 
         // F4 - Display Sandal
-    case GLUT_KEY_F4:
-        std::cout << "\nDisplaying Sandal\n----------------------\n";
+        /*
+        case GLUT_KEY_F4:
+            std::cout << "\nDisplaying Sandal\n----------------------\n";
 
-        glutDisplayFunc(display_object);
-        glutIdleFunc(idle_callback2);
+            glutDisplayFunc(display_object);
+            glutIdleFunc(idle_callback2);
 
-        scale_number = scale_sandal;
-        current_object = kSandal;
+            scale_number = scale_sandal;
+            current_object = kSandal;
 
-        object = object_sandal;
-        focus->reset();
-        calculate_stuff();
+            object = object_sandal;
+            focus->reset();
+            calculate_stuff();
 
-        break;
+            break;
+        */
 
         // F5
-    case GLUT_KEY_F5:
-        break;
+        case GLUT_KEY_F5:
+            break;
 
         // F6
-    case GLUT_KEY_F6:
-        break;
+        case GLUT_KEY_F6:
+            break;
 
         // F8
-    case GLUT_KEY_F8:
-        break;
+        case GLUT_KEY_F8:
+            break;
 
         // F9
-    case GLUT_KEY_F9:
-        break;
+        case GLUT_KEY_F9:
+            break;
     }
-    */
 }
