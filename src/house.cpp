@@ -4,6 +4,7 @@
 #include <time.h>
 #include <GL/glut.h>
 
+#include "globals.h"
 #include "house.h"
 #include "object.h"
 #include "matrix4.h"
@@ -23,6 +24,7 @@ void House::display()
     matrix().identity();
     matrix().set(matrix().multiply(matrix_obj()));
     matrix().set(matrix().multiply(matrix_o2w()));
+    matrix().set(matrix().multiply(Globals::camera.c()));
     glLoadMatrixd(matrix().pointer());
 
     glDisable(GL_LIGHTING);

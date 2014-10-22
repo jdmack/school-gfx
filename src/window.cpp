@@ -16,10 +16,6 @@ Timer Window::timer_ = Timer();
 // Callback method called when system is idle.
 void Window::idle_callback()
 {
-    // set camera
-    glMatrixMode(GL_MODELVIEW);
-    glLoadMatrixd(Globals::camera.gl_matrix());
-
     glEnable(GL_LIGHTING);
     Globals::focus->update(timer_.get_ticks());
     timer_.start();

@@ -183,6 +183,7 @@ void keyboard_special_callback(int key, int x, int y)
             std::cout << "Display Cube\n";
 
             Globals::focus = static_cast<Object *>(&Globals::cube);
+            Globals::camera.reset();
 
             break;
 
@@ -192,6 +193,11 @@ void keyboard_special_callback(int key, int x, int y)
 
             Globals::focus = static_cast<Object *>(&Globals::house);
 
+            Globals::camera.set_e(Vector3(0, 10, 10));
+            Globals::camera.set_d(Vector3(0, 0, 0));
+            Globals::camera.set_up(Vector3(0, 1, 0));
+            Globals::camera.calc();
+
             break;
 
         // F3 - Display House View 2
@@ -199,6 +205,11 @@ void keyboard_special_callback(int key, int x, int y)
             std::cout << "Displaying House View 2\n";
 
             Globals::focus = static_cast<Object *>(&Globals::house);
+
+            Globals::camera.set_e(Vector3(-15, 5, 10));
+            Globals::camera.set_d(Vector3(-5, 0, 0));
+            Globals::camera.set_up(Vector3(0, 1, 0.5));
+            Globals::camera.calc();
 
             break;
 

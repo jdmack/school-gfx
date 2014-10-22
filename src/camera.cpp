@@ -63,3 +63,21 @@ double * Camera::gl_matrix()
     //return c_.pointer_col_major();
     return c_.pointer();
 }
+
+void Camera::calc() 
+{
+    Vector3 z = e_ - d_;
+    z.scale(1.0 / z.magnitude());
+
+    Vector3 x = (up_.cross_product(z));
+    x.scale(1.0 / x.magnitude());
+
+    Vector3 y = z.cross_product(x);
+
+    c_ = Matrix4(x.get(0), y.get(0), z.get(0), e_.get(0),
+                 x.get(1), y.get(1), z.get(1), e_.get(1),
+                 x.get(2), y.get(2), z.get(2), e_.get(2),
+                      0.0,      0.0,      0.0,     1.0);
+    c_.transpose();
+    c_.invert();
+}

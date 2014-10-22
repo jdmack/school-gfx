@@ -24,8 +24,14 @@ class Camera
         Vector3 up() const { return up_; }
         Matrix4 c() const { return c_; }
 
+        void set_e(Vector3 e) { e_ = e; }
+        void set_d(Vector3 d) { d_ = d; }
+        void set_up(Vector3 up) { up_ = up; }
+
         void reset();
         double * gl_matrix();
+
+        void calc();
 
 };
 
