@@ -8,6 +8,7 @@
 #include "object.h"
 #include "matrix4.h"
 #include "vector2.h"
+#include "camera.h"
 
 Ball::Ball() : Object()
 {
@@ -23,7 +24,7 @@ Ball::Ball() : Object()
 }
 
 
-void Ball::display()
+void Ball::display(Camera camera)
 {
     glMatrixMode(GL_MODELVIEW);         // make sure we're in Objectview mode
 
@@ -31,6 +32,7 @@ void Ball::display()
     matrix().identity();
     matrix().set(matrix().multiply(matrix_obj()));
     matrix().set(matrix().multiply(matrix_o2w()));
+    matrix().set(matrix().multiply(camera.c()));
     glLoadMatrixd(matrix().pointer());
 
     // Draw sphere

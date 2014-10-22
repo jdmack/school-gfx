@@ -4,6 +4,7 @@
 #include <GL/glut.h>
 #include "object.h"
 #include "matrix4.h"
+#include "camera.h"
 
 Object::Object()
 {
@@ -46,7 +47,7 @@ void Object::reset()
 
 }
 
-void Object::display()
+void Object::display(Camera camera)
 {
     glMatrixMode(GL_MODELVIEW);         // make sure we're in Objectview mode
 
@@ -55,6 +56,7 @@ void Object::display()
     matrix().identity();
     matrix().set(matrix().multiply(matrix_obj()));
     matrix().set(matrix().multiply(matrix_o2w()));
+    matrix().set(matrix().multiply(camera.c()));
     glLoadMatrixd(matrix().pointer());
 
     // Draw all six faces of the cube:

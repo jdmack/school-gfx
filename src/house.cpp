@@ -4,11 +4,11 @@
 #include <time.h>
 #include <GL/glut.h>
 
-#include "globals.h"
 #include "house.h"
 #include "object.h"
 #include "matrix4.h"
 #include "vector2.h"
+#include "camera.h"
 
 House::House() : Object()
 {
@@ -16,7 +16,7 @@ House::House() : Object()
 }
 
 
-void House::display()
+void House::display(Camera camera)
 {
     glMatrixMode(GL_MODELVIEW);         // make sure we're in Objectview mode
 
@@ -24,7 +24,7 @@ void House::display()
     matrix().identity();
     matrix().set(matrix().multiply(matrix_obj()));
     matrix().set(matrix().multiply(matrix_o2w()));
-    matrix().set(matrix().multiply(Globals::camera.c()));
+    matrix().set(matrix().multiply(camera.c()));
     glLoadMatrixd(matrix().pointer());
 
     glDisable(GL_LIGHTING);

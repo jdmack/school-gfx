@@ -4,6 +4,7 @@
 #include "matrix4.h"
 #include "vector3.h"
 #include "vector4.h"
+#include "camera.h"
 
 class Object
 {
@@ -43,7 +44,7 @@ class Object
         void spin(double);      // spin cube [degrees]
         void toggle_spin();
 
-        virtual void display();
+        virtual void display(Camera camera = Camera());
         virtual void update(int ticks);
         virtual void reset();
 };

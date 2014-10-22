@@ -4,6 +4,7 @@
 #include "matrix4.h"
 #include "vector4.h"
 #include "object.h"
+#include "camera.h"
 
 class Cube : public Object
 {
@@ -13,7 +14,7 @@ public:
     // constructors
     Cube();
        
-    void display();
+    void display(Camera camera = Camera());
     void update(int ticks);
 };
 
