@@ -11,6 +11,8 @@
 #include "globals.h"
 #include "timer.h"
 
+// TODO:
+// - Camera has to be transposed and inverted to work right, fix this
 
 
 void keyboard_callback(unsigned char key, int x, int y);
