@@ -65,7 +65,7 @@ class Vector3
 
         // Print (display the vector's components numerically on the screen)
         void print();
-
+        std::string str();
         double angle(Vector3 v);
 
 };

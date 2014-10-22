@@ -26,6 +26,10 @@ int main(int argc, char *argv[])
 
     Window::timer_.start();
 
+    // Read in files
+    Globals::bunny.parse("xyz/bunny.xyz");
+    Globals::dragon.parse("xyz/dragon.xyz");
+
     glutInit(&argc, argv);      	      	        // initialize GLUT
     glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB | GLUT_DEPTH);   // open an OpenGL context with double buffering, RGB colors, and depth buffering
     
@@ -215,44 +219,22 @@ void keyboard_special_callback(int key, int x, int y)
 
             break;
 
-        // F3 - Display Bunny
-        /*
-        case GLUT_KEY_F3:
-            std::cout << "\nDisplaying Bunny\n----------------------\n";
-
-            glutDisplayFunc(display_object);
-            glutIdleFunc(idle_callback2);
-
-            scale_number = scale_bunny;
-            current_object = kBunny;
-
-            object = object_bunny;
-            focus->reset();
-            calculate_stuff();
-
-            break;
-        */
-
-        // F4 - Display Sandal
-        /*
+        // F4 - Display Bunny
         case GLUT_KEY_F4:
-            std::cout << "\nDisplaying Sandal\n----------------------\n";
+            std::cout << "Display Bunny\n";
 
-            glutDisplayFunc(display_object);
-            glutIdleFunc(idle_callback2);
-
-            scale_number = scale_sandal;
-            current_object = kSandal;
-
-            object = object_sandal;
-            focus->reset();
-            calculate_stuff();
+            Globals::focus = static_cast<Object *>(&Globals::bunny);
+            Globals::camera.reset();
 
             break;
-        */
 
-        // F5
+        // F5 - Display Dragon
         case GLUT_KEY_F5:
+            std::cout << "Display Dragon\n";
+
+            Globals::focus = static_cast<Object *>(&Globals::dragon);
+            Globals::camera.reset();
+
             break;
 
         // F6

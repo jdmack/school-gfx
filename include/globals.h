@@ -6,6 +6,7 @@
 #include "ball.h"
 #include "cube.h"
 #include "house.h"
+#include "point_cloud.h"
 
 
 namespace Globals
@@ -15,6 +16,8 @@ namespace Globals
     extern Ball ball;
     extern Cube cube;
     extern House house;
+    extern PointCloud bunny;
+    extern PointCloud dragon;
 
 };
 

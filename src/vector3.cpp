@@ -1,4 +1,5 @@
 #include <iostream>
+#include <sstream>
 #include <cmath>
 #include "vector3.h"
 
@@ -180,4 +181,10 @@ double Vector3::angle(Vector3 v)
     return std::acos(dot_product / (this_mag * v_mag));
 }
 
+std::string Vector3::str()
+{
+    std::stringstream ss;
+    ss << "<" << x_ << ", " << y_ << ", " << z_ << ">";
+    return ss.str();
+}
 
