@@ -187,10 +187,12 @@ void keyboard_callback(unsigned char key, int x, int y)
 
     // With every key press, display the new cube position with your 
     // Vector3 print method in the text window. (5 points)
-    //std::cout << "Position: ";
-    Vector4 pos;
-    Globals::focus->matrix().multiply(pos).print();
-    //pos.print();
+    Vector3 pos = Vector3(
+        Globals::focus->matrix_o2w().get(3,0),
+        Globals::focus->matrix_o2w().get(3,1),
+        Globals::focus->matrix_o2w().get(3,2)
+    );
+    pos.print();
 }
 
 void keyboard_special_callback(int key, int x, int y)
