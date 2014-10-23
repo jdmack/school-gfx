@@ -32,7 +32,6 @@ void House::display(Camera camera)
     glBegin(GL_TRIANGLES);
 
     // This data structure defines a simple house
-    int n_verts = 42;    // your vertex array needs to have this many entries
   
     // These are the x,y,z coordinates of the vertices of the triangles
     Vector3 vertices[] = {  

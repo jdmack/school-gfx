@@ -50,7 +50,7 @@ void PointCloud::display(Camera camera)
     // Draw point cloud
     glBegin(GL_POINTS);
 
-    for(int i = 0; i < points_.size(); i++) {
+    for(unsigned int i = 0; i < points_.size(); i++) {
         glNormal3d(normals_[i].x(), normals_[i].y(), normals_[i].z());
         glVertex3d(points_[i].x(), points_[i].y(), points_[i].z());
     }
@@ -111,7 +111,7 @@ void PointCloud::parse(std::string filename)
 void PointCloud::calculate_dim()
 {
 
-    for(int i = 0; i < points_.size(); i++) {
+    for(unsigned int i = 0; i < points_.size(); i++) {
 
         if(points_[i].x() > largest_x_) {
             largest_x_ = points_[i].x();
