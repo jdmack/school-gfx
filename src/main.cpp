@@ -57,6 +57,7 @@ int main(int argc, char *argv[])
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     glEnable(GL_POINT_SMOOTH);
     glHint(GL_POINT_SMOOTH_HINT, GL_NICEST);
+
     // Generate light source:
     glLightfv(GL_LIGHT0, GL_POSITION, position);
     glEnable(GL_LIGHTING);

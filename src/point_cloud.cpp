@@ -36,6 +36,7 @@ void PointCloud::display(Camera camera)
 
     glColor3f(0.0, 1.0, 0.0);		// Set cloud green
     glDisable(GL_LIGHTING);
+    glPointSize(5);
 
     // Draw point cloud
     glBegin(GL_POINTS);
