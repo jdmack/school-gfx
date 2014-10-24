@@ -1,4 +1,5 @@
 #include <stdlib.h>
+#include <cmath>
 #include <GL/glut.h>
 
 #include <string>
