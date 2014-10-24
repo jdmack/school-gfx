@@ -10,6 +10,8 @@ class Shader
     static int unload_shader(GLubyte** ShaderSource);
 
     static void init_shader();
+    static void begin();
+    static void end();
 
 };
 

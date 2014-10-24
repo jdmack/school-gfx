@@ -1,6 +1,7 @@
 #include <fstream>
 #include <ios>
 #include "GL/glut.h"
+#include <string>
 #include "shader.h"
 
 
@@ -60,8 +61,87 @@ int Shader::unload_shader(GLubyte** ShaderSource)
 
 void Shader::init_shader()
 {
-    // Compiler Shader
+    /*
+    // Load source code
+    //int Shader::load_shader(char* filename, GLchar** ShaderSource, unsigned long & len);
 
+    std::string vertex_filename = "shaders/vertex_shader.txt";
+    std::string fragment_filename = "shaders/fragment_shader.txt";
+
+    GLchar** vertex_source;
+    GLchar ** fragment_source;
+
+    unsigned long v_file_length = 0;
+    unsigned long f_file_length = 0;
+
+    if(!load_shader(vertext_filename.c_str(), vertex_filename, v_file_length)) {
+        // error
+    }
+
+    if(!load_shader(fragmentt_filename.c_str(), fragment_filename, f_file_length)) {
+        // error
+    }
+
+    // Creates Shaders
+    GLuint vertexShader, fragmentShader;
+
+    vertexShaderObject = glCreateShader(GL_VERTEX_SHADER);
+    fragmentShaderObject = glCreateShader(GL_FRAGMENT_SHADER);
+
+    // Attach source code
+    glShaderSourceARB(vertexShaderObject, 1, &vertext_source, &v_file_length);
+    glShaderSourceARB(fragmentShaderObject, 1, &fragment_source, &f_file_length);
+
+    // Compile shaders
+    glCompileShaderARB(vertexShaderObject);
+    glCompileShaderARB(fragmentShaderObject);
+
+    // Check compilation status
+    GLint compiled;
+    
+    glGetObjectParameteriv(ShaderObject, GL_COMPILE_STATUS, &compiled);
+
+    if(!compiled) {
+        GLint blen = 0; 
+        GLsizei slen = 0;
+
+        glGetShaderiv(ShaderObject, GL_INFO_LOG_LENGTH , &blen);       
+
+        if(blen > 1) {
+            GLchar* compiler_log = (GLchar*)malloc(blen);
+            glGetInfoLogARB(ShaderObject, blen, &slen, compiler_log);
+            std::cout << "compiler_log:\n", compiler_log);
+            free(compiler_log);
+        }
+    }        
+
+    // Link shaders
+    ProgramObject = glCreateProgram();
+
+    glAttachShader(ProgramObject, vertexShaderObject);
+    glAttachShader(ProgramObject, fragmentShaderObject);
+
+    glLinkProgram(ProgramObject); 
+    
+    // Valid program object
+
+    GLint linked;
+    glGetProgramiv(ProgramObject, GL_LINK_STATUS, &linked);
+
+    if(!linked) {
+    }    
+    */
 }
 
+void Shader::begin()
+{
+    //glUseProgram(ProgramObject);
+   // CHECK_GL_ERROR();
+}
 
+void Shader::end()
+{
+    //glUseProgram(0);
+    //CHECK_GL_ERROR();
+
+}
