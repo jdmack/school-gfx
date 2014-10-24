@@ -13,12 +13,12 @@ protected:
     std::vector<Vector3> points_;
     std::vector<Vector3> normals_;
 
-    double largest_x_;
-    double largest_y_;
-    double largest_z_;
-    double smallest_x_;
-    double smallest_y_;
-    double smallest_z_;
+    Vector3 largest_x_;
+    Vector3 largest_y_;
+    Vector3 largest_z_;
+    Vector3 smallest_x_;
+    Vector3 smallest_y_;
+    Vector3 smallest_z_;
 
     Vector3 center_;
 
@@ -36,6 +36,9 @@ public:
 
     void parse(std::string filename);
     void calculate_dim();
+
+    void calculate_scale();
+
 
 };
 

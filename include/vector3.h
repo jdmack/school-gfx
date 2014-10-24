@@ -2,6 +2,7 @@
 #define CSE167_VECTOR3_H_
 
 #include <string>
+#include "matrix4.h"
 
 class Vector3
 {
@@ -64,6 +65,8 @@ class Vector3
 
         // Normalize
         void normalize();
+
+        void transform(Matrix4 param);
 
         // Print (display the vector's components numerically on the screen)
         void print();

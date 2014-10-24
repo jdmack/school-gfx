@@ -12,23 +12,11 @@
 
 PointCloud::PointCloud() : Object()
 {
-    largest_x_ = 0;
-    largest_y_ = 0;
-    largest_z_ = 0;
-    smallest_x_ = 0;
-    smallest_y_ = 0;
-    smallest_z_ = 0;
 
 }
 
 PointCloud::PointCloud(std::string filename) : Object()
 {
-    largest_x_ = 0;
-    largest_y_ = 0;
-    largest_z_ = 0;
-    smallest_x_ = 0;
-    smallest_y_ = 0;
-    smallest_z_ = 0;
 
     parse(filename);
 }
@@ -64,13 +52,7 @@ void PointCloud::update(int ticks)
 void PointCloud::reset()
 {
     Object::reset();
-
-    double translate_x = 0 - center_.x();
-    double translate_y = 0 - center_.y();
-    double translate_z = 0 - center_.z();
-
-    matrix_obj_.translate(translate_x, translate_y, translate_z);
-    matrix_obj_.scale(100.0, 100.0, 100.0);
+    calculate_scale();
 }
 
 void PointCloud::parse(std::string filename)
@@ -113,34 +95,79 @@ void PointCloud::calculate_dim()
 
     for(unsigned int i = 0; i < points_.size(); i++) {
 
-        if(points_[i].x() > largest_x_) {
-            largest_x_ = points_[i].x();
+        if(points_[i].x() > largest_x_.x()) {
+            largest_x_ = points_[i];
         }
-        if(points_[i].y() > largest_y_) {
-            largest_y_ = points_[i].y();
+        if(points_[i].y() > largest_y_.y()) {
+            largest_y_ = points_[i];
         }
-        if(points_[i].z() > largest_z_) {
-            largest_z_ = points_[i].z();
+        if(points_[i].z() > largest_z_.z()) {
+            largest_z_ = points_[i];
         }
-        if(points_[i].x() < smallest_x_) {
-            smallest_x_ = points_[i].x();
+        if(points_[i].x() < smallest_x_.x()) {
+            smallest_x_ = points_[i];
         }
-        if(points_[i].y() < smallest_y_) {
-            smallest_y_ = points_[i].y();
+        if(points_[i].y() < smallest_y_.y()) {
+            smallest_y_ = points_[i];
         }
-        if(points_[i].z() < smallest_z_) {
-            smallest_z_ = points_[i].z();
+        if(points_[i].z() < smallest_z_.z()) {
+            smallest_z_ = points_[i];
         }
     }
 
-    double mid_x = largest_x_ - ((largest_x_ - smallest_x_) / 2);
-    double mid_y = largest_y_ - ((largest_y_ - smallest_y_) / 2);
-    double mid_z = largest_z_ - ((largest_z_ - smallest_z_) / 2);
+    double mid_x = (largest_x_.x() + smallest_x_.x()) / 2;
+    double mid_y = (largest_y_.y() + smallest_y_.y()) / 2;
+    double mid_z = (largest_z_.z() + smallest_z_.z()) / 2;
     center_ = Vector3(mid_x, mid_y, mid_z);
 
-    std::cout << "x range: [" << smallest_x_ << ", " << largest_x_ << "]" << std::endl;
-    std::cout << "y range: [" << smallest_y_ << ", " << largest_y_ << "]" << std::endl;
-    std::cout << "z range: [" << smallest_z_ << ", " << largest_z_ << "]" << std::endl;
+    std::cout << "x range: [" << smallest_x_.x() << ", " << largest_x_.x() << "]" << std::endl;
+    std::cout << "y range: [" << smallest_y_.y() << ", " << largest_y_.y() << "]" << std::endl;
+    std::cout << "z range: [" << smallest_z_.z() << ", " << largest_z_.z() << "]" << std::endl;
     std::cout << "center: " << center_.str() << std::endl;
+
+    // TRANSLATE for CENTERING
+    double translate_x = 0 - center_.x();
+    double translate_y = 0 - center_.y();
+    double translate_z = 0 - center_.z();
+
+    matrix_o2w_.translate(translate_x, translate_y, translate_z);
+    std::cout << "Translate Matrix: " << std::endl;
+    matrix_o2w_.print();
+
+    for(unsigned int i = 0; i < points_.size(); i++) {
+        points_[i].transform(matrix_o2w_);
+    }
+    largest_x_.transform(matrix_o2w_);
+    smallest_x_.transform(matrix_o2w_);
+    largest_y_.transform(matrix_o2w_);
+    smallest_y_.transform(matrix_o2w_);
+    largest_z_.transform(matrix_o2w_);
+    smallest_z_.transform(matrix_o2w_);
+    
+    matrix_o2w_.identity();
+}
+
+void PointCloud::calculate_scale()
+{
+    double screen_width = 18;
+    double screen_height = 20;
+
+    double width = std::abs(smallest_x_.x()) + std::abs(largest_x_.x());
+    double height = std::abs(smallest_y_.y()) + std::abs(largest_y_.y());
+    std::cout << "Width: " << width << std::endl;
+    std::cout << "Height: " << height << std::endl;
+    
+    double x_scale = screen_width / width;
+    double y_scale = screen_height / height;
+    
+    if(x_scale < y_scale) {
+        matrix_obj_.scale(x_scale, x_scale, x_scale);
+    }
+    else {
+        matrix_obj_.scale(y_scale, y_scale, y_scale);
+    }
+    
+    std::cout << "Scale Matrix: " << std::endl;
+    matrix_obj_.print();
 }
 
