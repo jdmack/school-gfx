@@ -92,6 +92,9 @@ void PointCloud::parse(std::string filename)
 
     calculate_dim();
     reset();
+    
+    std::cout << "Scale Matrix: " << std::endl;
+    matrix_obj_.print();
 }
 
 void PointCloud::calculate_dim()
@@ -124,10 +127,10 @@ void PointCloud::calculate_dim()
     double mid_z = (largest_z_.z() + smallest_z_.z()) / 2;
     center_ = Vector3(mid_x, mid_y, mid_z);
 
-    std::cout << "x range: [" << smallest_x_.x() << ", " << largest_x_.x() << "]" << std::endl;
-    std::cout << "y range: [" << smallest_y_.y() << ", " << largest_y_.y() << "]" << std::endl;
-    std::cout << "z range: [" << smallest_z_.z() << ", " << largest_z_.z() << "]" << std::endl;
-    std::cout << "center: " << center_.str() << std::endl;
+    std::cout << "X range: [" << smallest_x_.x() << ", " << largest_x_.x() << "]" << std::endl;
+    std::cout << "Y range: [" << smallest_y_.y() << ", " << largest_y_.y() << "]" << std::endl;
+    std::cout << "Z range: [" << smallest_z_.z() << ", " << largest_z_.z() << "]" << std::endl;
+    std::cout << "Center: " << center_.str() << std::endl;
 
     // TRANSLATE for CENTERING
     double translate_x = 0 - center_.x();
@@ -158,8 +161,8 @@ void PointCloud::calculate_scale()
 
     double width = std::abs(smallest_x_.x()) + std::abs(largest_x_.x());
     double height = std::abs(smallest_y_.y()) + std::abs(largest_y_.y());
-    std::cout << "Width: " << width << std::endl;
-    std::cout << "Height: " << height << std::endl;
+    //std::cout << "Width: " << width << std::endl;
+    //std::cout << "Height: " << height << std::endl;
     
     double x_scale = screen_width / width;
     double y_scale = screen_height / height;
@@ -170,8 +173,5 @@ void PointCloud::calculate_scale()
     else {
         matrix_obj_.scale(y_scale, y_scale, y_scale);
     }
-    
-    std::cout << "Scale Matrix: " << std::endl;
-    matrix_obj_.print();
 }
 

@@ -205,10 +205,10 @@ void Matrix4::print()
 {
     transpose();
     for (int row = 0; row < 4; row++) {
-        std::cout << std::endl;
         for (int col = 0; col < 4; col++) {
             std::cout << std::setw(6) << m_[row][col] << " ";
         }
+        std::cout << std::endl;
     }
     transpose();
     std::cout << std::endl;

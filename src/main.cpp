@@ -197,7 +197,7 @@ void keyboard_callback(unsigned char key, int x, int y)
         Globals::focus->matrix_o2w().get(3,1),
         Globals::focus->matrix_o2w().get(3,2)
     );
-    pos.print();
+    std::cout << "Position: " <<  pos.str() << std::endl;
 }
 
 void keyboard_special_callback(int key, int x, int y)
