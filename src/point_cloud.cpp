@@ -46,11 +46,13 @@ void PointCloud::display(Camera camera)
     glLoadMatrixd(matrix().pointer());
 
     glColor3f(0.0, 1.0, 0.0);		// Set cloud green
+    glDisable(GL_LIGHTING);
 
     // Draw point cloud
     glBegin(GL_POINTS);
 
     for(unsigned int i = 0; i < points_.size(); i++) {
+        glColor3f(normals_[i].x(), normals_[i].y(), normals_[i].z());
         glNormal3d(normals_[i].x(), normals_[i].y(), normals_[i].z());
         glVertex3d(points_[i].x(), points_[i].y(), points_[i].z());
     }
