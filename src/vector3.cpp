@@ -2,6 +2,8 @@
 #include <sstream>
 #include <cmath>
 #include "vector3.h"
+#include "vector4.h"
+#include "matrix4.h"
 
 // constructors
 Vector3::Vector3()
@@ -164,6 +166,16 @@ void Vector3::normalize()
     x_ /= magnitude;
     y_ /= magnitude;
     z_ /= magnitude;
+}
+
+void Vector3::transform(Matrix4 param)
+{
+    Vector4 v4 = Vector4(x_, y_, z_);
+    v4 = param.multiply(v4);
+
+    x_ = v4.x();
+    y_ = v4.y();
+    z_ = v4.z();
 }
 
 // Print (display the vector's components numerically on the screen)

@@ -144,6 +144,13 @@ void keyboard_callback(unsigned char key, int x, int y)
 			Globals::focus->matrix_o2w().rotate_z(5);
 			break;
 
+        case 'w':
+			Globals::focus->matrix_o2w().rotate_y(-5);
+			break;
+        case 'W':
+			Globals::focus->matrix_o2w().rotate_y(5);
+			break;
+
         // 's'/'S': scale cube down/up (about its center, not the center of the screen). To scale up means to
         // make it bigger (5 points)
         case 's':
@@ -173,17 +180,9 @@ void keyboard_callback(unsigned char key, int x, int y)
 			//}
 			break;
 
-        case 'l':
-            glDisable(GL_LIGHTING);
-
+        case 'p':
+            Globals::focus->matrix().print();
             break;
-
-        case 'L':
-            glEnable(GL_LIGHTING);
-
-            break;
-
-
 
 		case 27:
 			exit(0);
