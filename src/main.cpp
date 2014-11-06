@@ -17,7 +17,31 @@
 
 void keyboard_callback(unsigned char key, int x, int y);
 void keyboard_special_callback(int key, int x, int y);
+void load_data();
 
+int main(int argc, char** argv) {
+    glutInit(&argc, argv);
+
+    glutInitDisplayMode(GLUT_RGB | GLUT_DOUBLE);
+    glutInitWindowSize(Window::width, Window::height);
+    glutCreateWindow("Rasterizer");
+
+    Window::timer_.start();
+
+    load_data();
+
+    // Install callback functions:
+    glutDisplayFunc(Window::display_callback);
+    glutReshapeFunc(Window::reshape_callback);
+
+    // Set keyboard callback functions
+    glutKeyboardFunc(keyboard_callback);
+    glutSpecialFunc(keyboard_special_callback);
+
+    glutMainLoop();
+}
+
+/*
 int main(int argc, char *argv[])
 {
     float specular[]  = {1.0, 1.0, 1.0, 1.0};
@@ -26,9 +50,7 @@ int main(int argc, char *argv[])
 
     Window::timer_.start();
 
-    // Read in files
-    Globals::bunny.parse("xyz/bunny.xyz");
-    Globals::dragon.parse("xyz/dragon.xyz");
+    load_data();
 
     glutInit(&argc, argv);      	      	        // initialize GLUT
     glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB | GLUT_DEPTH);   // open an OpenGL context with double buffering, RGB colors, and depth buffering
@@ -77,6 +99,7 @@ int main(int argc, char *argv[])
     glutMainLoop();
     return 0;
 }
+*/
 
 //----------------------------------------------------------------------------
 // 
@@ -268,4 +291,11 @@ void keyboard_special_callback(int key, int x, int y)
         case GLUT_KEY_F9:
             break;
     }
+}
+
+void load_data()
+{
+    // Read in files
+    Globals::bunny.parse("xyz/bunny.xyz");
+    Globals::dragon.parse("xyz/dragon.xyz");
 }
