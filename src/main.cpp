@@ -157,13 +157,13 @@ void keyboard_callback(unsigned char key, int x, int y)
 
         // 'b': Switch between ball and cube
         case 'b':
-            if(Globals::focus == static_cast<Object *>(&Globals::cube)) {
-                Globals::focus = static_cast<Object *>(&Globals::ball);
-            }
-            else {
-                Globals::focus = static_cast<Object *>(&Globals::cube);
-            }
-            break;
+            //if(Globals::focus == static_cast<Object *>(&Globals::cube)) {
+            //    Globals::focus = static_cast<Object *>(&Globals::ball);
+           // }
+            //else {
+             //   Globals::focus = static_cast<Object *>(&Globals::cube);
+            //}
+            //break;
 
 
 			//'o' / 'O': orbit cube about the OpenGL window's z axis by a small number of degrees (e.g., 10) per key press, 
@@ -229,7 +229,7 @@ void keyboard_callback(unsigned char key, int x, int y)
             break;
 
         case '4':
-
+            Globals::psize = !Globals::psize;
             break;
 
 		case 27:

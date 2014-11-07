@@ -14,7 +14,7 @@ namespace Globals
 {
     extern Camera camera;
     extern Object * focus;
-    extern Ball ball;
+    //extern Ball ball;
     extern Cube cube;
     extern House house;
     extern PointCloud bunny;
@@ -23,6 +23,7 @@ namespace Globals
     extern Matrix4 viewport;
     extern bool light;
     extern bool zbuffer;
+    extern bool psize;
 };
 
 #endif

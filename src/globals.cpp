@@ -10,7 +10,7 @@ namespace Globals
 {
     Camera camera = Camera();
     Object * focus;
-    Ball ball = Ball();
+    //Ball ball = Ball();
     Cube cube = Cube();
     House house = House();
     PointCloud bunny = PointCloud();
@@ -19,4 +19,5 @@ namespace Globals
     Matrix4 viewport = Matrix4();
     bool light = true;
     bool zbuffer = false;
+    bool psize = false;
 };

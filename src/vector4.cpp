@@ -1,4 +1,5 @@
 #include <iostream>
+#include <cmath>
 #include "vector4.h"
 
 // constructors
