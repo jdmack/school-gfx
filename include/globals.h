@@ -7,6 +7,7 @@
 #include "cube.h"
 #include "house.h"
 #include "point_cloud.h"
+#include "matrix4.h"
 
 
 namespace Globals
@@ -18,6 +19,8 @@ namespace Globals
     extern House house;
     extern PointCloud bunny;
     extern PointCloud dragon;
+    extern Matrix4 perspective;
+    extern Matrix4 viewport;
 
 };
 

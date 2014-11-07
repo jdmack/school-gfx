@@ -1,3 +1,7 @@
+#ifdef _WIN32
+    #include <windows.h>
+#endif
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <iostream>
@@ -33,10 +37,14 @@ int main(int argc, char** argv) {
     // Install callback functions:
     glutDisplayFunc(Window::display_callback);
     glutReshapeFunc(Window::reshape_callback);
+    glutIdleFunc(Window::idle_callback);
 
     // Set keyboard callback functions
     glutKeyboardFunc(keyboard_callback);
     glutSpecialFunc(keyboard_special_callback);
+
+    //Globals::focus = static_cast<Object *>(&Globals::bunny);
+    Globals::focus = static_cast<Object *>(&Globals::house);
 
     glutMainLoop();
 }
@@ -297,5 +305,24 @@ void load_data()
 {
     // Read in files
     Globals::bunny.parse("xyz/bunny.xyz");
-    Globals::dragon.parse("xyz/dragon.xyz");
+    //Globals::dragon.parse("xyz/dragon.xyz");
+
+    double aspect = Window::width / Window::height;
+    double fov    = 60;
+    double z_near = 1.0;
+    double z_far  = 1000.0;
+    double PI = 3.14159265;
+    fov = fov * PI / 180.0;
+
+    Globals::perspective = Matrix4(
+        1 / (aspect * std::tan(fov / 2)), 0, 0, 0,
+        0, 1/(std::tan(fov/2)), 0, 0,
+        0, 0, (z_near + z_far) / (z_near - z_far), (2 * z_near * z_far) / (z_near - z_far),
+        0, 0, -1, 0
+    );
+    Globals::perspective.transpose();
+    std::cerr << "Projection: " << std::endl;;
+    Globals::perspective.print();
+
 }
+

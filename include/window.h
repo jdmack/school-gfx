@@ -19,6 +19,8 @@ class Window	  // OpenGL output window related routines
         static void draw_point(int x, int y, float r, float g, float b);
         static void clear_buffer();
 
+        static void set_viewport(int x, int y, int width, int height);
+
 };
 
 #endif

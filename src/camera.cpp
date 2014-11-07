@@ -25,6 +25,7 @@ void Camera::reset()
     e_.set(0,0,0);
     d_.set(0,0,0);
     up_.set(0,1,0);
+    c_.translate(0, 0, -10);
 }
 
 double * Camera::gl_matrix()
@@ -49,6 +50,8 @@ void Camera::calc()
                       0.0,      0.0,      0.0,     1.0);
     // transpose puts it in column major ordering
     c_.transpose();
+
+    //c_.translate(0, 0, -20);
 
     // invert because we need to multiple by camera inverse 
     c_.invert();

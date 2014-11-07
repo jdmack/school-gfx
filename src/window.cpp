@@ -1,3 +1,7 @@
+#ifdef _WIN32
+    #include <windows.h>
+#endif
+
 #include <iostream>
 
 #include <GL/gl.h>
@@ -29,12 +33,19 @@ void Window::idle_callback()
 // Called whenever the window size changes
 void Window::reshape_callback(int new_width, int new_height)
 {
+    std::cerr << "Window::reshape_callback called - width: " << new_width << ", height: " << new_height << std::endl;
+
     width  = new_width;
     height = new_height;
 
     delete[] pixels;
 
     pixels = new float[width * height * 3];
+
+    set_viewport(0, 0, width, height);
+
+    //std::cerr << "Viewport: " << std::endl;;
+    //Globals::viewport.print();
 
     display_callback();
 }
@@ -86,28 +97,38 @@ void Window::rasterize()
     // Put your main rasterization loop here
     // It should go over the point model and call draw_point for every point in it
 
-    std::vector<Vector3> points;
+    std::vector<Vector3> points = Globals::focus->points();
 
-    if(Globals::focus == static_cast<Object *>(&Globals::bunny)) {
-        points = static_cast<PointCloud *>(&Globals::bunny)->points();
-    }
-    else if(Globals::focus == static_cast<Object *>(&Globals::dragon)) {
-        points = static_cast<PointCloud *>(&Globals::dragon)->points();
-    }
+
+    //std::cerr << "points: " << points.size() << std::endl;
 
     Vector4 point;
     for(std::vector<Vector3>::iterator it = points.begin(); it != points.end(); ++it) {
         point = Vector4((*it).x(), (*it).y(), (*it).z());
 
-        point = Globals::focus->matrix().multiply(point);
-        point = Globals::camera.gl_matrix().multiply(point);
+        Globals::focus->matrix().identity();
+        Globals::focus->matrix().set(Globals::focus->matrix().multiply(Globals::focus->matrix_obj()));
+        Globals::focus->matrix().set(Globals::focus->matrix().multiply(Globals::focus->matrix_o2w()));
 
+        point = Globals::focus->matrix().multiply(point);
+        point = Globals::camera.c().multiply(point);
+        point = Globals::perspective.multiply(point);
+        point.dehomogenize();
+        point = Globals::viewport.multiply(point);
+
+        if((point.x() < Window::width) && (point.y() < Window::height)) {
+            draw_point(point.x(), point.y(), 255, 255, 255);
+        }
     }
 }
 
 // Draw a point into the frame buffer
 void Window::draw_point(int x, int y, float r, float g, float b)
 {
+    //std::cerr << "(" << x << ", " << y << ")" << std::endl;
+
+    if((x < 0) || (y < 0)) return;
+
     int offset = y * width * 3 + x * 3;
 
     pixels[offset]     = r;
@@ -119,10 +140,29 @@ void Window::draw_point(int x, int y, float r, float g, float b)
 void Window::clear_buffer()
 {
     Color clear_color = {0.0, 0.0, 0.0};   // clear color: black
+    //Color clear_color = {255.0, 255.0, 255.0};   // clear color: black
     for(int i = 0; i < width * height; ++i) {
         pixels[i * 3]     = clear_color.r;
         pixels[i * 3 + 1] = clear_color.g;
         pixels[i * 3 + 2] = clear_color.b;
     }
 }
+
+void Window::set_viewport(int x, int y, int width, int height)
+{
+    int x0 = x;
+    int y0 = y;
+    int x1 = width;
+    int y1 = height;
+
+    Globals::viewport = Matrix4(
+        (x1 - x0) / 2, 0, 0, (x0 + x1) / 2,
+        0, (y1 - y0) / 2, 0, (y0 + y1) / 2,
+        0, 0, 0.5, 0.5,
+        0, 0, 0, 1
+    );
+
+    Globals::viewport.transpose();
+}
+
 

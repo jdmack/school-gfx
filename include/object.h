@@ -1,6 +1,7 @@
 #ifndef CSE167_OBJECT_H_
 #define CSE167_OBJECT_H_
 
+#include <vector>
 #include "matrix4.h"
 #include "vector3.h"
 #include "vector4.h"
@@ -19,6 +20,8 @@ class Object
         int spin_;
         Vector3 position_;
 
+        std::vector<Vector3> points_;
+
     public:
         // constructors
         Object();
@@ -33,6 +36,7 @@ class Object
         float blue() { return blue_; }
         int get_spin() { return spin_; }
 		Vector3& position() { return position_; }
+        std::vector<Vector3> & points() { return points_; }
 
         // mutators
         void set_red(float red) { red_ = red; }

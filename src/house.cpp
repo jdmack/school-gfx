@@ -12,7 +12,22 @@
 
 House::House() : Object()
 {
+    Vector3 vertices[] = {  
+        Vector3(-4, -4, 4),  Vector3(4, -4, 4),   Vector3(4, 4, 4),   Vector3(-4, 4,  4),       // front face
+        Vector3(-4, -4, -4), Vector3(-4, -4, 4),  Vector3(-4, 4, 4),  Vector3(-4, 4, -4),       // left face
+        Vector3(4, -4, -4),  Vector3(-4, -4, -4), Vector3(-4, 4, -4), Vector3(4, 4, -4),        // back face
+        Vector3(4, -4, 4),   Vector3( 4, -4, -4), Vector3(4, 4, -4),  Vector3(4, 4, 4),         // right face
+        Vector3(4,  4, 4),   Vector3( 4,  4, -4), Vector3(-4, 4, -4), Vector3(-4, 4, 4),        // top face
+        Vector3(-4, -4, 4),  Vector3(-4, -4, -4), Vector3(4, -4, -4), Vector3(4, -4,  4),       // bottom face
 
+        Vector3(-20, -4, 20), Vector3(20, -4, 20), Vector3(20, -4, -20), Vector3(-20, -4, -20), // grass
+        Vector3(-4, 4, 4),    Vector3(4, 4, 4),    Vector3(0, 8, 4),                            // front attic wall
+        Vector3(4, 4, 4),     Vector3(4, 4, -4),   Vector3(0, 8, -4),    Vector3(0, 8, 4),      // left slope
+        Vector3(-4, 4, 4),    Vector3(0, 8, 4),    Vector3(0, 8, -4),    Vector3(-4, 4, -4),    // right slope
+        Vector3(4, 4, -4),    Vector3(-4, 4, -4),  Vector3(0, 8, -4)                            // rear attic wall
+    };
+
+    points_ = std::vector<Vector3>(std::begin(vertices), std::end(vertices));
 }
 
 
