@@ -84,18 +84,35 @@ void Window::display_callback()
 void Window::rasterize()
 {
     // Put your main rasterization loop here
-    // It should go over the point model and call drawPoint for every point in it
+    // It should go over the point model and call draw_point for every point in it
 
+    std::vector<Vector3> points;
+
+    if(Globals::focus == static_cast<Object *>(&Globals::bunny)) {
+        points = static_cast<PointCloud *>(&Globals::bunny)->points();
+    }
+    else if(Globals::focus == static_cast<Object *>(&Globals::dragon)) {
+        points = static_cast<PointCloud *>(&Globals::dragon)->points();
+    }
+
+    Vector4 point;
+    for(std::vector<Vector3>::iterator it = points.begin(); it != points.end(); ++it) {
+        point = Vector4((*it).x(), (*it).y(), (*it).z());
+
+        point = Globals::focus->matrix().multiply(point);
+        point = Globals::camera.gl_matrix().multiply(point);
+
+    }
 }
 
 // Draw a point into the frame buffer
 void Window::draw_point(int x, int y, float r, float g, float b)
 {
-    int offset = y*width*3 + x*3;
+    int offset = y * width * 3 + x * 3;
 
-    pixels[offset]   = r;
-    pixels[offset+1] = g;
-    pixels[offset+2] = b;
+    pixels[offset]     = r;
+    pixels[offset + 1] = g;
+    pixels[offset + 2] = b;
 }
 
 // Clear frame buffer
