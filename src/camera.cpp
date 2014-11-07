@@ -8,7 +8,7 @@
 
 Camera::Camera()
 {
-    c_.identity();
+    reset();
 }
 
 Camera::Camera(Vector3 e, Vector3 d, Vector3 up)
@@ -21,11 +21,12 @@ Camera::Camera(Vector3 e, Vector3 d, Vector3 up)
 
 void Camera::reset()
 {
-    c_.identity();
-    e_.set(0,0,0);
+    //c_.identity();
+    e_.set(0,0,10);
     d_.set(0,0,0);
     up_.set(0,1,0);
-    c_.translate(0, 0, -10);
+    calc();
+    //c_.translate(0, 0, -10);
 }
 
 double * Camera::gl_matrix()

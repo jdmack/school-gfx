@@ -193,6 +193,15 @@ double Vector3::angle(Vector3 v)
     return std::acos(dot_product / (this_mag * v_mag));
 }
 
+double Vector3::distance_from(Vector3 v)
+{
+    double xd = x_ - v.x();
+    double yd = y_ - v.y();
+    double zd = z_ - v.z();
+
+    return std::sqrt(xd*xd + yd*yd + zd*zd);
+}
+
 std::string Vector3::str()
 {
     std::stringstream ss;

@@ -68,6 +68,8 @@ class Vector3
 
         void transform(Matrix4 param);
 
+        double distance_from(Vector3 v);
+
         // Print (display the vector's components numerically on the screen)
         void print();
         std::string str();

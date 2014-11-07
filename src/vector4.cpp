@@ -158,6 +158,47 @@ void Vector4::dehomogenize()
     w_ /= w_;
 }
 
+double Vector4::distance_from(Vector4 v)
+{
+    double xd = x_ - v.x();
+    double yd = y_ - v.y();
+    double zd = z_ - v.z();
+
+    return std::sqrt(xd*xd + yd*yd + zd*zd);
+}
+
+// Dot product
+double Vector4::dot_product(Vector4 param)
+{
+    double dot_product = (x_ * param.x())
+                       + (y_ * param.y())
+                       + (z_ * param.z())
+                       + (w_ * param.w());
+
+    return dot_product;
+}
+
+// Normalize
+void Vector4::normalize()
+{
+    double magnitude = this->magnitude();
+    x_ /= magnitude;
+    y_ /= magnitude;
+    z_ /= magnitude;
+    w_ /= magnitude;
+}
+
+// Magnitude (length of vector)
+double Vector4::magnitude()
+{
+    double magnitude = std::sqrt(std::pow(x_, 2)
+        + std::pow(y_, 2)
+        + std::pow(z_, 2)
+        + std::pow(w_, 2)
+        );
+
+    return magnitude;
+}
 // Print (display the point's components numerically on the screen)
 void Vector4::print()
 {

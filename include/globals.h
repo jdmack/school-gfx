@@ -21,7 +21,8 @@ namespace Globals
     extern PointCloud dragon;
     extern Matrix4 perspective;
     extern Matrix4 viewport;
-
+    extern bool light;
+    extern bool zbuffer;
 };
 
 #endif

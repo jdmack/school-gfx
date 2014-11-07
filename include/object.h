@@ -21,6 +21,7 @@ class Object
         Vector3 position_;
 
         std::vector<Vector3> points_;
+        std::vector<Vector3> normals_;
 
     public:
         // constructors
@@ -37,6 +38,7 @@ class Object
         int get_spin() { return spin_; }
 		Vector3& position() { return position_; }
         std::vector<Vector3> & points() { return points_; }
+        std::vector<Vector3> & normals() { return normals_; }
 
         // mutators
         void set_red(float red) { red_ = red; }

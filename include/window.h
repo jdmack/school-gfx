@@ -8,6 +8,7 @@ class Window	  // OpenGL output window related routines
     public:
         static int width, height; 	            // window size
         static float * pixels;
+        static float * zbuffer;
 
         static Timer timer_;
 
@@ -19,6 +20,7 @@ class Window	  // OpenGL output window related routines
         static void draw_point(int x, int y, float r, float g, float b);
         static void clear_buffer();
 
+        static void set_perspective(double width, double height);
         static void set_viewport(int x, int y, int width, int height);
 
 };

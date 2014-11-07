@@ -10,7 +10,6 @@
 class PointCloud : public Object
 {
 protected:
-    std::vector<Vector3> normals_;
 
     Vector3 largest_x_;
     Vector3 largest_y_;
@@ -26,7 +25,6 @@ public:
     PointCloud();
     PointCloud(std::string);
 
-    std::vector<Vector3> & normals() { return normals_; }
 
     void display(Camera camera = Camera());
     void update(int ticks);

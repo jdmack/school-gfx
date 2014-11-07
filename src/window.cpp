@@ -11,13 +11,17 @@
 #include "object.h"
 #include "matrix4.h"
 #include "globals.h"
-#include "struct.h"
+#include "color.h"
 #include "timer.h"
+
+#define PI 3.14159265
+#define Z_DEFAULT 1
 
 int Window::width  = 512;   // set window width in pixels here
 int Window::height = 512;   // set window height in pixels here
 
 float * Window::pixels = new float[Window::width * Window::height * 3];
+float * Window::zbuffer = new float[Window::width * Window::height];
 
 Timer Window::timer_ = Timer();
 
@@ -38,25 +42,14 @@ void Window::reshape_callback(int new_width, int new_height)
     width  = new_width;
     height = new_height;
 
-
     delete[] pixels;
+    delete[] zbuffer;
 
     pixels = new float[width * height * 3];
+    zbuffer = new float[width * height];
 
-    int v_width = width;
-    int v_height = height;
-
-    if(width != height) {
-
-        if(width > height) {
-            v_width = height;
-        }
-        else if(height > width) {
-            v_height = width;
-        }
-    }
-
-    set_viewport(0, 0, v_width, v_height);
+    set_perspective(width, height);
+    set_viewport(0, 0, width, height);
 
     //std::cerr << "Viewport: " << std::endl;;
     //Globals::viewport.print();
@@ -110,28 +103,69 @@ void Window::rasterize()
 {
     // Put your main rasterization loop here
     // It should go over the point model and call draw_point for every point in it
-
     std::vector<Vector3> points = Globals::focus->points();
+    std::vector<Vector3> normals = Globals::focus->normals();
 
+    Vector3 light_pos = Vector3(-50, -50, -50);
+    Color material_color = Color(1.0, 1.0, 1.0);
+    Color light_color = Color(0.5, 0.5, 0.5);
+    light_color = light_color * 1;
 
     //std::cerr << "points: " << points.size() << std::endl;
 
-    Vector4 point;
-    for(std::vector<Vector3>::iterator it = points.begin(); it != points.end(); ++it) {
-        point = Vector4((*it).x(), (*it).y(), (*it).z());
+    Vector3 point3;
+    Vector4 point4;
+    Vector3 normal3;
+    Vector4 normal4;
+
+    for(unsigned int i = 0; i < points.size(); i++) {
+        point4 = Vector4(points[i].x(), points[i].y(), points[i].z());
+        normal4 = Vector4(normals[i].x(), normals[i].y(), normals[i].z(), 0);
 
         Globals::focus->matrix().identity();
         Globals::focus->matrix().set(Globals::focus->matrix().multiply(Globals::focus->matrix_obj()));
         Globals::focus->matrix().set(Globals::focus->matrix().multiply(Globals::focus->matrix_o2w()));
 
-        point = Globals::focus->matrix().multiply(point);
-        point = Globals::camera.c().multiply(point);
-        point = Globals::perspective.multiply(point);
-        point.dehomogenize();
-        point = Globals::viewport.multiply(point);
+        point4 = Globals::focus->matrix().multiply(point4);
+        point4 = Globals::camera.c().multiply(point4);
+        point4 = Globals::perspective.multiply(point4);
+        point4.dehomogenize();
+        point4 = Globals::viewport.multiply(point4);
 
-        if((point.x() < Window::width) && (point.y() < Window::height)) {
-            draw_point(point.x(), point.y(), 255, 255, 255);
+        normal4 = Globals::focus->matrix_obj().multiply(normal4);
+        normal4 = Globals::focus->matrix_o2w().multiply(normal4);
+
+        point3 = Vector3(point4.x(), point4.y(), point4.z());
+        normal3 = Vector3(normal4.x(), normal4.y(), normal4.z());
+        normal3.normalize();
+
+        if((point3.x() < Window::width) && (point3.y() < Window::height)) {
+            Color color = material_color;
+            if(Globals::light) {
+
+                // Light direction
+                Vector3 light_dir = light_pos - point3;
+                light_dir.normalize();
+
+                // Distance from light_pos to point
+                double distance = light_pos.distance_from(point3);
+
+                // Light color at distance
+                Color light_color_distance = light_color;// / (distance * distance);
+
+
+                double dot_product = light_dir.dot_product(normal3);
+
+                Color reflected_color = light_color_distance * material_color;
+                reflected_color = reflected_color / PI;
+                reflected_color = reflected_color * dot_product;
+
+                color = reflected_color;
+
+                //std::cout << "Color: " << reflected_color.str() << std::endl;
+            }
+
+            draw_point(point3.x(), point3.y(), color.r(), color.g(), color.b());
         }
     }
 }
@@ -143,15 +177,6 @@ void Window::draw_point(int x, int y, float r, float g, float b)
 
     if((x < 0) || (y < 0)) return;
 
-    if(width != height) {
-        if(width > height) {
-            x += ((width - height) / 2);
-        }
-        else if(height > width) {
-            y += ((height - width) / 2);
-        }
-    }
-
     int offset = y * width * 3 + x * 3;
 
     pixels[offset]     = r;
@@ -162,15 +187,39 @@ void Window::draw_point(int x, int y, float r, float g, float b)
 // Clear frame buffer
 void Window::clear_buffer()
 {
-    Color clear_color = {0.0, 0.0, 0.0};   // clear color: black
+    Color clear_color = Color(0.0, 0.0, 0.0);   // clear color: black
     //Color clear_color = {255.0, 255.0, 255.0};   // clear color: black
     for(int i = 0; i < width * height; ++i) {
-        pixels[i * 3]     = clear_color.r;
-        pixels[i * 3 + 1] = clear_color.g;
-        pixels[i * 3 + 2] = clear_color.b;
+        pixels[i * 3]     = clear_color.r();
+        pixels[i * 3 + 1] = clear_color.g();
+        pixels[i * 3 + 2] = clear_color.b();
+        zbuffer[i] = Z_DEFAULT;
     }
 }
 
+void Window::set_perspective(double width, double height)
+{
+    double aspect = width / height;
+    std::cerr << "Aspect: " << aspect << std::endl;
+
+    double fov    = 60;
+
+    double z_near = 1.0;
+    double z_far  = 1000.0;
+
+    fov = fov * PI / 180.0;
+
+    Globals::perspective = Matrix4(
+        1 / (aspect * std::tan(fov / 2)), 0, 0, 0,
+        0, 1/(std::tan(fov/2)), 0, 0,
+        0, 0, (z_near + z_far) / (z_near - z_far), (2 * z_near * z_far) / (z_near - z_far),
+        0, 0, -1, 0
+    );
+    Globals::perspective.transpose();
+    std::cerr << "Projection: " << std::endl;;
+    Globals::perspective.print();
+
+}
 void Window::set_viewport(int x, int y, int width, int height)
 {
     int x0 = x;
@@ -186,6 +235,8 @@ void Window::set_viewport(int x, int y, int width, int height)
     );
 
     Globals::viewport.transpose();
+    std::cerr << "Viewport: " << std::endl;;
+    Globals::viewport.print();
 }
 
 

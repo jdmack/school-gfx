@@ -53,6 +53,11 @@ class Vector4
 
         // Dehomogenize (make fourth component equal to 1)
         void dehomogenize();
+
+        double distance_from(Vector4 v);
+        double dot_product(Vector4 param);
+        void normalize();
+        double magnitude();
         
         // Print (display the point's components numerically on the screen)
         void print();

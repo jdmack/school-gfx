@@ -43,8 +43,8 @@ int main(int argc, char** argv) {
     glutKeyboardFunc(keyboard_callback);
     glutSpecialFunc(keyboard_special_callback);
 
-    //Globals::focus = static_cast<Object *>(&Globals::bunny);
-    Globals::focus = static_cast<Object *>(&Globals::house);
+    Globals::focus = static_cast<Object *>(&Globals::bunny);
+    //Globals::focus = static_cast<Object *>(&Globals::house);
 
     glutMainLoop();
 }
@@ -177,10 +177,10 @@ void keyboard_callback(unsigned char key, int x, int y)
 			break;
 
         case 'w':
-			Globals::focus->matrix_o2w().rotate_y(-5);
+			Globals::focus->matrix_obj().rotate_y(-5);
 			break;
         case 'W':
-			Globals::focus->matrix_o2w().rotate_y(5);
+			Globals::focus->matrix_obj().rotate_y(5);
 			break;
 
         // 's'/'S': scale cube down/up (about its center, not the center of the screen). To scale up means to
@@ -214,6 +214,22 @@ void keyboard_callback(unsigned char key, int x, int y)
 
         case 'p':
             Globals::focus->matrix().print();
+            break;
+
+        case '1':
+            Globals::light = false;
+            break;
+
+        case '2':
+            Globals::light = true;
+            break;
+
+        case '3':
+            Globals::zbuffer = !Globals::zbuffer;
+            break;
+
+        case '4':
+
             break;
 
 		case 27:
@@ -307,22 +323,8 @@ void load_data()
     Globals::bunny.parse("xyz/bunny.xyz");
     //Globals::dragon.parse("xyz/dragon.xyz");
 
-    double aspect = Window::width / Window::height;
-    double fov    = 60;
-    double z_near = 1.0;
-    double z_far  = 1000.0;
-    double PI = 3.14159265;
-    fov = fov * PI / 180.0;
+    Window::set_perspective(Window::width, Window::height);
 
-    Globals::perspective = Matrix4(
-        1 / (aspect * std::tan(fov / 2)), 0, 0, 0,
-        0, 1/(std::tan(fov/2)), 0, 0,
-        0, 0, (z_near + z_far) / (z_near - z_far), (2 * z_near * z_far) / (z_near - z_far),
-        0, 0, -1, 0
-    );
-    Globals::perspective.transpose();
-    std::cerr << "Projection: " << std::endl;;
-    Globals::perspective.print();
 
 }
 
