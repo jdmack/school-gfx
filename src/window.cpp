@@ -38,11 +38,25 @@ void Window::reshape_callback(int new_width, int new_height)
     width  = new_width;
     height = new_height;
 
+
     delete[] pixels;
 
     pixels = new float[width * height * 3];
 
-    set_viewport(0, 0, width, height);
+    int v_width = width;
+    int v_height = height;
+
+    if(width != height) {
+
+        if(width > height) {
+            v_width = height;
+        }
+        else if(height > width) {
+            v_height = width;
+        }
+    }
+
+    set_viewport(0, 0, v_width, v_height);
 
     //std::cerr << "Viewport: " << std::endl;;
     //Globals::viewport.print();
@@ -128,6 +142,15 @@ void Window::draw_point(int x, int y, float r, float g, float b)
     //std::cerr << "(" << x << ", " << y << ")" << std::endl;
 
     if((x < 0) || (y < 0)) return;
+
+    if(width != height) {
+        if(width > height) {
+            x += ((width - height) / 2);
+        }
+        else if(height > width) {
+            y += ((height - width) / 2);
+        }
+    }
 
     int offset = y * width * 3 + x * 3;
 
