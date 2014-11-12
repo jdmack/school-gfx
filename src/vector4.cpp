@@ -153,6 +153,7 @@ Vector4 Vector4::operator-(Vector4 param)
 void Vector4::dehomogenize()
 {
     // TODO: account for W = 0;
+    if(w_ == 0) return;
     x_ /= w_;
     y_ /= w_;
     z_ /= w_;

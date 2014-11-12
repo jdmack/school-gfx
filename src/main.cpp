@@ -252,15 +252,18 @@ void keyboard_special_callback(int key, int x, int y)
     switch (key) {
         // F1 - Display Cube
         case GLUT_KEY_F1:
+            /*
             std::cout << "Display Cube\n";
 
             Globals::focus = static_cast<Object *>(&Globals::cube);
             Globals::camera.reset();
+            */
 
             break;
 
         // F2 - Display House View 1
         case GLUT_KEY_F2:
+            /*
             std::cout << "Display House View 1\n";
 
             Globals::focus = static_cast<Object *>(&Globals::house);
@@ -269,11 +272,12 @@ void keyboard_special_callback(int key, int x, int y)
             Globals::camera.set_d(Vector3(0, 0, 0));
             Globals::camera.set_up(Vector3(0, 1, 0));
             Globals::camera.calc();
-
+            */
             break;
 
         // F3 - Display House View 2
         case GLUT_KEY_F3:
+            /*
             std::cout << "Displaying House View 2\n";
 
             Globals::focus = static_cast<Object *>(&Globals::house);
@@ -282,7 +286,7 @@ void keyboard_special_callback(int key, int x, int y)
             Globals::camera.set_d(Vector3(-5, 0, 0));
             Globals::camera.set_up(Vector3(0, 1, 0.5));
             Globals::camera.calc();
-
+            */
             break;
 
         // F4 - Display Bunny
@@ -321,7 +325,7 @@ void load_data()
 {
     // Read in files
     Globals::bunny.parse("xyz/bunny.xyz");
-    //Globals::dragon.parse("xyz/dragon.xyz");
+    Globals::dragon.parse("xyz/dragon.xyz");
 
     Window::set_perspective(Window::width, Window::height);
 

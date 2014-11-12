@@ -17,7 +17,7 @@ namespace Globals
     PointCloud dragon = PointCloud();
     Matrix4 perspective = Matrix4();
     Matrix4 viewport = Matrix4();
-    bool light = true;
+    bool light = false;
     bool zbuffer = false;
     bool psize = false;
 };

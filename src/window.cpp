@@ -107,7 +107,7 @@ void Window::rasterize()
     std::vector<Vector3> points = Globals::focus->points();
     std::vector<Vector3> normals = Globals::focus->normals();
 
-    Vector3 light_pos = Vector3(20000, 20000, -20000);
+    Vector3 light_pos = Vector3(20000, 20000, 0);
     Color material_color = Color(1.0, 1.0, 1.0);
     Color light_color = Color(0.5, 0.5, 0.5);
     light_color = light_color * 1;
@@ -153,8 +153,8 @@ void Window::rasterize()
                 double distance = light_pos.distance_from(point3);
 
                 // Light color at distance
-                Color light_color_distance = light_color;// / (distance * distance);
-
+                Color light_color_distance = light_color / (distance * distance);
+                light_color_distance = light_color;
 
                 double dot_product = light_dir.dot_product(normal3);
 
@@ -181,7 +181,17 @@ void Window::rasterize()
                 int offset = std::round(point3.y()) * width + std::round(point3.x());
                 if(point3.z() < zbuffer[offset]) {
                     draw_point(std::round(point3.x()), std::round(point3.y()), color.r(), color.g(), color.b(), psize);
-                    zbuffer[offset] = point3.z();
+
+                    int offset = std::round(point3.y()) * width + std::round(point3.x());
+
+                    for(unsigned int i = 0; i < psize; i++) {
+                        for(unsigned int j = 0; j <= psize; j++) {
+                            int new_offset = offset + (i) + (width * j);
+                            if(new_offset >= (width * height)) continue;
+
+                            zbuffer[new_offset] = point3.z();
+                        }
+                    }
                     //std::cerr << "REPLACING Z" << std::endl;
                     //std::cerr << "z: " << point3.z() << std::endl;
                 }
