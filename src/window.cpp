@@ -23,8 +23,11 @@ void Window::idle_callback()
     }
     //Globals::root->update_bound(Globals::identity_matrix);
     Globals::root->update_bound(Globals::camera.matrix());
-    timer_.start();
     display_callback();         // call display routine to show the object
+
+    std::cerr << "FPS: " << 1 / (double) timer_.get_ticks() * 1000 << std::endl;
+    //std::cerr << "Render Time: " << (double)timer_.get_ticks() / 1000 << std::endl;
+    timer_.start();
 }
 
 //----------------------------------------------------------------------------
@@ -56,6 +59,19 @@ void Window::display_callback()
     matrix.identity();
 
     Globals::root->draw(Globals::camera.matrix());
+
+    glLoadMatrixd(matrix.pointer());
+
+    glBegin(GL_QUADS);
+    glColor3f(0.5, 0.5, 0.5);
+    glNormal3f(0.0, 1.0, 0.0);
+    glVertex3f(-500.0, -4.5, 500.0);
+    glVertex3f(500.0, -4.5, 500.0);
+    glVertex3f(500.0, -4.5, -500.0);
+    glVertex3f(-500.0, -4.5, -500.0);
+
+    glEnd();
+
 
     glFlush();  
     glutSwapBuffers();
