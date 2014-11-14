@@ -15,7 +15,9 @@ Timer Window::timer_ = Timer();
 // Callback method called when system is idle.
 void Window::idle_callback()
 {
-    //Globals::focus->update(timer_.get_ticks());
+    //Globals::root->update(timer_.get_ticks());
+    Globals::root->update(15);
+    Globals::root->update_bound(Globals::identity_matrix);
     timer_.start();
     display_callback();         // call display routine to show the object
 }

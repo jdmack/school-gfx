@@ -10,6 +10,8 @@
 #include "timer.h"
 #include "cube.h"
 #include "matrix_transform.h"
+#include "robot.h"
+#include "sphere.h"
 
 #define kPi 3.14159265359
 
@@ -85,6 +87,10 @@ void keyboard_callback(unsigned char key, int x, int y)
     Vector3 camera_pos;
     Vector3 camera_look_at;
     switch (key) {
+        case 'b':
+            Globals::show_bound = !Globals::show_bound;
+			break;
+
         case 'w':
 			break;
 
@@ -159,96 +165,26 @@ void keyboard_special_callback(int key, int x, int y)
 
 void setup()
 {
+    Globals::identity_matrix.identity();
     Matrix4 matrix = Matrix4();
 
     Group * root = new Group();
     root->set_name("root");
     Globals::root = root;
+    
+    Robot * robot = new Robot();
 
     matrix.identity();
     matrix.translate(0.0, 8.0, 0.0);
-   //matrix.rotate_y(90);
+    matrix.rotate_y(45);
 
-    MatrixTransform * robot = new MatrixTransform(matrix);
-    root->set_name("robot");
+    MatrixTransform * mt_robot = new MatrixTransform(matrix);
+    mt_robot->add_child(robot);
 
-    Cube * head = new Cube();
-    Cube * torso = new Cube();
-    Cube * left_arm = new Cube();
-    Cube * right_arm = new Cube();
-    Cube * left_leg = new Cube();
-    Cube * right_leg = new Cube();
+    //Sphere * sphere = new Sphere(2, 50, 50);
+    //root->add_child(sphere);
 
-    MatrixTransform * mt_head;
-    MatrixTransform * mt_torso;
-    MatrixTransform * mt_left_arm;
-    MatrixTransform * mt_right_arm;
-    MatrixTransform * mt_left_leg;
-    MatrixTransform * mt_right_leg;
-
-    // HEAD
-    matrix.identity();
-    matrix.print();
-    matrix.scale(3.0, 3.0, 3.0);
-    matrix.translate(0.0, 0.0, 0.0);
-    
-    mt_head = new MatrixTransform(matrix);
-    mt_head->add_child(head);
-
-    robot->add_child(mt_head);
-
-    // TORSO
-    matrix.identity();
-    matrix.scale(5.0, 8.0, 2.0);
-    matrix.translate(0.0, -6.0, 0.0);
-    
-    mt_torso = new MatrixTransform(matrix);
-    mt_torso->add_child(torso);
-
-    robot->add_child(mt_torso);
-
-    // LEFT ARM
-    matrix.identity();
-    matrix.scale(1.0, 8.0, 1.0);
-    matrix.translate(3.4, -6.0, 0.0);
-    
-    mt_left_arm = new MatrixTransform(matrix);
-    mt_left_arm->add_child(left_arm);
-
-    robot->add_child(mt_left_arm);
-
-    // RIGHT ARM
-    matrix.identity();
-    matrix.scale(1.0, 8.0, 1.0);
-    matrix.translate(-3.4, -6.0, 0.0);
-    
-    mt_right_arm = new MatrixTransform(matrix);
-    mt_right_arm->add_child(right_arm);
-
-    robot->add_child(mt_right_arm);
-
-    // LEFT LEG
-    matrix.identity();
-    matrix.scale(2.0, 8.0, 2.0);
-    matrix.translate(1.7, -14.5, 0.0);
-    
-    mt_left_leg = new MatrixTransform(matrix);
-    mt_left_leg->add_child(left_leg);
-
-    robot->add_child(mt_left_leg);
-
-    // RIGHT LEG
-    matrix.identity();
-    matrix.scale(2.0, 8.0, 2.0);
-    matrix.translate(-1.7, -14.5, 0.0);
-    
-    mt_right_leg = new MatrixTransform(matrix);
-    mt_right_leg->add_child(right_leg);
-
-    robot->add_child(mt_right_leg);
-
-
-    root->add_child(robot);
+    root->add_child(mt_robot);
 
 }
 

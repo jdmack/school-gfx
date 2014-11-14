@@ -5,8 +5,8 @@
 #include "geode.h"
 
 const double kDefaultRadius = 1;
-const int kDefaultSlices = 10;
-const int kDefaultStacks = 10;
+const int kDefaultSlices = 50;
+const int kDefaultStacks = 50;
 
 class Sphere : public Geode
 {
@@ -14,6 +14,8 @@ class Sphere : public Geode
         double radius_;
         int slices_;
         int stacks_;
+
+        double calc_radius();
 
     public:
         Sphere();
@@ -26,12 +28,12 @@ class Sphere : public Geode
 
         // mutators
         void set_radius(double radius) { radius_ = radius; }
-        void set_slices(double slices) { slices_ = slices; }
-        void set_stacks(double stacks) { stacks_ = stacks; }
+        void set_slices(int slices) { slices_ = slices; }
+        void set_stacks(int stacks) { stacks_ = stacks; }
 
 
         void draw(Matrix4 c);
-        void update();
+        void update(int ticks);
         void render();
 
 };

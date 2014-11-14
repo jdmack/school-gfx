@@ -177,6 +177,16 @@ void Vector3::transform(Matrix4 param)
     y_ = v4.y();
     z_ = v4.z();
 }
+double Vector3::distance_from(Vector3 point)
+{
+    double x = x_ - point.x();
+    double y = y_ - point.y();
+    double z = z_ - point.z();
+
+    return std::sqrt((x * x) + (y * y) + (z * z));
+}
+
+
 
 // Print (display the vector's components numerically on the screen)
 void Vector3::print()

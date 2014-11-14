@@ -17,7 +17,8 @@ class MatrixTransform : public Group
         Matrix4 & matrix() { return matrix_; }
 
         void draw(Matrix4 c);
-        void update();
+        void update(int ticks);
+        std::pair<Vector3, double> update_bound(Matrix4 c);
 
 };
 

@@ -7,13 +7,15 @@
 class Geode : public Node
 {
     protected:
+        virtual double calc_radius() = 0;
 
     public:
         Geode();
         //virtual ~Geode();
         
         void draw(Matrix4 c);
-        virtual void update();
+        virtual void update(int ticks);
+        std::pair<Vector3, double> update_bound(Matrix4 c);
 
         virtual void render() = 0;
 };

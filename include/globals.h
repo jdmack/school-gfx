@@ -10,6 +10,10 @@ namespace Globals
     extern Camera camera;
     extern Group * root;
     extern bool flag;
+    extern bool show_bound;
+    
+    extern Matrix4 identity_matrix;
+
 };
 
 #endif

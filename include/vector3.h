@@ -67,6 +67,9 @@ class Vector3
         void normalize();
 
         void transform(Matrix4 param);
+        
+        double distance_from(Vector3 point);
+
 
         // Print (display the vector's components numerically on the screen)
         void print();

@@ -4,7 +4,9 @@
 
 Sphere::Sphere()
 {
-
+    radius_ = kDefaultRadius;
+    slices_ = kDefaultSlices;
+    stacks_ = kDefaultStacks;
 }
 
 Sphere::Sphere(double radius, int slices, int stacks)
@@ -20,7 +22,7 @@ void Sphere::draw(Matrix4 c)
     render();
 }
 
-void Sphere::update()
+void Sphere::update(int ticks)
 {
 
 }
@@ -28,4 +30,9 @@ void Sphere::update()
 void Sphere::render()
 {
     glutSolidSphere(radius_, slices_, stacks_);
+}
+
+double Sphere::calc_radius()
+{
+    return radius_;
 }

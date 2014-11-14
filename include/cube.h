@@ -11,6 +11,8 @@ class Cube : public Geode
     private:
         double size_;
 
+        double calc_radius();
+
     public:
         Cube();
         Cube(double size);
@@ -22,9 +24,9 @@ class Cube : public Geode
         void set_size(double size) { size_ = size; }
 
         void draw(Matrix4 c);
-        void update();
+        void update(int ticks);
         void render();
-
+    
 };
 
 #endif
