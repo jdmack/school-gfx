@@ -1,22 +1,28 @@
-#ifndef CSE167_CUBE_H_
-#define CSE167_CUBE_H_
+#ifndef CSE_167_CUBE_H_
+#define CSE_167_CUBE_H_
 
 #include "matrix4.h"
-#include "vector4.h"
-#include "object.h"
-#include "camera.h"
+#include "geode.h"
 
-class Cube : public Object
+class Cube : public Geode
 {
-protected:
-    
-public:
-    // constructors
-    Cube();
-       
-    void display(Camera camera = Camera());
-    void update(int ticks);
+    private:
+        double size_;
+
+    public:
+        Cube();
+        ~Cube();
+
+        // accessors
+        double size() { return size_; }
+
+        // mutators
+        void set_size(double size) { size_ = size; }
+
+        void draw(Matrix4 c);
+        void update();
+        void render();
+
 };
 
 #endif
-

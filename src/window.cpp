@@ -3,7 +3,6 @@
 #include <GL/glut.h>
 
 #include "window.h"
-#include "object.h"
 #include "matrix4.h"
 #include "globals.h"
 #include "timer.h"
@@ -16,7 +15,7 @@ Timer Window::timer_ = Timer();
 // Callback method called when system is idle.
 void Window::idle_callback()
 {
-    Globals::focus->update(timer_.get_ticks());
+    //Globals::focus->update(timer_.get_ticks());
     timer_.start();
     display_callback();         // call display routine to show the object
 }
@@ -44,7 +43,7 @@ void Window::display_callback()
     glEnable(GL_LIGHTING);
     
     // Draw current object
-    Globals::focus->display(Globals::camera);
+    //Globals::focus->display(Globals::camera);
 
     glFlush();  
     glutSwapBuffers();

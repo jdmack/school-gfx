@@ -5,8 +5,6 @@
 #include <GL/glut.h>
 
 #include "window.h"
-#include "object.h"
-#include "cube.h"
 #include "matrix4.h"
 #include "globals.h"
 #include "timer.h"
@@ -25,10 +23,6 @@ int main(int argc, char *argv[])
     float position[]  = {0.0, 10.0, 1.0, 0.0};	    // lightsource position
 
     Window::timer_.start();
-
-    // Read in files
-    Globals::bunny.parse("xyz/bunny.xyz");
-    Globals::dragon.parse("xyz/dragon.xyz");
 
     glutInit(&argc, argv);      	      	        // initialize GLUT
     glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB | GLUT_DEPTH);   // open an OpenGL context with double buffering, RGB colors, and depth buffering
@@ -72,7 +66,7 @@ int main(int argc, char *argv[])
     glutKeyboardFunc(keyboard_callback);
     glutSpecialFunc(keyboard_special_callback);
 
-    Globals::focus = static_cast<Object *>(&Globals::cube);
+    //Globals::focus = static_cast<Object *>(&Globals::cube);
     
     glutMainLoop();
     return 0;
@@ -85,84 +79,84 @@ void keyboard_callback(unsigned char key, int x, int y)
     switch (key) {
         // 't: toggle the direction of the spin between clockwise and counterclockwise. (5 points)
         case 't':
-            Globals::focus->toggle_spin();
+            //Globals::focus->toggle_spin();
             break;
 
         // 'x'/'X': move cube left/right by a small amount. (5 points)
         case 'x':
-            Globals::focus->matrix_o2w().translate(-1.0, 0.0, 0.0);
-			Globals::focus->position().x()--;
+            //Globals::focus->matrix_o2w().translate(-1.0, 0.0, 0.0);
+			//Globals::focus->position().x()--;
             break;
         case 'X':
-            Globals::focus->matrix_o2w().translate(1.0, 0.0, 0.0);
-			Globals::focus->position().x()++;
+            //Globals::focus->matrix_o2w().translate(1.0, 0.0, 0.0);
+			//Globals::focus->position().x()++;
             break;
 
         // 'y'/'Y': move cube down/up by a small amount. (5 points)
         case 'y':
-            Globals::focus->matrix_o2w().translate(0.0, -1.0, 0.0);
-			Globals::focus->position().y()--;
+            //Globals::focus->matrix_o2w().translate(0.0, -1.0, 0.0);
+			//Globals::focus->position().y()--;
             break;
         case 'Y':
-            Globals::focus->matrix_o2w().translate(0.0, 1.0, 0.0);
-			Globals::focus->position().y()++;
+            //Globals::focus->matrix_o2w().translate(0.0, 1.0, 0.0);
+			//Globals::focus->position().y()++;
             break;
 
         // 'z'/'Z': move cube into/out of the screen by a small amount. (5 points)
         case 'z':
-            Globals::focus->matrix_o2w().translate(0.0, 0.0, -1.0);
-			Globals::focus->position().z()--;
+            //Globals::focus->matrix_o2w().translate(0.0, 0.0, -1.0);
+			//Globals::focus->position().z()--;
             break;
         case 'Z':
-            Globals::focus->matrix_o2w().translate(0.0, 0.0, 1.0);
-			Globals::focus->position().z()++;
+            //Globals::focus->matrix_o2w().translate(0.0, 0.0, 1.0);
+			//Globals::focus->position().z()++;
             break;
         
         // 'r': reset cube position, orientation, size and color. (5 points)
         case 'r':
-            Globals::focus->reset();
+            //Globals::focus->reset();
 
             break;
 
         // 'b': Switch between ball and cube
         case 'b':
-            if(Globals::focus == static_cast<Object *>(&Globals::cube)) {
-                Globals::focus = static_cast<Object *>(&Globals::ball);
-            }
-            else {
-                Globals::focus = static_cast<Object *>(&Globals::cube);
-            }
-            break;
+            //if(Globals::focus == static_cast<Object *>(&Globals::cube)) {
+            //    Globals::focus = static_cast<Object *>(&Globals::ball);
+            //}
+            //else {
+            //    Globals::focus = static_cast<Object *>(&Globals::cube);
+            //}
+            //break;
 
 
 			//'o' / 'O': orbit cube about the OpenGL window's z axis by a small number of degrees (e.g., 10) per key press, 
 			// counterclockwise ('o') or clockwise ('O'). The z axis crosses the screen in the center of the OpenGL window. 
 			// This rotation should not affect the spin other than that it will rotate the spin axis with the cube. (10 points)
         case 'o':
-			Globals::focus->matrix_o2w().rotate_z(-5);
+			//Globals::focus->matrix_o2w().rotate_z(-5);
 			break;
         case 'O':
-			Globals::focus->matrix_o2w().rotate_z(5);
+			//Globals::focus->matrix_o2w().rotate_z(5);
 			break;
 
         case 'w':
-			Globals::focus->matrix_o2w().rotate_y(-5);
+			//Globals::focus->matrix_o2w().rotate_y(-5);
 			break;
         case 'W':
-			Globals::focus->matrix_o2w().rotate_y(5);
+			//Globals::focus->matrix_o2w().rotate_y(5);
 			break;
 
         // 's'/'S': scale cube down/up (about its center, not the center of the screen). To scale up means to
         // make it bigger (5 points)
         case 's':
-			Globals::focus->matrix_obj().scale(.90, .90, .90);
+			//Globals::focus->matrix_obj().scale(.90, .90, .90);
 			break;
         case 'S':
-			Globals::focus->matrix_obj().scale(1.10, 1.10, 1.10);
+			//Globals::focus->matrix_obj().scale(1.10, 1.10, 1.10);
 			break;
 		case 'f':
-			Globals::focus->matrix_o2w().identity();
-			Globals::focus->matrix_obj().identity();
+			//Globals::focus->matrix_o2w().identity();
+			//Globals::focus->matrix_obj().identity();
 			//light0_matrix.identity();
 			//light1_matrix.identity();
 			//light2_matrix.identity();
@@ -182,7 +176,7 @@ void keyboard_callback(unsigned char key, int x, int y)
 			break;
 
         case 'p':
-            Globals::focus->matrix().print();
+            //Globals::focus->matrix().print();
             break;
 
 		case 27:
@@ -193,9 +187,9 @@ void keyboard_callback(unsigned char key, int x, int y)
     // With every key press, display the new cube position with your 
     // Vector3 print method in the text window. (5 points)
     Vector3 pos = Vector3(
-        Globals::focus->matrix_o2w().get(3,0),
-        Globals::focus->matrix_o2w().get(3,1),
-        Globals::focus->matrix_o2w().get(3,2)
+        //Globals::focus->matrix_o2w().get(3,0),
+        //Globals::focus->matrix_o2w().get(3,1),
+        //Globals::focus->matrix_o2w().get(3,2)
     );
     std::cout << "Position: " <<  pos.str() << std::endl;
 }
@@ -207,7 +201,7 @@ void keyboard_special_callback(int key, int x, int y)
         case GLUT_KEY_F1:
             std::cout << "Display Cube\n";
 
-            Globals::focus = static_cast<Object *>(&Globals::cube);
+            //Globals::focus = static_cast<Object *>(&Globals::cube);
             Globals::camera.reset();
 
             break;
@@ -216,7 +210,7 @@ void keyboard_special_callback(int key, int x, int y)
         case GLUT_KEY_F2:
             std::cout << "Display House View 1\n";
 
-            Globals::focus = static_cast<Object *>(&Globals::house);
+            //Globals::focus = static_cast<Object *>(&Globals::house);
 
             Globals::camera.set_e(Vector3(0, 10, 10));
             Globals::camera.set_d(Vector3(0, 0, 0));
@@ -229,7 +223,7 @@ void keyboard_special_callback(int key, int x, int y)
         case GLUT_KEY_F3:
             std::cout << "Displaying House View 2\n";
 
-            Globals::focus = static_cast<Object *>(&Globals::house);
+            //Globals::focus = static_cast<Object *>(&Globals::house);
 
             Globals::camera.set_e(Vector3(-15, 5, 10));
             Globals::camera.set_d(Vector3(-5, 0, 0));
@@ -242,7 +236,7 @@ void keyboard_special_callback(int key, int x, int y)
         case GLUT_KEY_F4:
             std::cout << "Display Bunny\n";
 
-            Globals::focus = static_cast<Object *>(&Globals::bunny);
+            //Globals::focus = static_cast<Object *>(&Globals::bunny);
             Globals::camera.reset();
 
             break;
@@ -251,7 +245,7 @@ void keyboard_special_callback(int key, int x, int y)
         case GLUT_KEY_F5:
             std::cout << "Display Dragon\n";
 
-            Globals::focus = static_cast<Object *>(&Globals::dragon);
+            //Globals::focus = static_cast<Object *>(&Globals::dragon);
             Globals::camera.reset();
 
             break;
