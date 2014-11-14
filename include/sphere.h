@@ -13,7 +13,7 @@ class Sphere : public Geode
 
     public:
         Sphere();
-        ~Sphere();
+        //~Sphere();
 
         // accessors
         double radius() { return radius_; }

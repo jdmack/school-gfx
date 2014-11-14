@@ -5,10 +5,10 @@ Sphere::Sphere()
 
 }
 
-Sphere::~Sphere()
-{
+//Sphere::~Sphere()
+//{
 
-}
+//}
 
 void Sphere::draw(Matrix4 c)
 {

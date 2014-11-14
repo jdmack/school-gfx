@@ -5,10 +5,10 @@ Cube::Cube()
 
 }
 
-Cube::~Cube()
-{
-
-}
+//Cube::~Cube()
+//{
+//
+//}
 
 void Cube::draw(Matrix4 c)
 {

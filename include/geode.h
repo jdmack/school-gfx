@@ -9,12 +9,13 @@ class Geode : public Node
     protected:
 
     public:
-        ~Geode();
+        Geode();
+        //virtual ~Geode();
         
-        virtual void draw(Matrix4 c);
-        virtual void update();
+        virtual void draw(Matrix4 c) = 0;
+        virtual void update() = 0;
 
-        virtual void render();
+        virtual void render() = 0;
 };
 
 #endif

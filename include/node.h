@@ -8,7 +8,8 @@ class Node
     protected:
 
     public:
-        virtual ~Node();
+        Node();
+        ~Node();
         virtual void draw(Matrix4 c) = 0;
         virtual void update() = 0;
 

@@ -11,7 +11,7 @@ class Cube : public Geode
 
     public:
         Cube();
-        ~Cube();
+        //~Cube();
 
         // accessors
         double size() { return size_; }
