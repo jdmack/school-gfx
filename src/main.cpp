@@ -12,6 +12,7 @@
 #include "matrix_transform.h"
 #include "robot.h"
 #include "sphere.h"
+#include "grid.h"
 
 #define kPi 3.14159265359
 
@@ -209,6 +210,9 @@ void setup()
     MatrixTransform * root = new MatrixTransform(matrix);
     root->set_name("root");
     Globals::root = root;
+
+    Grid * grid = new Grid();
+    root->add_child(grid);
     
     for(int row = 0; row < number_of_rows; row++) {
         for(int column = 0; column < number_of_columns; column++) {

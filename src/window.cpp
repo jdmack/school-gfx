@@ -57,6 +57,16 @@ void Window::display_callback()
 
     Globals::root->draw(Globals::camera.matrix());
 
+    //glLoadMatrixd(matrix.pointer());
+    //glBegin(GL_QUADS);
+    //glColor3f(0.5, 0.5, 0.5);
+    //glNormal3f(0.0, 1.0, 0.0);
+    //glVertex3f(-50.0, -4.0, 50.0);
+    //glVertex3f(50.0, -4.0, 50.0);
+    //glVertex3f(50.0, -4.0, -50.0);
+    //glVertex3f(-50.0, -4.0, -50.0);
+    //glEnd();
+
     glFlush();  
     glutSwapBuffers();
 }
