@@ -23,8 +23,11 @@ void Window::idle_callback()
     }
     //Globals::root->update_bound(Globals::identity_matrix);
     Globals::root->update_bound(Globals::camera.matrix());
-    timer_.start();
     display_callback();         // call display routine to show the object
+
+    std::cerr << "FPS: " << 1 / (double) timer_.get_ticks() * 1000 << std::endl;
+    //std::cerr << "Render Time: " << (double)timer_.get_ticks() / 1000 << std::endl;
+    timer_.start();
 }
 
 //----------------------------------------------------------------------------
