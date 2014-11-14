@@ -1,3 +1,4 @@
+#include <iostream>
 #include "group.h"
 
 Group::Group()
@@ -26,6 +27,7 @@ void Group::remove_child(Node * node)
 
 void Group::draw(Matrix4 c)
 {
+    //std::cerr << name_ << " - Group::draw()" << std::endl;
     for(std::list<Node *>::iterator it = children_.begin(); it != children_.end(); ++it) {
         (*it)->draw(c);
     }

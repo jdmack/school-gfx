@@ -4,6 +4,8 @@
 #include "matrix4.h"
 #include "geode.h"
 
+const double kDefaultSize = 1;
+
 class Cube : public Geode
 {
     private:
@@ -11,7 +13,7 @@ class Cube : public Geode
 
     public:
         Cube();
-        //~Cube();
+        Cube(double size);
 
         // accessors
         double size() { return size_; }

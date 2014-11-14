@@ -41,9 +41,12 @@ void Window::display_callback()
 {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);  // clear color and depth buffers
     glEnable(GL_LIGHTING);
-    
+
     // Draw current object
-    //Globals::focus->display(Globals::camera);
+    Matrix4 matrix = Matrix4();
+    matrix.identity();
+
+    Globals::root->draw(matrix);
 
     glFlush();  
     glutSwapBuffers();

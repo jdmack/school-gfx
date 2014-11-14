@@ -4,6 +4,10 @@
 #include "matrix4.h"
 #include "geode.h"
 
+const double kDefaultRadius = 1;
+const int kDefaultSlices = 10;
+const int kDefaultStacks = 10;
+
 class Sphere : public Geode
 {
     private:
@@ -13,7 +17,7 @@ class Sphere : public Geode
 
     public:
         Sphere();
-        //~Sphere();
+        Sphere(double radius, int slices = kDefaultSlices, int stacks = kDefaultStacks);
 
         // accessors
         double radius() { return radius_; }

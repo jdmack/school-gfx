@@ -12,8 +12,8 @@ class Geode : public Node
         Geode();
         //virtual ~Geode();
         
-        virtual void draw(Matrix4 c) = 0;
-        virtual void update() = 0;
+        void draw(Matrix4 c);
+        virtual void update();
 
         virtual void render() = 0;
 };

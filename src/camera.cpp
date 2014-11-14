@@ -8,7 +8,10 @@
 
 Camera::Camera()
 {
-    c_.identity();
+    e_ = Vector3(0, 0, 10);
+    d_ = Vector3(0, 0, 0);
+    up_ = Vector3(0, 1.0, 0);
+    calc();
 }
 
 Camera::Camera(Vector3 e, Vector3 d, Vector3 up)
@@ -27,10 +30,12 @@ void Camera::reset()
     up_.set(0,1,0);
 }
 
-double * Camera::gl_matrix()
+Matrix4 Camera::matrix()
 {
     //return c_.pointer_col_major();
-    return c_.pointer();
+    Matrix4 inverted_camera = Matrix4(c_);
+    inverted_camera.invert();
+    return inverted_camera;
 }
 
 void Camera::calc() 

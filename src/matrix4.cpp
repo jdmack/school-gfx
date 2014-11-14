@@ -123,7 +123,7 @@ void Matrix4::rotate_x(double angle)
 // angle in degrees
 void Matrix4::rotate_y(double angle)
 {
-    angle = angle / 180.0 * M_PI;  // convert from degrees to radians
+    angle = (angle / 180.0) * M_PI;  // convert from degrees to radians
     Matrix4 param( cos(angle), 0, sin(angle), 0, 
                              0, 1,          0, 0, 
                    -sin(angle), 0, cos(angle), 0, 

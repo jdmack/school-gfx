@@ -8,6 +8,10 @@
 #include "matrix4.h"
 #include "globals.h"
 #include "timer.h"
+#include "cube.h"
+#include "matrix_transform.h"
+
+#define kPi 3.14159265359
 
 // TODO:
 // - Camera has to be transposed and inverted to work right, fix this
@@ -15,6 +19,7 @@
 
 void keyboard_callback(unsigned char key, int x, int y);
 void keyboard_special_callback(int key, int x, int y);
+void setup();
 
 int main(int argc, char *argv[])
 {
@@ -67,7 +72,8 @@ int main(int argc, char *argv[])
     glutSpecialFunc(keyboard_special_callback);
 
     //Globals::focus = static_cast<Object *>(&Globals::cube);
-    
+    setup();
+
     glutMainLoop();
     return 0;
 }
@@ -76,122 +82,32 @@ int main(int argc, char *argv[])
 // 
 void keyboard_callback(unsigned char key, int x, int y)
 {
+    Vector3 camera_pos;
+    Vector3 camera_look_at;
     switch (key) {
-        // 't: toggle the direction of the spin between clockwise and counterclockwise. (5 points)
-        case 't':
-            //Globals::focus->toggle_spin();
-            break;
-
-        // 'x'/'X': move cube left/right by a small amount. (5 points)
-        case 'x':
-            //Globals::focus->matrix_o2w().translate(-1.0, 0.0, 0.0);
-			//Globals::focus->position().x()--;
-            break;
-        case 'X':
-            //Globals::focus->matrix_o2w().translate(1.0, 0.0, 0.0);
-			//Globals::focus->position().x()++;
-            break;
-
-        // 'y'/'Y': move cube down/up by a small amount. (5 points)
-        case 'y':
-            //Globals::focus->matrix_o2w().translate(0.0, -1.0, 0.0);
-			//Globals::focus->position().y()--;
-            break;
-        case 'Y':
-            //Globals::focus->matrix_o2w().translate(0.0, 1.0, 0.0);
-			//Globals::focus->position().y()++;
-            break;
-
-        // 'z'/'Z': move cube into/out of the screen by a small amount. (5 points)
-        case 'z':
-            //Globals::focus->matrix_o2w().translate(0.0, 0.0, -1.0);
-			//Globals::focus->position().z()--;
-            break;
-        case 'Z':
-            //Globals::focus->matrix_o2w().translate(0.0, 0.0, 1.0);
-			//Globals::focus->position().z()++;
-            break;
-        
-        // 'r': reset cube position, orientation, size and color. (5 points)
-        case 'r':
-            //Globals::focus->reset();
-
-            break;
-
-        // 'b': Switch between ball and cube
-        case 'b':
-            //if(Globals::focus == static_cast<Object *>(&Globals::cube)) {
-            //    Globals::focus = static_cast<Object *>(&Globals::ball);
-            //}
-            //else {
-            //    Globals::focus = static_cast<Object *>(&Globals::cube);
-            //}
-            //break;
-
-
-			//'o' / 'O': orbit cube about the OpenGL window's z axis by a small number of degrees (e.g., 10) per key press, 
-			// counterclockwise ('o') or clockwise ('O'). The z axis crosses the screen in the center of the OpenGL window. 
-			// This rotation should not affect the spin other than that it will rotate the spin axis with the cube. (10 points)
-        case 'o':
-			//Globals::focus->matrix_o2w().rotate_z(-5);
-			break;
-        case 'O':
-			//Globals::focus->matrix_o2w().rotate_z(5);
-			break;
-
         case 'w':
-			//Globals::focus->matrix_o2w().rotate_y(-5);
-			break;
-        case 'W':
-			//Globals::focus->matrix_o2w().rotate_y(5);
 			break;
 
-        // 's'/'S': scale cube down/up (about its center, not the center of the screen). To scale up means to
-        // make it bigger (5 points)
         case 's':
-			//Globals::focus->matrix_obj().scale(.90, .90, .90);
-			break;
-        case 'S':
-			//Globals::focus->matrix_obj().scale(1.10, 1.10, 1.10);
-			break;
-		case 'f':
-			//Globals::focus->matrix_o2w().identity();
-			//Globals::focus->matrix_obj().identity();
-			//light0_matrix.identity();
-			//light1_matrix.identity();
-			//light2_matrix.identity();
-
-			//if (!cube_flag) {
-			//    focus->scale_matrix().scale(scale_number, scale_number, scale_number);
-			//}
 			break;
 
-		case 'm':       // Model freeze toggle
-			//if (freeze_toggle) {
-			//    freeze_toggle = false;
-			//}
-			//else {
-			//    freeze_toggle = true;
-			//}
+        case 'a':
 			break;
 
-        case 'p':
-            //Globals::focus->matrix().print();
-            break;
+        case 'd':
+			break;
+
+		case 'x': 
+			break;
+
+		case 32: // spacebar
+			break;
 
 		case 27:
 			exit(0);
 			break;
     }
 
-    // With every key press, display the new cube position with your 
-    // Vector3 print method in the text window. (5 points)
-    Vector3 pos = Vector3(
-        //Globals::focus->matrix_o2w().get(3,0),
-        //Globals::focus->matrix_o2w().get(3,1),
-        //Globals::focus->matrix_o2w().get(3,2)
-    );
-    std::cout << "Position: " <<  pos.str() << std::endl;
 }
 
 void keyboard_special_callback(int key, int x, int y)
@@ -199,54 +115,31 @@ void keyboard_special_callback(int key, int x, int y)
     switch (key) {
         // F1 - Display Cube
         case GLUT_KEY_F1:
-            std::cout << "Display Cube\n";
-
-            //Globals::focus = static_cast<Object *>(&Globals::cube);
-            Globals::camera.reset();
 
             break;
 
         // F2 - Display House View 1
         case GLUT_KEY_F2:
-            std::cout << "Display House View 1\n";
-
-            //Globals::focus = static_cast<Object *>(&Globals::house);
-
-            Globals::camera.set_e(Vector3(0, 10, 10));
-            Globals::camera.set_d(Vector3(0, 0, 0));
-            Globals::camera.set_up(Vector3(0, 1, 0));
-            Globals::camera.calc();
 
             break;
 
         // F3 - Display House View 2
         case GLUT_KEY_F3:
-            std::cout << "Displaying House View 2\n";
 
-            //Globals::focus = static_cast<Object *>(&Globals::house);
-
-            Globals::camera.set_e(Vector3(-15, 5, 10));
-            Globals::camera.set_d(Vector3(-5, 0, 0));
-            Globals::camera.set_up(Vector3(0, 1, 0.5));
-            Globals::camera.calc();
+            //Globals::camera.set_e(Vector3(-15, 5, 10));
+            //Globals::camera.set_d(Vector3(-5, 0, 0));
+            //Globals::camera.set_up(Vector3(0, 1, 0.5));
+            //Globals::camera.calc();
 
             break;
 
         // F4 - Display Bunny
         case GLUT_KEY_F4:
-            std::cout << "Display Bunny\n";
-
-            //Globals::focus = static_cast<Object *>(&Globals::bunny);
-            Globals::camera.reset();
 
             break;
 
         // F5 - Display Dragon
         case GLUT_KEY_F5:
-            std::cout << "Display Dragon\n";
-
-            //Globals::focus = static_cast<Object *>(&Globals::dragon);
-            Globals::camera.reset();
 
             break;
 
@@ -263,3 +156,103 @@ void keyboard_special_callback(int key, int x, int y)
             break;
     }
 }
+
+void setup()
+{
+    Matrix4 matrix = Matrix4();
+
+    Group * root = new Group();
+    root->set_name("root");
+    Globals::root = root;
+
+    matrix.identity();
+    matrix.translate(0.0, 8.0, 0.0);
+   //matrix.rotate_y(90);
+
+    MatrixTransform * robot = new MatrixTransform(matrix);
+    root->set_name("robot");
+
+    Cube * head = new Cube();
+    Cube * torso = new Cube();
+    Cube * left_arm = new Cube();
+    Cube * right_arm = new Cube();
+    Cube * left_leg = new Cube();
+    Cube * right_leg = new Cube();
+
+    MatrixTransform * mt_head;
+    MatrixTransform * mt_torso;
+    MatrixTransform * mt_left_arm;
+    MatrixTransform * mt_right_arm;
+    MatrixTransform * mt_left_leg;
+    MatrixTransform * mt_right_leg;
+
+    // HEAD
+    matrix.identity();
+    matrix.print();
+    matrix.scale(3.0, 3.0, 3.0);
+    matrix.translate(0.0, 0.0, 0.0);
+    
+    mt_head = new MatrixTransform(matrix);
+    mt_head->add_child(head);
+
+    robot->add_child(mt_head);
+
+    // TORSO
+    matrix.identity();
+    matrix.scale(5.0, 8.0, 2.0);
+    matrix.translate(0.0, -6.0, 0.0);
+    
+    mt_torso = new MatrixTransform(matrix);
+    mt_torso->add_child(torso);
+
+    robot->add_child(mt_torso);
+
+    // LEFT ARM
+    matrix.identity();
+    matrix.scale(1.0, 8.0, 1.0);
+    matrix.translate(3.4, -6.0, 0.0);
+    
+    mt_left_arm = new MatrixTransform(matrix);
+    mt_left_arm->add_child(left_arm);
+
+    robot->add_child(mt_left_arm);
+
+    // RIGHT ARM
+    matrix.identity();
+    matrix.scale(1.0, 8.0, 1.0);
+    matrix.translate(-3.4, -6.0, 0.0);
+    
+    mt_right_arm = new MatrixTransform(matrix);
+    mt_right_arm->add_child(right_arm);
+
+    robot->add_child(mt_right_arm);
+
+    // LEFT LEG
+    matrix.identity();
+    matrix.scale(2.0, 8.0, 2.0);
+    matrix.translate(1.7, -14.5, 0.0);
+    
+    mt_left_leg = new MatrixTransform(matrix);
+    mt_left_leg->add_child(left_leg);
+
+    robot->add_child(mt_left_leg);
+
+    // RIGHT LEG
+    matrix.identity();
+    matrix.scale(2.0, 8.0, 2.0);
+    matrix.translate(-1.7, -14.5, 0.0);
+    
+    mt_right_leg = new MatrixTransform(matrix);
+    mt_right_leg->add_child(right_leg);
+
+    robot->add_child(mt_right_leg);
+
+
+    root->add_child(robot);
+
+}
+
+
+
+
+
