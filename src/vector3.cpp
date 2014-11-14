@@ -127,6 +127,21 @@ void Vector3::scale(double param)
     y_ *= param;
     z_ *= param;
 }
+Vector3 Vector3::operator*(double param)
+{
+    double new_x = x_ * param;
+    double new_y = y_ * param;
+    double new_z = z_ * param;
+    return Vector3(new_x, new_y, new_z);
+}
+
+Vector3 Vector3::operator/(double param)
+{
+    double new_x = x_ / param;
+    double new_y = y_ / param;
+    double new_z = z_ / param;
+    return Vector3(new_x, new_y, new_z);
+}
 
 // Dot product
 double Vector3::dot_product(Vector3 param)
@@ -191,7 +206,7 @@ double Vector3::distance_from(Vector3 point)
 // Print (display the vector's components numerically on the screen)
 void Vector3::print()
 {
-    std::cout << "(" << x_ << ", " << y_ << ", " << z_ << ")" << std::endl;
+    //std::cout << "(" << x_ << ", " << y_ << ", " << z_ << ")" << std::endl;
 }
 
 double Vector3::angle(Vector3 v)

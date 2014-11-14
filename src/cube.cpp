@@ -1,6 +1,8 @@
 #include <iostream>
+#include <stdlib.h>
 #include "GL/glut.h"
 #include "cube.h"
+#include "globals.h"
 
 Cube::Cube()
 {
@@ -15,8 +17,14 @@ Cube::Cube(double size)
 void Cube::draw(Matrix4 c)
 {
     //std::cerr << name_ << " - Cube::draw()" << std::endl;
-    Geode::draw(c);
-    render();
+    if(Globals::frustum.sphereInFrustum(center_point_, bound_radius_)) {
+        //std::cerr << "In frustum" << std::endl;
+        Geode::draw(c);
+        render();
+    }
+    else {
+        //std::cerr << "Not in frustum" << std::endl;
+    }
 }
 
 void Cube::update(int ticks)

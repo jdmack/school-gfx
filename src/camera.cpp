@@ -8,10 +8,15 @@
 
 Camera::Camera()
 {
-    e_ = Vector3(0, 0, 10);
+    e_ = Vector3(0, 0, -10);
     d_ = Vector3(0, 0, 0);
     up_ = Vector3(0, 1.0, 0);
+    //e_ = Vector3(-20, -20, -50);
+    //d_ = Vector3(-100, 0, -10);
+    //up_ = Vector3(0, 1.0, 0);
     calc();
+    //c_.rotate_x(-60);
+    c_.invert();
 }
 
 Camera::Camera(Vector3 e, Vector3 d, Vector3 up)
@@ -56,5 +61,5 @@ void Camera::calc()
     c_.transpose();
 
     // invert because we need to multiple by camera inverse 
-    c_.invert();
+    //c_.invert();
 }

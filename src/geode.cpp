@@ -1,4 +1,5 @@
 #include <iostream>
+#include <stdlib.h>
 #include "GL/glut.h"
 #include "geode.h"
 #include "globals.h"
@@ -11,25 +12,14 @@ Geode::Geode()
 
 void Geode::draw(Matrix4 c)
 {
+
     //std::cerr << name_ << " - Geode::draw()" << std::endl;
     glMatrixMode(GL_MODELVIEW);
 
-    if(Globals::show_bound) {
-        Matrix4 matrix = Matrix4();
-        matrix.identity();
-        matrix.translate(center_point_.x(), center_point_.y(), center_point_.z());
-        glLoadMatrixd(matrix.pointer());
-        glColor3f(0.0, 1.0, 0.0);
-        glutWireSphere(bound_radius_, kDefaultBoundSlices, kDefaultBoundStacks);
-    }
+    draw_bound();
 
     // Tell OpenGL what ObjectView matrix to use:
-    if(!Globals::flag) {
-        c.print();
-        Globals::flag = true;
-    }
     glLoadMatrixd(c.pointer());
-
 }
 
 void Geode::update(int ticks)
@@ -44,7 +34,6 @@ std::pair<Vector3, double> Geode::update_bound(Matrix4 c)
     // calculate center point
     Vector4 cp4 = Vector4(0, 0, 0, 1);
     cp4 = c.multiply(cp4);
-    cp4.print();
     center_point_ = Vector3(cp4.x(), cp4.y(), cp4.z());
 
     // calculate corner

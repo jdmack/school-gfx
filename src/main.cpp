@@ -73,7 +73,6 @@ int main(int argc, char *argv[])
     glutKeyboardFunc(keyboard_callback);
     glutSpecialFunc(keyboard_special_callback);
 
-    //Globals::focus = static_cast<Object *>(&Globals::cube);
     setup();
 
     glutMainLoop();
@@ -89,6 +88,14 @@ void keyboard_callback(unsigned char key, int x, int y)
     switch (key) {
         case 'b':
             Globals::show_bound = !Globals::show_bound;
+			break;
+
+        case 'c':
+            Globals::culling = !Globals::culling;
+			break;
+
+        case 'p':
+            Globals::pause = !Globals::pause;
 			break;
 
         case 'w':
@@ -165,6 +172,12 @@ void keyboard_special_callback(int key, int x, int y)
 
 void setup()
 {
+    int number_of_rows = 5;
+    int number_of_columns = 5;
+
+    int row_width = 20;
+    int column_width = 20;
+
     Globals::identity_matrix.identity();
     Matrix4 matrix = Matrix4();
 
@@ -172,11 +185,32 @@ void setup()
     root->set_name("root");
     Globals::root = root;
     
-    Robot * robot = new Robot();
+    for(int row = 0; row < number_of_rows; row++) {
+        for(int column = 0; column < number_of_columns; column++) {
 
+            Robot * robot = new Robot();
+
+            matrix.identity();
+            matrix.scale(0.4, 0.4, 0.4);
+            matrix.translate(column_width * column, 4.0, row_width * row);
+            //matrix.rotate_y(45);
+
+            MatrixTransform * mt_robot = new MatrixTransform(matrix);
+            mt_robot->add_child(robot);
+
+            //Sphere * sphere = new Sphere(2, 50, 50);
+            //root->add_child(sphere);
+
+            root->add_child(mt_robot);
+        }
+    }
+
+    /*
+    Robot * robot = new Robot();
     matrix.identity();
-    matrix.translate(0.0, 8.0, 0.0);
-    matrix.rotate_y(45);
+    matrix.scale(0.4, 0.4, 0.4);
+    matrix.translate(0.0, 4.0, 0.0);
+    //matrix.rotate_y(45);
 
     MatrixTransform * mt_robot = new MatrixTransform(matrix);
     mt_robot->add_child(robot);
@@ -185,10 +219,5 @@ void setup()
     //root->add_child(sphere);
 
     root->add_child(mt_robot);
-
+    */
 }
-
-
-
-
-

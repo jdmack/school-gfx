@@ -1,6 +1,7 @@
 #include <iostream>
 #include "matrix_transform.h"
 #include "globals.h"
+#include "frustum.h"
 
 MatrixTransform::MatrixTransform()
 {
@@ -18,8 +19,12 @@ MatrixTransform::~MatrixTransform()
 }
 void MatrixTransform::draw(Matrix4 c)
 {
-    // Should be good, don't touch!
-    Group::draw(matrix_.multiply(c));
+    if(children_.size() > 1) {
+        //draw_bound();
+    }
+    //if(Globals::frustum.sphereInFrustum(center_point_, bound_radius_)) {
+        Group::draw(matrix_.multiply(c));
+    //}
 }
 
 void MatrixTransform::update(int ticks)
@@ -30,9 +35,9 @@ void MatrixTransform::update(int ticks)
 std::pair<Vector3, double> MatrixTransform::update_bound(Matrix4 c)
 {
     
-    Group::update_bound(matrix_.multiply(c));
-    Vector3 center_point;
-    double radius;
-    std::pair<Vector3, double> sphere = std::make_pair(center_point, radius);
+    std::pair<Vector3, double> sphere = Group::update_bound(matrix_.multiply(c));
+    center_point_ = sphere.first;
+    bound_radius_ = sphere.second;
+
     return sphere;
 }

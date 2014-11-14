@@ -30,6 +30,7 @@ class Node
         virtual void update(int ticks) = 0;
         virtual std::pair<Vector3, double> update_bound(Matrix4 c) = 0;
 
+        void draw_bound();
 };
 
 #endif

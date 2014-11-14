@@ -53,6 +53,8 @@ class Vector3
 
         // Scale (multiplication with scalar value)
         void scale(double param);
+        Vector3 operator*(double param);
+        Vector3 operator/(double param);
 
         // Dot product
         double dot_product(Vector3 param);

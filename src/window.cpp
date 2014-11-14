@@ -1,11 +1,13 @@
 #include <iostream>
 
+#include <stdlib.h>
 #include <GL/glut.h>
 
 #include "window.h"
 #include "matrix4.h"
 #include "globals.h"
 #include "timer.h"
+#include "frustum.h"
 
 int Window::width  = 512;   // set window width in pixels here
 int Window::height = 512;   // set window height in pixels here
@@ -16,8 +18,11 @@ Timer Window::timer_ = Timer();
 void Window::idle_callback()
 {
     //Globals::root->update(timer_.get_ticks());
-    Globals::root->update(15);
-    Globals::root->update_bound(Globals::identity_matrix);
+    if(!Globals::pause) {
+        Globals::root->update(15);
+    }
+    //Globals::root->update_bound(Globals::identity_matrix);
+    Globals::root->update_bound(Globals::camera.matrix());
     timer_.start();
     display_callback();         // call display routine to show the object
 }
@@ -35,6 +40,8 @@ void Window::reshape_callback(int w, int h)
     gluPerspective(60.0, double(width)/(double)height, 1.0, 1000.0); // set perspective projection viewing frustum
     glTranslatef(0, 0, -20);    // move camera back 20 units so that it looks at the origin (or else it's in the origin)
     glMatrixMode(GL_MODELVIEW);
+
+    set_frustum(100.0, 1.0, 1000.0);
 }
 
 //----------------------------------------------------------------------------
@@ -48,8 +55,14 @@ void Window::display_callback()
     Matrix4 matrix = Matrix4();
     matrix.identity();
 
-    Globals::root->draw(matrix);
+    Globals::root->draw(Globals::camera.matrix());
 
     glFlush();  
     glutSwapBuffers();
+}
+
+void Window::set_frustum(double fov, double near, double far)
+{
+    Globals::frustum.setCamInternals(fov, (double) Window::width / (double) Window::height, near, far);
+    Globals::frustum.setCamDef(Globals::camera.e(), Globals::camera.d(), Globals::camera.up());
 }

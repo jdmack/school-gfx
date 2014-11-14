@@ -19,6 +19,7 @@ Robot::~Robot()
 
 void Robot::draw(Matrix4 c)
 {
+    draw_bound();
     parts_->draw(c);
 }
 
@@ -39,7 +40,14 @@ void Robot::update(int ticks)
         }
 
     }
+}
 
+std::pair<Vector3, double> Robot::update_bound(Matrix4 c)
+{
+    std::pair<Vector3, double> sphere = parts_->update_bound(c);
+    center_point_ = sphere.first;
+    bound_radius_ = sphere.second;
+    return sphere;
 }
 
 void Robot::setup()
@@ -63,7 +71,6 @@ void Robot::setup()
 
     // HEAD
     matrix.identity();
-    matrix.print();
     matrix.scale(3.0, 3.0, 3.0);
     matrix.translate(0.0, 0.0, 0.0);
 
@@ -187,11 +194,3 @@ void Robot::setup()
 
 }
 
-std::pair<Vector3, double> Robot::update_bound(Matrix4 c)
-{
-    parts_->update_bound(c);
-    Vector3 center_point;
-    double radius;
-    std::pair<Vector3, double> sphere = std::make_pair(center_point, radius);
-    return sphere;
-}

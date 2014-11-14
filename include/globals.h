@@ -3,6 +3,7 @@
 
 #include "camera.h"
 #include "group.h"
+#include "frustum.h"
 
 
 namespace Globals
@@ -11,6 +12,9 @@ namespace Globals
     extern Group * root;
     extern bool flag;
     extern bool show_bound;
+    extern bool pause;
+    extern bool culling;
+    extern Frustum frustum;
     
     extern Matrix4 identity_matrix;
 
