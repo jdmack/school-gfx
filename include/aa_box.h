@@ -14,11 +14,11 @@ class AABox
         AABox(void);
         ~AABox();
 
-        void AABox::setBox( Vector3 &corner, float x, float y, float z);
+        void setBox( Vector3 &corner, float x, float y, float z);
 
         // for use in frustum computations
-        Vector3 AABox::getVertexP(Vector3 &normal);
-        Vector3 AABox::getVertexN(Vector3 &normal);
+        Vector3 getVertexP(Vector3 &normal);
+        Vector3 getVertexN(Vector3 &normal);
 
 
 };

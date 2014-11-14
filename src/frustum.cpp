@@ -33,7 +33,7 @@ void Frustum::setCamInternals(float angle, float ratio, float nearD, float farD)
 }
 
 
-void Frustum::setCamDef(Vector3 &p, Vector3 &l, Vector3 &u) {
+void Frustum::setCamDef(Vector3 p, Vector3 l, Vector3 u) {
 
     Vector3 dir, nc, fc, X, Y, Z;
 
@@ -67,7 +67,7 @@ void Frustum::setCamDef(Vector3 &p, Vector3 &l, Vector3 &u) {
 }
 
 
-bool Frustum::pointInFrustum(Vector3 &p) {
+bool Frustum::pointInFrustum(Vector3 p) {
 
     int result = true;
     for(int i = 0; i < 6; i++) {
@@ -80,7 +80,7 @@ bool Frustum::pointInFrustum(Vector3 &p) {
 }
 
 
-bool Frustum::sphereInFrustum(Vector3 &p, float radius)
+bool Frustum::sphereInFrustum(Vector3 p, float radius)
 {
     
     if(!Globals::culling) return true;
