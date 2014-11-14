@@ -2,14 +2,14 @@
 #define CSE167_GLOBALS_H_
 
 #include "camera.h"
-#include "group.h"
+#include "matrix_transform.h"
 #include "frustum.h"
 
 
 namespace Globals
 {
     extern Camera camera;
-    extern Group * root;
+    extern MatrixTransform * root;
     extern bool flag;
     extern bool show_bound;
     extern bool pause;

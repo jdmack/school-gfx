@@ -98,19 +98,43 @@ void keyboard_callback(unsigned char key, int x, int y)
             Globals::pause = !Globals::pause;
 			break;
 
-        case 'w':
+        case 's':
+            Globals::root->matrix().scale(0.9, 0.9, 0.9);
 			break;
 
-        case 's':
+        case 'S':
+            Globals::root->matrix().scale(1.1, 1.1, 1.1);
 			break;
+
+        case 'x':
+            Globals::root->matrix().rotate_x(10);
+			break;
+
+        case 'X':
+            Globals::root->matrix().rotate_x(-10);
+			break;
+
+        case 'y':
+            Globals::root->matrix().rotate_y(10);
+			break;
+
+        case 'Y':
+            Globals::root->matrix().rotate_y(-10);
+			break;
+
+        case 'z':
+            Globals::root->matrix().rotate_z(10);
+			break;
+
+        case 'Z':
+            Globals::root->matrix().rotate_z(-10);
+			break;
+
 
         case 'a':
 			break;
 
         case 'd':
-			break;
-
-		case 'x': 
 			break;
 
 		case 32: // spacebar
@@ -180,8 +204,9 @@ void setup()
 
     Globals::identity_matrix.identity();
     Matrix4 matrix = Matrix4();
+    matrix.identity();
 
-    Group * root = new Group();
+    MatrixTransform * root = new MatrixTransform(matrix);
     root->set_name("root");
     Globals::root = root;
     

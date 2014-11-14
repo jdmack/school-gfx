@@ -4,7 +4,7 @@
 namespace Globals
 {
     Camera camera = Camera();
-    Group * root;// = new Group();
+    MatrixTransform * root;// = new Group();
     bool flag = false;
     bool show_bound = false;
     bool pause = false;
