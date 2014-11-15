@@ -76,6 +76,6 @@ void Window::display_callback()
 
 void Window::set_frustum(double fov, double near, double far)
 {
-    Globals::frustum.setCamInternals(fov, (double) Window::width / (double) Window::height, near, far);
-    Globals::frustum.setCamDef(Globals::camera.e(), Globals::camera.d(), Globals::camera.up());
+    Globals::frustum.set_view(fov, (double) Window::width / (double) Window::height, near, far);
+    Globals::frustum.set_camera(Globals::camera.e(), Globals::camera.d(), Globals::camera.up());
 }

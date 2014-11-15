@@ -24,8 +24,8 @@ class Frustum
         Frustum();
         ~Frustum();
 
-        void setCamInternals(float angle, float ratio, float nearD, float farD);
-        void setCamDef(Vector3 p, Vector3 l, Vector3 u);
+        void set_view(float angle, float ratio, float nearD, float farD);
+        void set_camera(Vector3 p, Vector3 l, Vector3 u);
         bool pointInFrustum(Vector3 p);
         bool sphereInFrustum(Vector3 p, float radius);
 };

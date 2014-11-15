@@ -17,7 +17,7 @@ Frustum::~Frustum()
 
 }
 
-void Frustum::setCamInternals(float angle, float ratio, float nearD, float farD) {
+void Frustum::set_view(float angle, float ratio, float nearD, float farD) {
 
     this->ratio = ratio;
     this->angle = angle;
@@ -33,7 +33,7 @@ void Frustum::setCamInternals(float angle, float ratio, float nearD, float farD)
 }
 
 
-void Frustum::setCamDef(Vector3 p, Vector3 l, Vector3 u) {
+void Frustum::set_camera(Vector3 p, Vector3 l, Vector3 u) {
 
     Vector3 dir, nc, fc, X, Y, Z;
 
