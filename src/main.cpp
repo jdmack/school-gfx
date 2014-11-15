@@ -151,6 +151,23 @@ void keyboard_callback(unsigned char key, int x, int y)
 void keyboard_special_callback(int key, int x, int y)
 {
     switch (key) {
+        case GLUT_KEY_LEFT:
+            Globals::root->matrix().translate(1, 0, 0);
+            break;
+
+        case GLUT_KEY_RIGHT:
+            Globals::root->matrix().translate(-1, 0, 0);
+            break;
+
+        case GLUT_KEY_UP:
+            Globals::root->matrix().translate(0, 0, -1);
+            break;
+
+        case GLUT_KEY_DOWN:
+            Globals::root->matrix().translate(0, 0, 1);
+            break;
+
+
         // F1 - Display Cube
         case GLUT_KEY_F1:
 
@@ -197,8 +214,8 @@ void keyboard_special_callback(int key, int x, int y)
 
 void setup()
 {
-    int number_of_rows = 5;
-    int number_of_columns = 5;
+    int number_of_rows = 10;
+    int number_of_columns = 10;
 
     int row_width = 20;
     int column_width = 20;
