@@ -85,7 +85,7 @@ std::pair<Vector3, double> Group::update_bound(Matrix4 c)
 
     bound_radius_ = max_point.distance_from(min_point) / 2 + max_radius;
 
-    */
+*/
     return std::make_pair(center_point_, bound_radius_);
 }
 

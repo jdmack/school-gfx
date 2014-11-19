@@ -230,7 +230,6 @@ void setup()
 
     Grid * grid = new Grid();
     root->add_child(grid);
-    
     for(int row = 0; row < number_of_rows; row++) {
         for(int column = 0; column < number_of_columns; column++) {
 
@@ -254,8 +253,8 @@ void setup()
     /*
     Robot * robot = new Robot();
     matrix.identity();
-    matrix.scale(0.4, 0.4, 0.4);
-    matrix.translate(0.0, 4.0, 0.0);
+    //matrix.scale(0.0, 0.0, 0.0);
+    //matrix.translate(0.0, 0.0, 0.0);
     //matrix.rotate_y(45);
 
     MatrixTransform * mt_robot = new MatrixTransform(matrix);
