@@ -1,5 +1,5 @@
-#ifndef CSE_167_GEODE_H_
-#define CSE_167_GEODE_H_
+#ifndef CSE167_SCENE_GRAPH_GEODE_H_
+#define CSE167_SCENE_GRAPH_GEODE_H_
 
 #include "matrix4.h"
 #include "scene_graph/node.h"

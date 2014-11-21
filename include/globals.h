@@ -4,6 +4,7 @@
 #include "camera.h"
 #include "frustum.h"
 #include "model.h"
+#include "light.h"
 
 namespace Globals
 {
@@ -15,6 +16,8 @@ namespace Globals
     extern Model * bear;
     extern Model * focus;
     
+    extern Light * light1;
+    extern Light * light2;
     extern Matrix4 identity_matrix;
 
 };

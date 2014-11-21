@@ -1,5 +1,5 @@
-#ifndef CSE_167_NODE_H_
-#define CSE_167_NODE_H_
+#ifndef CSE167_SCENE_GRAPH_NODE_H_
+#define CSE167_SCENE_GRAPH_NODE_H_
 
 #include <string>
 #include "matrix4.h"

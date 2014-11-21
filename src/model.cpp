@@ -26,6 +26,8 @@ Model::Model(std::string filename) : Object()
 
 void Model::display(Camera camera)
 {
+    //material_.render();
+
     glMatrixMode(GL_MODELVIEW);         // make sure we're in Objectview mode
 
     // Tell OpenGL what ObjectView matrix to use:
@@ -35,21 +37,24 @@ void Model::display(Camera camera)
     matrix().set(matrix().multiply(camera.c()));
     glLoadMatrixd(matrix().pointer());
 
-    glColor3f(0.0, 1.0, 0.0);		// Set cloud green
-    glDisable(GL_LIGHTING);
-    glPointSize(5);
-
     // Draw point cloud
     glBegin(GL_TRIANGLES);
 
     for(unsigned int i = 0; i < faces_.size(); i++) {
         glColor3d(faces_[i].color1().r(), faces_[i].color1().g(), faces_[i].color1().b());
+        //glColor3d(faces_[i].normal1().x(), faces_[i].normal1().y(), faces_[i].normal1().z());
+
         //glColor3d(1.0, 1.0, 1.0);
 
         //glNormal3d(normals_[i].x(), normals_[i].y(), normals_[i].z());
 
+        glNormal3d(faces_[i].normal1().x(), faces_[i].normal1().y(), faces_[i].normal1().z());
         glVertex3d(faces_[i].vertex1().x(), faces_[i].vertex1().y(), faces_[i].vertex1().z());
+
+        glNormal3d(faces_[i].normal2().x(), faces_[i].normal2().y(), faces_[i].normal2().z());
         glVertex3d(faces_[i].vertex2().x(), faces_[i].vertex2().y(), faces_[i].vertex2().z());
+
+        glNormal3d(faces_[i].normal3().x(), faces_[i].normal3().y(), faces_[i].normal3().z());
         glVertex3d(faces_[i].vertex3().x(), faces_[i].vertex3().y(), faces_[i].vertex3().z());
     }
     glEnd();
@@ -120,7 +125,9 @@ void Model::parse(std::string filename)
             y = std::stod(tokens.at(2));
             z = std::stod(tokens.at(3));
 
-            normals_.push_back(Vector3(x, y, z));
+            Vector3 normal = Vector3(x, y, z);
+            normal.normalize();
+            normals_.push_back(normal);
         }
         else if(tokens.at(0).compare("f") == 0) {
 

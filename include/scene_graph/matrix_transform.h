@@ -1,5 +1,5 @@
-#ifndef CSE_167_MATRIX_TRANSFORM_H_
-#define CSE_167_MATRIX_TRANSFORM_H_
+#ifndef CSE167_SCENE_GRAPH_MATRIX_TRANSFORM_H_
+#define CSE167_SCENE_GRAPH_MATRIX_TRANSFORM_H_
 
 #include "matrix4.h"
 #include "scene_graph/group.h"

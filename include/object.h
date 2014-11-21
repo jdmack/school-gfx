@@ -5,6 +5,8 @@
 #include "vector3.h"
 #include "vector4.h"
 #include "camera.h"
+#include "color.h"
+#include "material.h"
 
 class Object
 {
@@ -13,9 +15,8 @@ class Object
         Matrix4 matrix_obj_;
         Matrix4 matrix_o2w_;
         double angle;
-        float red_;
-        float green_;
-        float blue_;
+        Color color_;
+        Material material_;
         int spin_;
         Vector3 position_;
 
@@ -27,18 +28,16 @@ class Object
         Matrix4& matrix() { return matrix_; } 
         Matrix4& matrix_obj() { return matrix_obj_; } 
         Matrix4& matrix_o2w() { return matrix_o2w_; } 
+
+        Color & color() { return color_; }
+        Material & material() { return material_; }
        
-        float red() { return red_; }
-        float green() { return green_; }
-        float blue() { return blue_; }
         int get_spin() { return spin_; }
 		Vector3& position() { return position_; }
 
         // mutators
-        void set_red(float red) { red_ = red; }
-        void set_green(float green) { green_ = green; }
-        void set_blue(float blue) { blue_ = blue; }
-        void set_color(float red, float green, float blue);
+        void set_color(Color color) { color_ = color; }
+        void set_material(Material material) { material_ = material; }
         void set_spin(int spin) { spin_ = spin; }
 
         void spin(double);      // spin cube [degrees]

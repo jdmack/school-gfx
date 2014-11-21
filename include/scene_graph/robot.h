@@ -1,5 +1,5 @@
-#ifndef CSE_167_ROBOT_H_
-#define CSE_167_ROBOT_H_
+#ifndef CSE167_SCENE_GRAPH_ROBOT_H_
+#define CSE167_SCENE_GRAPH_ROBOT_H_
 
 #include "scene_graph/node.h"
 #include "matrix4.h"

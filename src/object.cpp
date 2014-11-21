@@ -25,12 +25,6 @@ void Object::spin(double deg)
     matrix_obj_.rotate_y(deg * spin_);
 
 }
-void Object::set_color(float red, float green, float blue)
-{
-    set_red(red);
-    set_green(green);
-    set_blue(blue);
-}
 
 void Object::toggle_spin()
 {
@@ -42,13 +36,15 @@ void Object::reset()
     matrix_.identity();
     matrix_obj_.identity();
     matrix_o2w_.identity();
-    set_color(0.0, 1.0, 0.0);
+    set_color(Color(0.0, 1.0, 0.0));
     position() = Vector3(0.0, 0.0, 0.0);
 
 }
 
 void Object::display(Camera camera)
 {
+    material_.render();
+
     glMatrixMode(GL_MODELVIEW);         // make sure we're in Objectview mode
 
     // Tell OpenGL what ObjectView matrix to use:

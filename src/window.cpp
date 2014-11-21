@@ -45,7 +45,6 @@ void Window::reshape_callback(int w, int h)
 void Window::display_callback()
 {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);  // clear color and depth buffers
-    glEnable(GL_LIGHTING);
 
     // Draw current object
     Matrix4 matrix = Matrix4();
@@ -53,16 +52,6 @@ void Window::display_callback()
 
     //Globals::focus->display(Globals::camera.matrix());
     Globals::focus->display();
-
-    //glLoadMatrixd(matrix.pointer());
-    //glBegin(GL_QUADS);
-    //glColor3f(0.5, 0.5, 0.5);
-    //glNormal3f(0.0, 1.0, 0.0);
-    //glVertex3f(-50.0, -4.0, 50.0);
-    //glVertex3f(50.0, -4.0, 50.0);
-    //glVertex3f(50.0, -4.0, -50.0);
-    //glVertex3f(-50.0, -4.0, -50.0);
-    //glEnd();
 
     glFlush();  
     glutSwapBuffers();
