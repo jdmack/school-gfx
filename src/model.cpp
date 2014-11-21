@@ -74,13 +74,10 @@ void Model::parse(std::string filename)
 {
     std::cerr << "Reading File: " << filename << std::endl;
 
-    FILE * file_p;
-
     double x, y, z;
     double r, g, b;
-    int v1, v2, v3;
-    int n1, n2, n3;
-    int c1, c2;
+    unsigned int v1, v2, v3;
+    unsigned int n1, n2, n3;
 
     std::ifstream infile(filename);
 
@@ -134,7 +131,7 @@ void Model::parse(std::string filename)
             std::vector<std::string> face_tokens;
 
             token = tokens.at(1);
-            face_tokens = split(token, '//');
+            face_tokens = split(token, '/');
             if(face_tokens.size() >= 3) {
                 //std::cerr << "token 0: " << face_tokens.at(0) << std::endl;
                 //std::cerr << "token 1: " << face_tokens.at(1) << std::endl;
@@ -145,14 +142,14 @@ void Model::parse(std::string filename)
             }
             
             token = tokens.at(2);
-            face_tokens = split(token, '//');
+            face_tokens = split(token, '/');
             if(face_tokens.size() >= 3) {
                 v2 = std::stoi(face_tokens.at(0)) - 1;
                 n2 = std::stoi(face_tokens.at(2)) - 1;
             }
             
             token = tokens.at(3);
-            face_tokens = split(token, '//');
+            face_tokens = split(token, '/');
             if(face_tokens.size() >= 3) {
                 v3 = std::stoi(face_tokens.at(0)) - 1;
                 n3 = std::stoi(face_tokens.at(2)) - 1;
@@ -169,21 +166,13 @@ void Model::parse(std::string filename)
             }
             faces_.push_back(Triangle(vertices_[v1], normals_[n1], colors_[v1], vertices_[v2], normals_[n2], colors_[v2], vertices_[v3], normals_[n3], colors_[v3]));
         }
-    
-
 
     }
 
-
-
-
-
-
-    std::cerr << "Vertices: " << vertices_.size() << std::endl;
-    std::cerr << "Normals: " << normals_.size() << std::endl;
-    std::cerr << "Colors: " << colors_.size() << std::endl;
-    std::cerr << "Faces: " << faces_.size() << std::endl;
-
+    //std::cerr << "Vertices: " << vertices_.size() << std::endl;
+    //std::cerr << "Normals: " << normals_.size() << std::endl;
+    //std::cerr << "Colors: " << colors_.size() << std::endl;
+    //std::cerr << "Faces: " << faces_.size() << std::endl;
 
     calculate_dim();
     reset();
@@ -191,82 +180,6 @@ void Model::parse(std::string filename)
     std::cout << "Scale Matrix: " << std::endl;
     matrix_obj_.print();
 }
-
-/*
-void Model::parse(std::string filename)
-{
-    std::cerr << "Reading File: " << filename << std::endl;
-
-    FILE * file_p;
-
-    float x, y, z;
-    float r, g, b;
-    int v1, v2, v3;
-    int n1, n2, n3;
-    int c1, c2;
-
-    int matches;
-
-    file_p = fopen( filename.c_str(), "rb");
-    if(file_p == NULL) {
-        std::cerr << "Error: Could not open file: " << filename << std::endl;
-        exit(-1); 
-    }
-
-    while((c1 = fgetc(file_p)) != EOF) {
-        c2 = fgetc(file_p);
-
-        if((c1 == 'v') && (c2 == ' ')) {
-            matches = fscanf(file_p, "%f %f %f %f %f %f", &x, &y, &z, &r, &g, &b);
-            //std::cerr << "Matches: " << matches << std::endl;
-            if(matches == 3) {
-                r = 1.0;
-                g = 1.0;
-                b = 1.0;
-            }
-            vertices_.push_back(Vector3(x, y, z));
-            colors_.push_back(Color(r, g, b));
-        }
-        else if((c1 == 'v') && (c2 == 'n')) {
-            fscanf(file_p, "%f %f %f ", &x, &y, &z);
-            normals_.push_back(Vector3(x, y, z));
-        }
-        else if((c1 == 'f') && (c2 == ' ')) {
-            fscanf(file_p, "%d//%d %d//%d %d//%d", &v1, &n1, &v2, &n2, &v3, &n3);
-            
-            v1 -= 1;
-            v2 -= 1;
-            v3 -= 1;
-            n1 -= 1;
-            n2 -= 1;
-            n3 -= 1;
-
-
-            if((v1 >= vertices_.size()) || (v2 >= vertices_.size()) || (v3 >= vertices_.size())) {
-                std::cerr << "Error: Vertices out of range: " << v1 << ", " << v2 << ", " << v3 << std::endl;
-                continue;
-            }
-            if((n1 >= normals_.size()) || (n2 >= normals_.size()) || (n3 >= normals_.size())) {
-                std::cerr << "Error: Normals out of range: " << n1 << ", " << n2 << ", " << n3 << std::endl;
-                continue;
-            }
-            faces_.push_back(Triangle(vertices_[v1], normals_[n1], colors_[v1], vertices_[v2], normals_[n2], colors_[v2], vertices_[v3], normals_[n3], colors_[v3]));
-        }
-    }
-    std::cerr << "Vertices: " << vertices_.size() << std::endl;
-    std::cerr << "Normals: " << normals_.size() << std::endl;
-    std::cerr << "Colors: " << colors_.size() << std::endl;
-    std::cerr << "Faces: " << faces_.size() << std::endl;
-
-    fclose(file_p);
-
-    calculate_dim();
-    reset();
-
-    std::cout << "Scale Matrix: " << std::endl;
-    matrix_obj_.print();
-}
-*/
 
 void Model::calculate_dim()
 {

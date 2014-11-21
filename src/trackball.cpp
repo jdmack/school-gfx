@@ -20,8 +20,8 @@ void Trackball::mouse_move(int x, int y)
     //std::cerr << "Mouse moving: (" << x << "," << y << ") -" << std::endl;
 
     Vector3 direction = Vector3();
-    double pixel_diff;
-    double rot_angle, zoom_factor;
+    //double pixel_diff;
+    double rot_angle;//, zoom_factor;
     double velocity;
 
     Vector3 rotate_axis3;
@@ -72,6 +72,9 @@ void Trackball::mouse_move(int x, int y)
             displayCallback();
             */
         break;
+        case NONE:
+
+            break;
     }
 
     last_point = cur_point;
