@@ -195,11 +195,11 @@ void keyboard_special_callback(int key, int x, int y)
 
 void setup()
 {
-    Globals::bunny = new Model("obj/bunny.obj");
-    //Globals::dragon = new Model("obj/dragon.obj");
+    //Globals::bunny = new Model("obj/bunny.obj");
+    Globals::dragon = new Model("obj/dragon.obj");
     //Globals::bear = new Model("obj/bear.obj");
 
-    Globals::focus = Globals::bunny;
-    //Globals::focus = Globals::dragon;
+    //Globals::focus = Globals::bunny;
+    Globals::focus = Globals::dragon;
     //Globals::focus = Globals::bear;
 }

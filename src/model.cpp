@@ -121,23 +121,27 @@ void Model::parse(std::string filename)
 
             token = tokens.at(1);
             face_tokens = split(token, '//');
-            if(face_tokens.size() >= 2) {
+            if(face_tokens.size() >= 3) {
+                //std::cerr << "token 0: " << face_tokens.at(0) << std::endl;
+                //std::cerr << "token 1: " << face_tokens.at(1) << std::endl;
+                //std::cerr << "token 2: " << face_tokens.at(2) << std::endl;
+                //std::cerr << "tokens: " << face_tokens.size() << std::endl;
                 v1 = std::stoi(face_tokens.at(0)) - 1;
-                n1 = std::stoi(face_tokens.at(1)) - 1;
+                n1 = std::stoi(face_tokens.at(2)) - 1;
             }
             
             token = tokens.at(2);
             face_tokens = split(token, '//');
-            if(face_tokens.size() >= 2) {
+            if(face_tokens.size() >= 3) {
                 v2 = std::stoi(face_tokens.at(0)) - 1;
-                n2 = std::stoi(face_tokens.at(1)) - 1;
+                n2 = std::stoi(face_tokens.at(2)) - 1;
             }
             
             token = tokens.at(3);
             face_tokens = split(token, '//');
-            if(face_tokens.size() >= 2) {
+            if(face_tokens.size() >= 3) {
                 v3 = std::stoi(face_tokens.at(0)) - 1;
-                n3 = std::stoi(face_tokens.at(1)) - 1;
+                n3 = std::stoi(face_tokens.at(2)) - 1;
             }
 
 
