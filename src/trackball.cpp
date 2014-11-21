@@ -1,5 +1,6 @@
 #include <stdlib.h>
 #include <iostream>
+#include <cmath>
 #include "GL/glut.h"
 #include "trackball.h"
 #include "vector3.h"
