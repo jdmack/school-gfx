@@ -271,14 +271,15 @@ void setup()
     material3.set_shininess(high_shininess);
     material3.set_emission(no_mat);
     
-    Globals::bunny->set_material(material1);
+    //Globals::bunny->set_material(material1);
     //Globals::bunny->set_material(material2);
-    //Globals::bunny->set_material(material3);
+    Globals::bunny->set_material(material3);
 
     Globals::light1 = new Light();
+
     Globals::light2 = new Light();
-    Globals::light1->set_specular(5.0, 5.0, 5.0, 1.0);
-    Globals::light2->set_diffuse(5.0, 5.0, 5.0, 1.0);
+    Globals::light1->set_diffuse(5.0, 5.0, 5.0, 1.0);
+    Globals::light2->set_specular(5.0, 5.0, 5.0, 1.0);
     //Globals::light1->set_specular(0.0, 0.0, 0.0, 1.0);
 
     Globals::light1->enable();

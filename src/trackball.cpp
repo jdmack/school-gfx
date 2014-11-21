@@ -20,15 +20,15 @@ void Trackball::mouse_move(int x, int y)
     //std::cerr << "Mouse moving: (" << x << "," << y << ") -" << std::endl;
 
     Vector3 direction = Vector3();
-    //double pixel_diff;
-    double rot_angle;//, zoom_factor;
+    double pixel_diff;
+    double rot_angle, zoom_factor;
     double velocity;
 
     Vector3 rotate_axis3;
     Vector4 rotate_axis4;
-    Matrix4 rotate_matrix;
+    //Matrix4 rotate_matrix;
     Vector3 cur_point;
-    cur_point = trackball_mapping(x, y);
+    //cur_point = trackball_mapping(x, y);
 
     switch(movement) {
         case ROTATE:
@@ -37,7 +37,7 @@ void Trackball::mouse_move(int x, int y)
             //std::cerr << "cur_point: " << cur_point.str() << std::endl;
             //std::cerr << "last_point: " << last_point.str() << std::endl;
 
-            //cur_point = trackball_mapping(x, y);
+            cur_point = trackball_mapping(x, y);
             direction = cur_point - last_point;
             velocity = direction.magnitude();
 
@@ -52,26 +52,30 @@ void Trackball::mouse_move(int x, int y)
                 
                 rotate_axis4 = Vector4(rotate_axis3.x(), rotate_axis3.y(), rotate_axis3.z(), 0);
 
-                rotate_matrix.identity();
-                rotate_matrix.rotate(rot_angle, rotate_axis4);
+                rotation.identity();
+                rotation.rotate(rot_angle, rotate_axis4);
                 //rotation = rotate_matrix * rotation;
-                rotation = rotate_matrix;
+                //rotation = rotate_matrix;
                 //std::cerr << "rotation matrix: " << std::endl;
                 //rotation.print();
+                //Globals::focus->matrix_o2w() = Globals::focus->matrix_obj().multiply(rotation);
                 Globals::focus->matrix_o2w() = Globals::focus->matrix_o2w().multiply(rotation);
             }
             break;
         case ZOOM:
-            /*
-            pixel_diff = cur_point[1] - last_point[1];
-            zoom_factor = 1.0 + pixel_diff * ZOOMSCALE;
-            Matrix4 s;
-            s.scale(zoom_factor, zoom_factor, zoom_factor);
-            scaling = scaling * s;
-            scaling_mt->setMatrix(scaling);
-            displayCallback();
-            */
-        break;
+            cur_point = Vector3(x, y, 0);
+            pixel_diff = cur_point.x() - last_point.x();
+            zoom_factor = 1.0 + pixel_diff * kZoomScale;
+
+            scaling.identity();
+            scaling.scale(zoom_factor, zoom_factor, zoom_factor);
+            Globals::focus->matrix_obj() = Globals::focus->matrix_obj().multiply(scaling);
+            //scaling = scaling * s;
+            //scaling_mt->setMatrix(scaling);
+            //displayCallback();
+
+            break;
+
         case NONE:
 
             break;
@@ -95,7 +99,8 @@ void Trackball::mouse_func(int button, int state, int x, int y)
         movement = ZOOM;
         //old_x = x;
         //old_y = y;
-        last_point = trackball_mapping(x, y);
+        //last_point = trackball_mapping(x, y);
+        last_point = Vector3(x, y, 0);
     }
     else {
         movement = NONE;
@@ -128,9 +133,10 @@ Vector3 Trackball::trackball_mapping(int x, int y)
     double d = v.magnitude();
     //std::cerr << "d: " << d << std::endl;
 
-    if(d <= 1.0) {
-        d = 1.0;
-    }
+    //if(d <= 1.0) {
+    //    d = 1.0;
+    //}
+    d = (d < 1.0) ? d : 1.0;
 
     v.set_z(std::sqrt(1.001 - d * d));
     v.normalize();

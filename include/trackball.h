@@ -5,6 +5,7 @@
 #include "matrix4.h"
 
 const double kRotateScale = 40.0;
+const double kZoomScale = 0.02;
 
 enum MouseMovement {
     ROTATE,
