@@ -10,6 +10,7 @@
 #include "timer.h"
 #include "model.h"
 #include "trackball.h"
+#include "light.h"
 
 #define kPi 3.14159265359
 
@@ -52,9 +53,9 @@ int main(int argc, char *argv[])
     glEnable(GL_COLOR_MATERIAL);
 
     // Generate light source:
-    glLightfv(GL_LIGHT0, GL_POSITION, position);
+    //glLightfv(GL_LIGHT0, GL_POSITION, position);
     glEnable(GL_LIGHTING);
-    glEnable(GL_LIGHT0);
+    //glEnable(GL_LIGHT0);
   
     // Install callback functions:
     glutDisplayFunc(Window::display_callback);
@@ -156,6 +157,17 @@ void keyboard_callback(unsigned char key, int x, int y)
         case 'd':
 			break;
 
+        case 'l':
+            if(Globals::light1->enabled()) {
+                Globals::light1->disable();
+                Globals::light2->enable();
+            }
+            else {
+                Globals::light2->disable();
+                Globals::light1->enable();
+            }
+			break;
+
 		case 32: // spacebar
 			break;
 
@@ -248,8 +260,14 @@ void setup()
     //Globals::bunny->set_material(material2);
     //Globals::bunny->set_material(material3);
 
-    //Globals::light1 = new Light();
-    //Globals::light1->render();
+    Globals::light1 = new Light();
+    Globals::light2 = new Light();
+    Globals::light1->set_specular(5.0, 5.0, 5.0, 1.0);
+    Globals::light2->set_diffuse(5.0, 5.0, 5.0, 1.0);
+    //Globals::light1->set_specular(0.0, 0.0, 0.0, 1.0);
+
+
+    Globals::light1->enable();
 }
 
 

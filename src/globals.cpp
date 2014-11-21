@@ -1,7 +1,7 @@
 #include "globals.h"
 #include "camera.h"
 #include "model.h"
-//#include "light.h"
+#include "light.h"
 
 namespace Globals
 {
@@ -14,6 +14,6 @@ namespace Globals
     Model * dragon;
     Model * bear;
     Model * focus;
-    //Light * light1;
-    //Light * light2;
+    Light * light1;
+    Light * light2;
 };
