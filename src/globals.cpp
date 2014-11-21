@@ -1,5 +1,6 @@
 #include "globals.h"
 #include "camera.h"
+#include "model.h"
 
 namespace Globals
 {
@@ -7,4 +8,9 @@ namespace Globals
     bool flag = false;
     bool pause = false;
     Matrix4 identity_matrix;
+
+    Model * bunny;
+    Model * dragon;
+    Model * bear;
+    Model * focus;
 };

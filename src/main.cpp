@@ -8,6 +8,7 @@
 #include "matrix4.h"
 #include "globals.h"
 #include "timer.h"
+#include "model.h"
 
 #define kPi 3.14159265359
 
@@ -93,35 +94,35 @@ void keyboard_callback(unsigned char key, int x, int y)
 			break;
 
         case 's':
-            //Globals::root->matrix().scale(0.9, 0.9, 0.9);
+            Globals::focus->matrix_obj().scale(0.9, 0.9, 0.9);
 			break;
 
         case 'S':
-            //Globals::root->matrix().scale(1.1, 1.1, 1.1);
+            Globals::focus->matrix_obj().scale(1.1, 1.1, 1.1);
 			break;
 
         case 'x':
-            //Globals::root->matrix().rotate_x(10);
+            Globals::focus->matrix_o2w().rotate_x(10);
 			break;
 
         case 'X':
-            //Globals::root->matrix().rotate_x(-10);
+            Globals::focus->matrix_o2w().rotate_x(-10);
 			break;
 
         case 'y':
-            //Globals::root->matrix().rotate_y(10);
+            Globals::focus->matrix_o2w().rotate_y(10);
 			break;
 
         case 'Y':
-            //Globals::root->matrix().rotate_y(-10);
+            Globals::focus->matrix_o2w().rotate_y(-10);
 			break;
 
         case 'z':
-            //Globals::root->matrix().rotate_z(10);
+            Globals::focus->matrix_o2w().rotate_z(10);
 			break;
 
         case 'Z':
-            //Globals::root->matrix().rotate_z(-10);
+            Globals::focus->matrix_o2w().rotate_z(-10);
 			break;
 
 
@@ -192,5 +193,7 @@ void keyboard_special_callback(int key, int x, int y)
 
 void setup()
 {
+    Globals::bunny = new Model("obj/bunny.obj");
 
+    Globals::focus = Globals::bunny;
 }

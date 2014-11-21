@@ -17,8 +17,7 @@ Timer Window::timer_ = Timer();
 void Window::idle_callback()
 {
     if(!Globals::pause) {
-        //Globals::root->update(timer_.get_ticks());
-        //Globals::root->update(15);
+        Globals::focus->update(timer_.get_ticks());
     }
     display_callback();         // call display routine to show the object
 
@@ -52,7 +51,8 @@ void Window::display_callback()
     Matrix4 matrix = Matrix4();
     matrix.identity();
 
-    //Globals::root->draw(Globals::camera.matrix());
+    //Globals::focus->display(Globals::camera.matrix());
+    Globals::focus->display();
 
     //glLoadMatrixd(matrix.pointer());
     //glBegin(GL_QUADS);
