@@ -15,8 +15,8 @@ Matrix4 Trackball::scaling = Matrix4(true);
 
 void Trackball::mouse_move(int x, int y)
 {
-    std::cerr << "===================================================================================" << std::endl;
-    std::cerr << "Mouse moving: (" << x << "," << y << ") -" << std::endl;
+    //std::cerr << "===================================================================================" << std::endl;
+    //std::cerr << "Mouse moving: (" << x << "," << y << ") -" << std::endl;
 
     Vector3 direction = Vector3();
     double pixel_diff;
@@ -31,31 +31,32 @@ void Trackball::mouse_move(int x, int y)
 
     switch(movement) {
         case ROTATE:
-            std::cerr << "ROTATE" << std::endl;
+            //std::cerr << "ROTATE" << std::endl;
 
-            std::cerr << "cur_point: " << cur_point.str() << std::endl;
-            std::cerr << "last_point: " << last_point.str() << std::endl;
+            //std::cerr << "cur_point: " << cur_point.str() << std::endl;
+            //std::cerr << "last_point: " << last_point.str() << std::endl;
 
             //cur_point = trackball_mapping(x, y);
             direction = cur_point - last_point;
             velocity = direction.magnitude();
 
-            std::cerr << "velocity: " << velocity << std::endl;
+            //std::cerr << "velocity: " << velocity << std::endl;
 
             if(velocity > 0.001) {
                 rotate_axis3 = last_point.cross_product(cur_point);
                 rotate_axis3.normalize();
                 rot_angle = velocity * kRotateScale;
                 std::cerr << "rotate_axis: " << rotate_axis3.str() << std::endl;
-                std::cerr << "rot_angle: " << rot_angle << std::endl;
+                //std::cerr << "rot_angle: " << rot_angle << std::endl;
                 
                 rotate_axis4 = Vector4(rotate_axis3.x(), rotate_axis3.y(), rotate_axis3.z(), 0);
 
                 rotate_matrix.identity();
                 rotate_matrix.rotate(rot_angle, rotate_axis4);
-                rotation = rotate_matrix * rotation;
-                std::cerr << "rotation matrix: " << std::endl;
-                rotation.print();
+                //rotation = rotate_matrix * rotation;
+                rotation = rotate_matrix;
+                //std::cerr << "rotation matrix: " << std::endl;
+                //rotation.print();
                 Globals::focus->matrix_obj() = Globals::focus->matrix_obj().multiply(rotation);
             }
             break;
@@ -79,14 +80,14 @@ void Trackball::mouse_move(int x, int y)
 void Trackball::mouse_func(int button, int state, int x, int y)
 {
     if((button == GLUT_LEFT_BUTTON) && (state == GLUT_DOWN)) {
-        std::cerr << "Left click" << std::endl;
+        //std::cerr << "Left click" << std::endl;
         movement = ROTATE;
         //old_x = x;
         //old_y = y;
         last_point = trackball_mapping(x, y);
     }
     else if((button == GLUT_RIGHT_BUTTON) && (state == GLUT_DOWN)) {
-        std::cerr << "Right click" << std::endl;
+        //std::cerr << "Right click" << std::endl;
         movement = ZOOM;
         //old_x = x;
         //old_y = y;
@@ -127,10 +128,10 @@ Vector3 Trackball::trackball_mapping(int x, int y)
         d = 1.0;
     }
 
-    v.set_z(std::sqrt(1.001 - d * d));
-    //v.normalize();
+    v.set_z(std::sqrtf(1.001 - d * d));
+    v.normalize();
     
-    std::cerr << "trackball_mapping() returning: " << v.str() << std::endl;
+    //std::cerr << "trackball_mapping() returning: " << v.str() << std::endl;
 
     return v;
 }

@@ -4,8 +4,7 @@
 #include "vector3.h"
 #include "matrix4.h"
 
-const double kRotateScale = 10.0;
-//const double kRotateScale = 180.0;
+const double kRotateScale = 90.0;
 
 enum MouseMovement {
     ROTATE,
@@ -25,7 +24,6 @@ class Trackball
         static void mouse_move(int x, int y);
         static void mouse_func(int button, int state, int x, int y);
         static Vector3 trackball_mapping(int x, int y);
-
 };
 
 #endif
