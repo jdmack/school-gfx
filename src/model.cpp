@@ -83,7 +83,9 @@ void Model::parse(std::string filename)
     std::string token;
 
     while(std::getline(infile, line)) {
+        //std::cerr << "Parsing: " << line << std::endl;
         tokens = split(line, ' ');
+        if(tokens.size() <= 0) continue;
 
         if(tokens.at(0).compare("v") == 0) {
             //Parse rest of tokens into doubles
@@ -119,18 +121,24 @@ void Model::parse(std::string filename)
 
             token = tokens.at(1);
             face_tokens = split(token, '//');
-            v1 = std::stoi(face_tokens.at(0)) - 1;
-            n1 = std::stoi(face_tokens.at(1)) - 1;
+            if(face_tokens.size() >= 2) {
+                v1 = std::stoi(face_tokens.at(0)) - 1;
+                n1 = std::stoi(face_tokens.at(1)) - 1;
+            }
             
             token = tokens.at(2);
             face_tokens = split(token, '//');
-            v2 = std::stoi(face_tokens.at(0)) - 1;
-            n2 = std::stoi(face_tokens.at(1)) - 1;
+            if(face_tokens.size() >= 2) {
+                v2 = std::stoi(face_tokens.at(0)) - 1;
+                n2 = std::stoi(face_tokens.at(1)) - 1;
+            }
             
             token = tokens.at(3);
             face_tokens = split(token, '//');
-            v3 = std::stoi(face_tokens.at(0)) - 1;
-            n3 = std::stoi(face_tokens.at(1)) - 1;
+            if(face_tokens.size() >= 2) {
+                v3 = std::stoi(face_tokens.at(0)) - 1;
+                n3 = std::stoi(face_tokens.at(1)) - 1;
+            }
 
 
             if((v1 >= vertices_.size()) || (v2 >= vertices_.size()) || (v3 >= vertices_.size())) {
