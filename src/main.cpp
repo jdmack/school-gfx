@@ -83,7 +83,8 @@ void keyboard_callback(unsigned char key, int x, int y)
     Vector3 camera_pos;
     Vector3 camera_look_at;
     switch (key) {
-        case 'b':
+        case 'r':
+            Globals::focus->reset();
 			break;
 
         case 'c':
@@ -102,26 +103,50 @@ void keyboard_callback(unsigned char key, int x, int y)
 			break;
 
         case 'x':
+            Globals::focus->matrix_o2w().translate(1.0, 0.0, 0.0);
+            break;
+
+        case 'X':
+            Globals::focus->matrix_o2w().translate(-1.0, 0.0, 0.0);
+            break;
+
+        case 'y':
+            Globals::focus->matrix_o2w().translate(0.0, 1.0, 0.0);
+            break;
+
+        case 'Y':
+            Globals::focus->matrix_o2w().translate(0.0, -1.0, 0.0);
+            break;
+
+        case 'z':
+            Globals::focus->matrix_o2w().translate(0.0, 0.0, 1.0);
+            break;
+
+        case 'Z':
+            Globals::focus->matrix_o2w().translate(0.0, 0.0, -1.0);
+            break;
+
+        case 'j':
             Globals::focus->matrix_o2w().rotate_x(10);
 			break;
 
-        case 'X':
+        case 'E':
             Globals::focus->matrix_o2w().rotate_x(-10);
 			break;
 
-        case 'y':
+        case 't':
             Globals::focus->matrix_o2w().rotate_y(10);
 			break;
 
-        case 'Y':
+        case 'T':
             Globals::focus->matrix_o2w().rotate_y(-10);
 			break;
 
-        case 'z':
+        case 'o':
             Globals::focus->matrix_o2w().rotate_z(10);
 			break;
 
-        case 'Z':
+        case 'O':
             Globals::focus->matrix_o2w().rotate_z(-10);
 			break;
 
@@ -146,6 +171,7 @@ void keyboard_special_callback(int key, int x, int y)
 {
     switch (key) {
         case GLUT_KEY_LEFT:
+            
             break;
 
         case GLUT_KEY_RIGHT:

@@ -330,6 +330,13 @@ void Model::calculate_scale()
     else {
         matrix_obj_.scale(y_scale, y_scale, y_scale);
     }
+
+    // TRANSLATE for CENTERING
+    double translate_x = 0 - center_.x();
+    double translate_y = 0 - center_.y();
+    double translate_z = 0 - center_.z();
+
+    matrix_o2w_.translate(translate_x, translate_y, translate_z);
 }
 
 //Split functions from the interwebs
