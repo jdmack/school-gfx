@@ -13,6 +13,7 @@ class Matrix4
     public:
         // constructors
         Matrix4();
+        Matrix4(bool identity);
         Matrix4(const Matrix4 &param);
         // Constructor with 16 parameters to set the values of the matrix
         Matrix4(double, double, double, double,

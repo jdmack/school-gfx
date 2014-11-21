@@ -8,8 +8,8 @@
 
 MouseMovement Trackball::movement = NONE;
 Vector3 Trackball::last_point = Vector3();
-Matrix4 Trackball::rotation = Matrix4();
-Matrix4 Trackball::scaling = Matrix4();
+Matrix4 Trackball::rotation = Matrix4(true);
+Matrix4 Trackball::scaling = Matrix4(true);
 
 
 
@@ -42,18 +42,21 @@ void Trackball::mouse_move(int x, int y)
 
             std::cerr << "velocity: " << velocity << std::endl;
 
-            if(velocity > 0.0001) {
+            if(velocity > 0.001) {
                 rotate_axis3 = last_point.cross_product(cur_point);
                 rotate_axis3.normalize();
                 rot_angle = velocity * kRotateScale;
                 std::cerr << "rotate_axis: " << rotate_axis3.str() << std::endl;
+                std::cerr << "rot_angle: " << rot_angle << std::endl;
                 
                 rotate_axis4 = Vector4(rotate_axis3.x(), rotate_axis3.y(), rotate_axis3.z(), 0);
 
                 rotate_matrix.identity();
                 rotate_matrix.rotate(rot_angle, rotate_axis4);
                 rotation = rotate_matrix * rotation;
-                Globals::focus->matrix_obj().multiply(rotation);
+                std::cerr << "rotation matrix: " << std::endl;
+                rotation.print();
+                Globals::focus->matrix_obj() = Globals::focus->matrix_obj().multiply(rotation);
             }
             break;
         case ZOOM:
@@ -97,33 +100,28 @@ void Trackball::mouse_func(int button, int state, int x, int y)
 
 Vector3 Trackball::trackball_mapping(int x, int y)
 {
-    //double width = (double) Window::width;
-    //double height = (double) Window::height;
-
-    double width = 512.0;
-    double height = 512.0;
+    double width = (double) Window::width;
+    double height = (double) Window::height;
 
     double d_x = (double) x;
     double d_y = (double) y;
 
-    std::cerr << "width: " << width << std::endl;
-    std::cerr << "height: " << height << std::endl;
+    //std::cerr << "width: " << width << std::endl;
+    //std::cerr << "height: " << height << std::endl;
 
     Vector3 v = Vector3();
     double new_x = (2.0 * d_x - width) / width;
     double new_y = (height - 2.0 * d_y) / height;
-    std::cerr << "new_x: " << new_x << std::endl;
-    std::cerr << "new_y: " << new_y << std::endl;
-
-
+    //std::cerr << "new_x: " << new_x << std::endl;
+    //std::cerr << "new_y: " << new_y << std::endl;
 
     v.set_x(new_x);
     v.set_y(new_y);
     v.set_z(0.0);
-    std::cerr << "v: " << v.str() << std::endl;
+    //std::cerr << "v: " << v.str() << std::endl;
 
     double d = v.magnitude();
-    std::cerr << "d: " << d << std::endl;
+    //std::cerr << "d: " << d << std::endl;
 
     if(d <= 1.0) {
         d = 1.0;
@@ -131,7 +129,6 @@ Vector3 Trackball::trackball_mapping(int x, int y)
 
     v.set_z(std::sqrt(1.001 - d * d));
     //v.normalize();
-    std::cerr << "v: " << v.str() << std::endl;
     
     std::cerr << "trackball_mapping() returning: " << v.str() << std::endl;
 

@@ -15,6 +15,11 @@ Matrix4::Matrix4()
     }
 }
 
+Matrix4::Matrix4(bool identity)
+{
+    if(identity) this->identity();
+}
+
 Matrix4::Matrix4(const Matrix4 &param)
 {
     for(int row = 0; row < 4; row++) {
