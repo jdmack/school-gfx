@@ -228,6 +228,7 @@ void setup()
     //Globals::focus = Globals::dragon;
     //Globals::focus = Globals::bear;
 
+    /*
     float4 no_mat = float4(0.0, 0.0, 0.0, 1.0);
     float4 mat_ambient = float4(0.7, 0.7, 0.7, 1.0);
     float4 mat_ambient_color = float4(0.8, 0.8, 0.2, 1.0);
@@ -241,12 +242,13 @@ void setup()
     Material material1 = Material(no_mat, mat_diffuse, no_mat, no_shininess, no_mat);
     Material material2 = Material(no_mat, mat_diffuse, mat_specular, low_shininess, no_mat);
     Material material3 = Material(no_mat, mat_diffuse, mat_specular, high_shininess, no_mat);
+    */
     
-    Globals::bunny->set_material(material1);
+    //Globals::bunny->set_material(material1);
     //Globals::bunny->set_material(material2);
     //Globals::bunny->set_material(material3);
 
-    Globals::light1 = new Light();
+    //Globals::light1 = new Light();
     //Globals::light1->render();
 }
 
