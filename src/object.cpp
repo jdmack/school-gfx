@@ -43,7 +43,7 @@ void Object::reset()
 
 void Object::display(Camera camera)
 {
-    //material_.render();
+    material_.enable();
 
     glMatrixMode(GL_MODELVIEW);         // make sure we're in Objectview mode
 

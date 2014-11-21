@@ -240,23 +240,38 @@ void setup()
     //Globals::focus = Globals::dragon;
     //Globals::focus = Globals::bear;
 
-    /*
-    float4 no_mat = float4(0.0, 0.0, 0.0, 1.0);
-    float4 mat_ambient = float4(0.7, 0.7, 0.7, 1.0);
-    float4 mat_ambient_color = float4(0.8, 0.8, 0.2, 1.0);
-    float4 mat_diffuse = float4(0.1, 0.5, 0.8, 1.0);
-    float4 mat_specular = float4(1.0, 1.0, 1.0, 1.0);
-    float1 no_shininess = float1(0.0);
-    float1 low_shininess = float1(5.0);
-    float1 high_shininess = float1(100.0);
-    float4 mat_emission = float4(0.3, 0.2, 0.2, 0.0);
+    float no_mat[] = {0.0, 0.0, 0.0, 1.0};
+    float mat_ambient[] = {0.7, 0.7, 0.7, 1.0};
+    float mat_ambient_color[] = {0.8, 0.8, 0.2, 1.0};
+    float mat_diffuse[] = {0.1, 0.5, 0.8, 1.0};
+    float mat_specular[] = {1.0, 1.0, 1.0, 1.0};
+    float no_shininess[] = {0.0};
+    float low_shininess[] = {5.0};
+    float high_shininess[] = {100.0};
+    float mat_emission[] = {0.3, 0.2, 0.2, 0.0};
 
-    Material material1 = Material(no_mat, mat_diffuse, no_mat, no_shininess, no_mat);
-    Material material2 = Material(no_mat, mat_diffuse, mat_specular, low_shininess, no_mat);
-    Material material3 = Material(no_mat, mat_diffuse, mat_specular, high_shininess, no_mat);
-    */
+    Material material1;
+    material1.set_ambient(no_mat);
+    material1.set_diffuse(mat_diffuse);
+    material1.set_specular(no_mat);
+    material1.set_shininess(no_shininess);
+    material1.set_emission(no_mat);
+
+    Material material2;
+    material2.set_ambient(no_mat);
+    material2.set_diffuse(mat_diffuse);
+    material2.set_specular(mat_specular);
+    material2.set_shininess(low_shininess);
+    material2.set_emission(no_mat);
+
+    Material material3;
+    material3.set_ambient(no_mat);
+    material3.set_diffuse(mat_diffuse);
+    material3.set_specular(mat_specular);
+    material3.set_shininess(high_shininess);
+    material3.set_emission(no_mat);
     
-    //Globals::bunny->set_material(material1);
+    Globals::bunny->set_material(material1);
     //Globals::bunny->set_material(material2);
     //Globals::bunny->set_material(material3);
 
@@ -265,7 +280,6 @@ void setup()
     Globals::light1->set_specular(5.0, 5.0, 5.0, 1.0);
     Globals::light2->set_diffuse(5.0, 5.0, 5.0, 1.0);
     //Globals::light1->set_specular(0.0, 0.0, 0.0, 1.0);
-
 
     Globals::light1->enable();
 }

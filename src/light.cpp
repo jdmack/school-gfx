@@ -7,25 +7,11 @@ Light::Light()
 
     enabled_ = false;
 
-    ambient_[0] = 0.2;
-    ambient_[1] = 0.2;
-    ambient_[2] = 0.2;
-    ambient_[3] = 1.0;
+    set_ambient(0.2, 0.2, 0.2, 1.0);
+    set_diffuse(0.8, 0.8, 0.8, 1.0);
+    set_specular(0.0, 0.0, 0.0, 1.0);
+    set_position(0.2, 10.0, 1.0, 0.0);
 
-    diffuse_[0] = 0.8;
-    diffuse_[1] = 0.8;
-    diffuse_[2] = 0.8;
-    diffuse_[3] = 1.0;
-
-    specular_[0] = 0.0;
-    specular_[1] = 0.0;
-    specular_[2] = 0.0;
-    specular_[3] = 1.0;
-
-    position_[0] = 0.0;
-    position_[1] = 10.0;
-    position_[2] = 1.0;
-    position_[3] = 0.0;
 }
 
 Light::Light(int number)
@@ -34,25 +20,10 @@ Light::Light(int number)
 
     enabled_ = false;
 
-    ambient_[0] = 0.2;
-    ambient_[1] = 0.2;
-    ambient_[2] = 0.2;
-    ambient_[3] = 1.0;
-
-    diffuse_[0] = 0.8;
-    diffuse_[1] = 0.8;
-    diffuse_[2] = 0.8;
-    diffuse_[3] = 1.0;
-
-    specular_[0] = 0.0;
-    specular_[1] = 0.0;
-    specular_[2] = 0.0;
-    specular_[3] = 1.0;
-
-    position_[0] = 0.0;
-    position_[1] = 10.0;
-    position_[2] = 1.0;
-    position_[3] = 0.0;
+    set_ambient(0.2, 0.2, 0.2, 1.0);
+    set_diffuse(0.8, 0.8, 0.8, 1.0);
+    set_specular(0.0, 0.0, 0.0, 1.0);
+    set_position(0.2, 10.0, 1.0, 0.0);
 }
 
 void Light::set_ambient(float a, float b, float c, float d)
