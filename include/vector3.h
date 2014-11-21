@@ -28,8 +28,8 @@ class Vector3
         // mutators
         // Element access 'set': set the vector coordinates
         void set_x(double x) { x_ = x; }
-        void set_y(double y) { x_ = y; }
-        void set_z(double z) { x_ = z; }
+        void set_y(double y) { y_ = y; }
+        void set_z(double z) { z_ = z; }
         void set(double x, double y, double z);
 
         // Overload operator '[]' as alternative to 'get' method
