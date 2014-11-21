@@ -58,7 +58,7 @@ void Trackball::mouse_move(int x, int y)
                 rotation = rotate_matrix;
                 //std::cerr << "rotation matrix: " << std::endl;
                 //rotation.print();
-                Globals::focus->matrix_obj() = Globals::focus->matrix_obj().multiply(rotation);
+                Globals::focus->matrix_o2w() = Globals::focus->matrix_o2w().multiply(rotation);
             }
             break;
         case ZOOM:
@@ -129,7 +129,7 @@ Vector3 Trackball::trackball_mapping(int x, int y)
         d = 1.0;
     }
 
-    v.set_z(std::sqrtf(1.001 - d * d));
+    v.set_z(std::sqrt(1.001 - d * d));
     v.normalize();
     
     //std::cerr << "trackball_mapping() returning: " << v.str() << std::endl;

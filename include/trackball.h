@@ -4,7 +4,7 @@
 #include "vector3.h"
 #include "matrix4.h"
 
-const double kRotateScale = 90.0;
+const double kRotateScale = 40.0;
 
 enum MouseMovement {
     ROTATE,
