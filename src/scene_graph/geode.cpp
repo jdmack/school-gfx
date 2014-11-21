@@ -1,7 +1,7 @@
 #include <iostream>
 #include <stdlib.h>
 #include "GL/glut.h"
-#include "geode.h"
+#include "scene_graph/geode.h"
 #include "globals.h"
 #include "matrix4.h"
 

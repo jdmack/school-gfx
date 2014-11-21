@@ -2,7 +2,7 @@
 #define CSE_167_GRID_H_
 
 #include "matrix4.h"
-#include "geode.h"
+#include "scene_graph/geode.h"
 
 
 class Grid : public Geode

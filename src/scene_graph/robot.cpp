@@ -1,7 +1,7 @@
-#include "robot.h"
-#include "matrix_transform.h"
-#include "cube.h"
-#include "sphere.h"
+#include "scene_graph/robot.h"
+#include "scene_graph/matrix_transform.h"
+#include "scene_graph/cube.h"
+#include "scene_graph/sphere.h"
 
 Robot::Robot()
 {

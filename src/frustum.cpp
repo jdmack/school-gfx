@@ -83,7 +83,6 @@ bool Frustum::pointInFrustum(Vector3 p) {
 bool Frustum::sphereInFrustum(Vector3 p, float radius)
 {
     
-    if(!Globals::culling) return true;
     if(radius <= 0) return true;
     int result = true;
     float distance;

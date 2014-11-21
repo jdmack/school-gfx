@@ -1,5 +1,5 @@
 #include "globals.h"
-#include "node.h"
+#include "scene_graph/node.h"
 #include <stdlib.h>
 #include "GL/glut.h"
 
@@ -15,7 +15,7 @@ Node::~Node()
 
 void Node::draw_bound()
 {
-    if(Globals::show_bound) {
+    //if(Globals::show_bound) {
         glMatrixMode(GL_MODELVIEW);
         Matrix4 matrix = Matrix4();
         matrix.identity();
@@ -24,7 +24,7 @@ void Node::draw_bound()
 
         glColor3f(0.0, 1.0, 0.0);
         glutWireSphere(bound_radius_, kDefaultBoundSlices, kDefaultBoundStacks);
-    }
+    //}
 
 
 }

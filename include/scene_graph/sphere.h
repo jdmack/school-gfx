@@ -2,7 +2,7 @@
 #define CSE_167_SPHERE_H_
 
 #include "matrix4.h"
-#include "geode.h"
+#include "scene_graph/geode.h"
 
 const double kDefaultRadius = 1;
 const int kDefaultSlices = 50;

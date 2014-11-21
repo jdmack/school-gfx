@@ -8,11 +8,6 @@
 #include "matrix4.h"
 #include "globals.h"
 #include "timer.h"
-#include "cube.h"
-#include "matrix_transform.h"
-#include "robot.h"
-#include "sphere.h"
-#include "grid.h"
 
 #define kPi 3.14159265359
 
@@ -88,11 +83,9 @@ void keyboard_callback(unsigned char key, int x, int y)
     Vector3 camera_look_at;
     switch (key) {
         case 'b':
-            Globals::show_bound = !Globals::show_bound;
 			break;
 
         case 'c':
-            Globals::culling = !Globals::culling;
 			break;
 
         case 'p':
@@ -100,35 +93,35 @@ void keyboard_callback(unsigned char key, int x, int y)
 			break;
 
         case 's':
-            Globals::root->matrix().scale(0.9, 0.9, 0.9);
+            //Globals::root->matrix().scale(0.9, 0.9, 0.9);
 			break;
 
         case 'S':
-            Globals::root->matrix().scale(1.1, 1.1, 1.1);
+            //Globals::root->matrix().scale(1.1, 1.1, 1.1);
 			break;
 
         case 'x':
-            Globals::root->matrix().rotate_x(10);
+            //Globals::root->matrix().rotate_x(10);
 			break;
 
         case 'X':
-            Globals::root->matrix().rotate_x(-10);
+            //Globals::root->matrix().rotate_x(-10);
 			break;
 
         case 'y':
-            Globals::root->matrix().rotate_y(10);
+            //Globals::root->matrix().rotate_y(10);
 			break;
 
         case 'Y':
-            Globals::root->matrix().rotate_y(-10);
+            //Globals::root->matrix().rotate_y(-10);
 			break;
 
         case 'z':
-            Globals::root->matrix().rotate_z(10);
+            //Globals::root->matrix().rotate_z(10);
 			break;
 
         case 'Z':
-            Globals::root->matrix().rotate_z(-10);
+            //Globals::root->matrix().rotate_z(-10);
 			break;
 
 
@@ -152,48 +145,33 @@ void keyboard_special_callback(int key, int x, int y)
 {
     switch (key) {
         case GLUT_KEY_LEFT:
-            Globals::root->matrix().translate(1, 0, 0);
             break;
 
         case GLUT_KEY_RIGHT:
-            Globals::root->matrix().translate(-1, 0, 0);
             break;
 
         case GLUT_KEY_UP:
-            Globals::root->matrix().translate(0, 0, -1);
             break;
 
         case GLUT_KEY_DOWN:
-            Globals::root->matrix().translate(0, 0, 1);
             break;
 
-
-        // F1 - Display Cube
         case GLUT_KEY_F1:
 
             break;
 
-        // F2 - Display House View 1
         case GLUT_KEY_F2:
 
             break;
 
-        // F3 - Display House View 2
         case GLUT_KEY_F3:
-
-            //Globals::camera.set_e(Vector3(-15, 5, 10));
-            //Globals::camera.set_d(Vector3(-5, 0, 0));
-            //Globals::camera.set_up(Vector3(0, 1, 0.5));
-            //Globals::camera.calc();
 
             break;
 
-        // F4 - Display Bunny
         case GLUT_KEY_F4:
 
             break;
 
-        // F5 - Display Dragon
         case GLUT_KEY_F5:
 
             break;
@@ -214,55 +192,5 @@ void keyboard_special_callback(int key, int x, int y)
 
 void setup()
 {
-    int number_of_rows = 10;
-    int number_of_columns = 10;
 
-    int row_width = 20;
-    int column_width = 20;
-
-    Globals::identity_matrix.identity();
-    Matrix4 matrix = Matrix4();
-    matrix.identity();
-
-    MatrixTransform * root = new MatrixTransform(matrix);
-    root->set_name("root");
-    Globals::root = root;
-
-    Grid * grid = new Grid();
-    root->add_child(grid);
-    for(int row = 0; row < number_of_rows; row++) {
-        for(int column = 0; column < number_of_columns; column++) {
-
-            Robot * robot = new Robot();
-
-            matrix.identity();
-            matrix.scale(0.4, 0.4, 0.4);
-            matrix.translate(column_width * column, 4.0, row_width * row);
-            //matrix.rotate_y(45);
-
-            MatrixTransform * mt_robot = new MatrixTransform(matrix);
-            mt_robot->add_child(robot);
-
-            //Sphere * sphere = new Sphere(2, 50, 50);
-            //root->add_child(sphere);
-
-            root->add_child(mt_robot);
-        }
-    }
-
-    /*
-    Robot * robot = new Robot();
-    matrix.identity();
-    //matrix.scale(0.0, 0.0, 0.0);
-    //matrix.translate(0.0, 0.0, 0.0);
-    //matrix.rotate_y(45);
-
-    MatrixTransform * mt_robot = new MatrixTransform(matrix);
-    mt_robot->add_child(robot);
-
-    //Sphere * sphere = new Sphere(2, 50, 50);
-    //root->add_child(sphere);
-
-    root->add_child(mt_robot);
-    */
 }

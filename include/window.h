@@ -12,7 +12,6 @@ class Window	  // OpenGL output window related routines
         static void idle_callback(void);
         static void reshape_callback(int, int);
         static void display_callback(void);
-        static void set_frustum(double fov, double near, double far);
 
 };
 

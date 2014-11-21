@@ -3,7 +3,7 @@
 
 #include <list>
 #include "matrix4.h"
-#include "node.h"
+#include "scene_graph/node.h"
 
 class Group : public Node
 {

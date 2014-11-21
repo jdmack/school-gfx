@@ -1,9 +1,9 @@
 #ifndef CSE_167_ROBOT_H_
 #define CSE_167_ROBOT_H_
 
-#include "node.h"
+#include "scene_graph/node.h"
 #include "matrix4.h"
-#include "matrix_transform.h"
+#include "scene_graph/matrix_transform.h"
 
 class Robot : public Node
 {

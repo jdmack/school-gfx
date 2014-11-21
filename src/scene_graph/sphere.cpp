@@ -1,6 +1,6 @@
 #include <iostream>
 #include "GL/glut.h"
-#include "sphere.h"
+#include "scene_graph/sphere.h"
 
 Sphere::Sphere()
 {

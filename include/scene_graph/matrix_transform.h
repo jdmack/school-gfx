@@ -2,7 +2,7 @@
 #define CSE_167_MATRIX_TRANSFORM_H_
 
 #include "matrix4.h"
-#include "group.h"
+#include "scene_graph/group.h"
 
 class MatrixTransform : public Group
 {

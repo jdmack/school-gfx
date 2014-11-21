@@ -1,5 +1,5 @@
 #include <iostream>
-#include "group.h"
+#include "scene_graph/group.h"
 #include "globals.h"
 
 Group::Group()
@@ -28,12 +28,12 @@ void Group::remove_child(Node * node)
 
 void Group::draw(Matrix4 c)
 {
-    if(Globals::frustum.sphereInFrustum(center_point_, bound_radius_)) {
+    //if(Globals::frustum.sphereInFrustum(center_point_, bound_radius_)) {
         //std::cerr << "In frustum" << std::endl;
         for(std::list<Node *>::iterator it = children_.begin(); it != children_.end(); ++it) {
             (*it)->draw(c);
         }
-    }
+    //}
 }
 
 void Group::update(int ticks)

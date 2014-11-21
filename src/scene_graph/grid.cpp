@@ -1,7 +1,7 @@
 #include <iostream>
 #include <stdlib.h>
 #include "GL/glut.h"
-#include "grid.h"
+#include "scene_graph/grid.h"
 #include "globals.h"
 
 Grid::Grid()
@@ -10,10 +10,10 @@ Grid::Grid()
 
 void Grid::draw(Matrix4 c)
 {
-    if(Globals::frustum.sphereInFrustum(center_point_, bound_radius_)) {
+    //if(Globals::frustum.sphereInFrustum(center_point_, bound_radius_)) {
         Geode::draw(c);
         render();
-    }
+    //}
 }
 
 void Grid::update(int ticks)

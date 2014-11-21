@@ -2,7 +2,7 @@
 #define CSE_167_CUBE_H_
 
 #include "matrix4.h"
-#include "geode.h"
+#include "scene_graph/geode.h"
 
 const double kDefaultSize = 1;
 
