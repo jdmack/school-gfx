@@ -78,6 +78,13 @@ void Model::parse(std::string filename)
     int c1, c2;
 
     std::ifstream infile(filename);
+
+    if(!infile.is_open()) {
+        std::cout << "Failed to open file: " << filename << std::endl;
+        exit(-1);
+        return;
+    }
+
     std::string line;
     std::vector<std::string> tokens;
     std::string token;
