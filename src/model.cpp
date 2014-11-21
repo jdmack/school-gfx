@@ -6,6 +6,7 @@
 #include <vector>
 #include <fstream>
 #include <iostream>
+#include <sstream>
 #include "model.h"
 #include "matrix4.h"
 #include "camera.h"
@@ -42,7 +43,8 @@ void Model::display(Camera camera)
     glBegin(GL_TRIANGLES);
 
     for(unsigned int i = 0; i < faces_.size(); i++) {
-        //glColor3f(normals_[i].x(), normals_[i].y(), normals_[i].z());
+        glColor3d(faces_[i].color1().r(), faces_[i].color1().g(), faces_[i].color1().b());
+        //glColor3d(1.0, 1.0, 1.0);
 
         //glNormal3d(normals_[i].x(), normals_[i].y(), normals_[i].z());
 
@@ -60,10 +62,115 @@ void Model::update(int ticks)
 void Model::reset()
 {
     Object::reset();
+    calculate_scale();
 }
 
 void Model::parse(std::string filename)
 {
+    std::cerr << "Reading File: " << filename << std::endl;
+
+    FILE * file_p;
+
+    double x, y, z;
+    double r, g, b;
+    int v1, v2, v3;
+    int n1, n2, n3;
+    int c1, c2;
+
+    std::ifstream infile(filename);
+    std::string line;
+    std::vector<std::string> tokens;
+    std::string token;
+
+    while(std::getline(infile, line)) {
+        tokens = split(line, ' ');
+
+        if(tokens.at(0).compare("v") == 0) {
+            //Parse rest of tokens into doubles
+            x = std::stod(tokens.at(1));
+            y = std::stod(tokens.at(2));
+            z = std::stod(tokens.at(3));
+
+            if(tokens.size() == 7) {
+                r = std::stod(tokens.at(4));
+                g = std::stod(tokens.at(5));
+                b = std::stod(tokens.at(6));
+            }
+            else {
+                r = 1.0;
+                g = 1.0;
+                b = 1.0;
+            }
+
+            vertices_.push_back(Vector3(x, y, z));
+            colors_.push_back(Color(r, g, b));
+        }
+
+        else if(tokens.at(0).compare("vn") == 0) {
+            x = std::stod(tokens.at(1));
+            y = std::stod(tokens.at(2));
+            z = std::stod(tokens.at(3));
+
+            normals_.push_back(Vector3(x, y, z));
+        }
+        else if(tokens.at(0).compare("f") == 0) {
+
+            std::vector<std::string> face_tokens;
+
+            token = tokens.at(1);
+            face_tokens = split(token, '//');
+            v1 = std::stoi(face_tokens.at(0)) - 1;
+            n1 = std::stoi(face_tokens.at(1)) - 1;
+            
+            token = tokens.at(2);
+            face_tokens = split(token, '//');
+            v2 = std::stoi(face_tokens.at(0)) - 1;
+            n2 = std::stoi(face_tokens.at(1)) - 1;
+            
+            token = tokens.at(3);
+            face_tokens = split(token, '//');
+            v3 = std::stoi(face_tokens.at(0)) - 1;
+            n3 = std::stoi(face_tokens.at(1)) - 1;
+
+
+            if((v1 >= vertices_.size()) || (v2 >= vertices_.size()) || (v3 >= vertices_.size())) {
+                std::cerr << "Error: Vertices out of range: " << v1 << ", " << v2 << ", " << v3 << std::endl;
+                continue;
+            }
+            if((n1 >= normals_.size()) || (n2 >= normals_.size()) || (n3 >= normals_.size())) {
+                std::cerr << "Error: Normals out of range: " << n1 << ", " << n2 << ", " << n3 << std::endl;
+                continue;
+            }
+            faces_.push_back(Triangle(vertices_[v1], normals_[n1], colors_[v1], vertices_[v2], normals_[n2], colors_[v2], vertices_[v3], normals_[n3], colors_[v3]));
+        }
+    
+
+
+    }
+
+
+
+
+
+
+    std::cerr << "Vertices: " << vertices_.size() << std::endl;
+    std::cerr << "Normals: " << normals_.size() << std::endl;
+    std::cerr << "Colors: " << colors_.size() << std::endl;
+    std::cerr << "Faces: " << faces_.size() << std::endl;
+
+
+    calculate_dim();
+    reset();
+
+    std::cout << "Scale Matrix: " << std::endl;
+    matrix_obj_.print();
+}
+
+/*
+void Model::parse(std::string filename)
+{
+    std::cerr << "Reading File: " << filename << std::endl;
+
     FILE * file_p;
 
     float x, y, z;
@@ -71,6 +178,8 @@ void Model::parse(std::string filename)
     int v1, v2, v3;
     int n1, n2, n3;
     int c1, c2;
+
+    int matches;
 
     file_p = fopen( filename.c_str(), "rb");
     if(file_p == NULL) {
@@ -82,8 +191,15 @@ void Model::parse(std::string filename)
         c2 = fgetc(file_p);
 
         if((c1 == 'v') && (c2 == ' ')) {
-            fscanf(file_p, "%f %f %f %f %f %f", &x, &y, &z, &r, &g, &b);
+            matches = fscanf(file_p, "%f %f %f %f %f %f", &x, &y, &z, &r, &g, &b);
+            //std::cerr << "Matches: " << matches << std::endl;
+            if(matches == 3) {
+                r = 1.0;
+                g = 1.0;
+                b = 1.0;
+            }
             vertices_.push_back(Vector3(x, y, z));
+            colors_.push_back(Color(r, g, b));
         }
         else if((c1 == 'v') && (c2 == 'n')) {
             fscanf(file_p, "%f %f %f ", &x, &y, &z);
@@ -108,11 +224,118 @@ void Model::parse(std::string filename)
                 std::cerr << "Error: Normals out of range: " << n1 << ", " << n2 << ", " << n3 << std::endl;
                 continue;
             }
-            faces_.push_back(Triangle(vertices_[v1], normals_[n1], vertices_[v2], normals_[n2], vertices_[v3], normals_[n3]));
+            faces_.push_back(Triangle(vertices_[v1], normals_[n1], colors_[v1], vertices_[v2], normals_[n2], colors_[v2], vertices_[v3], normals_[n3], colors_[v3]));
+        }
+    }
+    std::cerr << "Vertices: " << vertices_.size() << std::endl;
+    std::cerr << "Normals: " << normals_.size() << std::endl;
+    std::cerr << "Colors: " << colors_.size() << std::endl;
+    std::cerr << "Faces: " << faces_.size() << std::endl;
+
+    fclose(file_p);
+
+    calculate_dim();
+    reset();
+
+    std::cout << "Scale Matrix: " << std::endl;
+    matrix_obj_.print();
+}
+*/
+
+void Model::calculate_dim()
+{
+
+    for(unsigned int i = 0; i < vertices_.size(); i++) {
+
+        if(vertices_[i].x() > largest_x_.x()) {
+            largest_x_ = vertices_[i];
+        }
+        if(vertices_[i].y() > largest_y_.y()) {
+            largest_y_ = vertices_[i];
+        }
+        if(vertices_[i].z() > largest_z_.z()) {
+            largest_z_ = vertices_[i];
+        }
+        if(vertices_[i].x() < smallest_x_.x()) {
+            smallest_x_ = vertices_[i];
+        }
+        if(vertices_[i].y() < smallest_y_.y()) {
+            smallest_y_ = vertices_[i];
+        }
+        if(vertices_[i].z() < smallest_z_.z()) {
+            smallest_z_ = vertices_[i];
         }
     }
 
-    fclose(file_p);   // make sure you don't forget to close the file when done
+    double mid_x = (largest_x_.x() + smallest_x_.x()) / 2;
+    double mid_y = (largest_y_.y() + smallest_y_.y()) / 2;
+    double mid_z = (largest_z_.z() + smallest_z_.z()) / 2;
+    center_ = Vector3(mid_x, mid_y, mid_z);
+
+    std::cout << "X range: [" << smallest_x_.x() << ", " << largest_x_.x() << "]" << std::endl;
+    std::cout << "Y range: [" << smallest_y_.y() << ", " << largest_y_.y() << "]" << std::endl;
+    std::cout << "Z range: [" << smallest_z_.z() << ", " << largest_z_.z() << "]" << std::endl;
+    std::cout << "Center: " << center_.str() << std::endl;
+
+    // TRANSLATE for CENTERING
+    double translate_x = 0 - center_.x();
+    double translate_y = 0 - center_.y();
+    double translate_z = 0 - center_.z();
+
+    matrix_o2w_.translate(translate_x, translate_y, translate_z);
+    std::cout << "Translate Matrix: " << std::endl;
+    matrix_o2w_.print();
+
+    for(unsigned int i = 0; i < vertices_.size(); i++) {
+        vertices_[i].transform(matrix_o2w_);
+    }
+    largest_x_.transform(matrix_o2w_);
+    smallest_x_.transform(matrix_o2w_);
+    largest_y_.transform(matrix_o2w_);
+    smallest_y_.transform(matrix_o2w_);
+    largest_z_.transform(matrix_o2w_);
+    smallest_z_.transform(matrix_o2w_);
+
+    matrix_o2w_.identity();
 }
 
+void Model::calculate_scale()
+{
+    double screen_width = 18;
+    double screen_height = 20;
 
+    double width = std::abs(smallest_x_.x()) + std::abs(largest_x_.x());
+    double height = std::abs(smallest_y_.y()) + std::abs(largest_y_.y());
+    //std::cout << "Width: " << width << std::endl;
+    //std::cout << "Height: " << height << std::endl;
+
+    double x_scale = screen_width / width;
+    double y_scale = screen_height / height;
+
+    if(x_scale < y_scale) {
+        matrix_obj_.scale(x_scale, x_scale, x_scale);
+    }
+    else {
+        matrix_obj_.scale(y_scale, y_scale, y_scale);
+    }
+}
+
+//Split functions from the interwebs
+//http://stackoverflow.com/questions/236129/split-a-string-in-c
+std::vector<std::string> & Model::split(const std::string &s, char delim, std::vector<std::string> &elems)
+{
+    std::stringstream ss(s);
+    std::string item;
+    while(std::getline(ss, item, delim))
+    {
+        elems.push_back(item);
+    }
+    return elems;
+}
+
+std::vector<std::string> Model::split(const std::string &s, char delim)
+{
+    std::vector<std::string> elems;
+    split(s, delim, elems);
+    return elems;
+}

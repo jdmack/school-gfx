@@ -158,14 +158,16 @@ void keyboard_special_callback(int key, int x, int y)
             break;
 
         case GLUT_KEY_F1:
-
+            Globals::focus = Globals::bunny;
             break;
 
         case GLUT_KEY_F2:
+            Globals::focus = Globals::dragon;
 
             break;
 
         case GLUT_KEY_F3:
+            Globals::focus = Globals::bear;
 
             break;
 
@@ -194,6 +196,10 @@ void keyboard_special_callback(int key, int x, int y)
 void setup()
 {
     Globals::bunny = new Model("obj/bunny.obj");
+    //Globals::dragon = new Model("obj/dragon.obj");
+    //Globals::bear = new Model("obj/bear.obj");
 
     Globals::focus = Globals::bunny;
+    //Globals::focus = Globals::dragon;
+    //Globals::focus = Globals::bear;
 }
