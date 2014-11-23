@@ -36,22 +36,11 @@ void SpotLight::enable()
     glMatrixMode(GL_MODELVIEW);
     glLoadMatrixd(matrix.pointer());
 
-    glLightfv(GL_LIGHT0 + number_, GL_AMBIENT, ambient_);
-    glLightfv(GL_LIGHT0 + number_, GL_DIFFUSE, diffuse_);
-    glLightfv(GL_LIGHT0 + number_, GL_SPECULAR, specular_);
-    glLightfv(GL_LIGHT0 + number_, GL_POSITION, position_);
-    //glLightfv(GL_LIGHT0 + number_, GL_CONSTANT_ATTENUATION, constant_atten_);
-    //glLightfv(GL_LIGHT0 + number_, GL_LINEAR_ATTENUATION, linear_atten_);
-    //glLightfv(GL_LIGHT0 + number_, GL_QUADRATIC_ATTENUATION, quadratic_atten_);
-
     glLightfv(GL_LIGHT0 + number_, GL_SPOT_DIRECTION, direction_);
     glLightfv(GL_LIGHT0 + number_, GL_SPOT_EXPONENT, exponent_);
     glLightfv(GL_LIGHT0 + number_, GL_SPOT_CUTOFF, cutoff_);
 
-    enabled_ = true;
-
-    glEnable(GL_LIGHT0 + number_);
-    //Light::enable();
+    Light::enable();
 
 }
 

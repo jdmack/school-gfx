@@ -285,18 +285,16 @@ void setup()
     Globals::bunny->set_material(material3);
 
     Globals::light1 = new Light(1);
-    //Globals::light1->set_ambient(0.1, 0.1, 0.1, 1.0);
-    Globals::light1->set_diffuse(1.2, 1.2, 1.2, 1.0);
     Globals::light1->set_ambient(0.0, 0.0, 0.0, 0.0);
-    //Globals::light1->set_diffuse(0.0, 0.0, 0.0, 0.0);
+    Globals::light1->set_diffuse(1.2, 1.2, 1.2, 1.0);
     Globals::light1->set_specular(0.0, 0.0, 0.0, 0.0);
 
     Globals::light2 = new SpotLight(2);
     Globals::light2->set_position(0.0, 0.0, 10.0, 1.0);
     Globals::light2->set_direction(0.0, 0.0, -1.0);
 
-    //Globals::light2->set_ambient(0.1, 0.1, 0.1, 1.0);
-    Globals::light2->set_diffuse(1.0, 1.0, 1.0, 1.0);
+    Globals::light2->set_ambient(0.1, 0.1, 0.1, 1.0);
+    Globals::light2->set_diffuse(1.0, 1.0, 0.0, 1.0);
     Globals::light2->set_specular(0.0, 0.0, 0.0, 1.0);
 
     Globals::light2->set_cutoff(10.0);

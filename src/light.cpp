@@ -9,10 +9,11 @@ Light::Light()
 
     enabled_ = false;
 
-    set_ambient(0.2, 0.2, 0.2, 1.0);
-    set_diffuse(0.8, 0.8, 0.8, 1.0);
-    set_specular(0.0, 0.0, 0.0, 1.0);
     set_position(0.0, 0.0, 1.0, 1.0);
+
+    set_ambient(0.0, 0.0, 0.0, 1.0);
+    set_diffuse(1.0, 1.0, 1.0, 1.0);
+    set_specular(1.0, 1.0, 1.0, 1.0);
 
     constant_atten_[0] = 1.0;
     linear_atten_[0] = 0.0;
@@ -21,15 +22,19 @@ Light::Light()
 
 Light::Light(int number)
 {
-    std::cerr << "Light(number)" << std::endl;
     number_ = number;
 
     enabled_ = false;
 
-    set_ambient(0.2, 0.2, 0.2, 1.0);
-    set_diffuse(0.8, 0.8, 0.8, 1.0);
-    set_specular(0.0, 0.0, 0.0, 1.0);
     set_position(0.0, 0.0, 1.0, 1.0);
+
+    set_ambient(0.0, 0.0, 0.0, 1.0);
+    set_diffuse(1.0, 1.0, 1.0, 1.0);
+    set_specular(1.0, 1.0, 1.0, 1.0);
+
+    constant_atten_[0] = 1.0;
+    linear_atten_[0] = 0.0;
+    quadratic_atten_[0] = 0.0;
 }
 
 void Light::set_ambient(float a, float b, float c, float d)
@@ -81,9 +86,9 @@ void Light::enable()
     glLightfv(GL_LIGHT0 + number_, GL_DIFFUSE, diffuse_);
     glLightfv(GL_LIGHT0 + number_, GL_SPECULAR, specular_);
     glLightfv(GL_LIGHT0 + number_, GL_POSITION, position_);
-    //glLightfv(GL_LIGHT0 + number_, GL_CONSTANT_ATTENUATION, constant_atten_);
-    //glLightfv(GL_LIGHT0 + number_, GL_LINEAR_ATTENUATION, linear_atten_);
-    //glLightfv(GL_LIGHT0 + number_, GL_QUADRATIC_ATTENUATION, quadratic_atten_);
+    glLightfv(GL_LIGHT0 + number_, GL_CONSTANT_ATTENUATION, constant_atten_);
+    glLightfv(GL_LIGHT0 + number_, GL_LINEAR_ATTENUATION, linear_atten_);
+    glLightfv(GL_LIGHT0 + number_, GL_QUADRATIC_ATTENUATION, quadratic_atten_);
     glEnable(GL_LIGHT0 + number_);
     enabled_ = true;
 
