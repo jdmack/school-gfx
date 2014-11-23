@@ -11,6 +11,7 @@
 #include "model.h"
 #include "trackball.h"
 #include "light.h"
+#include "vector4.h"
 
 #define kPi 3.14159265359
 
@@ -80,6 +81,7 @@ int main(int argc, char *argv[])
 // 
 void keyboard_callback(unsigned char key, int x, int y)
 {
+    Vector4 axis(0, 1, 0, 0);
     Vector3 camera_pos;
     Vector3 camera_look_at;
     switch (key) {
@@ -88,6 +90,7 @@ void keyboard_callback(unsigned char key, int x, int y)
 			break;
 
         case 'c':
+            Globals::focus->matrix_o2w().rotate(10, axis);
 			break;
 
         case 'p':
