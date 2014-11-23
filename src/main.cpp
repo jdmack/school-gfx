@@ -38,7 +38,7 @@ int main(int argc, char *argv[])
     glutCreateWindow("CSE167 Project");    	        // open window and set window title
 
     glEnable(GL_DEPTH_TEST);            	        // enable depth buffering
-    //glEnable(GL_NORMALIZE);            	            
+    glEnable(GL_NORMALIZE);            	            
     glClear(GL_DEPTH_BUFFER_BIT);       	        // clear depth buffer
     glClearColor(0.0, 0.0, 0.0, 0.0);   	        // set clear color to black
     glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);      // set polygon drawing mode to fill front and back of each polygon
@@ -207,16 +207,16 @@ void keyboard_special_callback(int key, int x, int y)
             break;
 
         case GLUT_KEY_F1:
-            //Globals::focus = Globals::bunny;
+            Globals::focus = Globals::bunny;
             break;
 
         case GLUT_KEY_F2:
-            //Globals::focus = Globals::dragon;
+            Globals::focus = Globals::dragon;
 
             break;
 
         case GLUT_KEY_F3:
-            //Globals::focus = Globals::bear;
+            Globals::focus = Globals::bear;
 
             break;
 
@@ -288,6 +288,7 @@ void setup()
     Globals::bunny->set_material(material3);
 
     Globals::light1 = new Light(1);
+    Globals::light1->set_position(-3.0, 3.0, 0.0, 1.0);
     Globals::light1->set_ambient(0.0, 0.0, 0.0, 0.0);
     Globals::light1->set_diffuse(1.2, 1.2, 1.2, 1.0);
     Globals::light1->set_specular(0.0, 0.0, 0.0, 0.0);

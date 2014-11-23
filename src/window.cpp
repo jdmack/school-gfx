@@ -53,6 +53,9 @@ void Window::display_callback()
     //Globals::focus->display(Globals::camera.matrix());
     Globals::focus->display();
 
+    Globals::light1->display();
+    Globals::light2->display();
+
     glFlush();  
     glutSwapBuffers();
 }

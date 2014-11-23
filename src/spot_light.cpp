@@ -45,3 +45,16 @@ void SpotLight::enable()
 
 }
 
+void SpotLight::display()
+{
+    if(!enabled_) return;
+    Light::display();
+    Matrix4 matrix(true);
+    matrix.rotate_x(90);
+    matrix.translate(position_[0], position_[1], position_[2]);
+    glMatrixMode(GL_MODELVIEW);
+    glLoadMatrixd(matrix.pointer());
+    glColor3f(1.0, 1.0, 1.0);
+    glutSolidCone(0.2, 1.0, 50, 50);
+
+}

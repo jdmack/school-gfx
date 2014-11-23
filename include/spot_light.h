@@ -25,6 +25,7 @@ class SpotLight : public Light
         void set_cutoff(float cutoff) { cutoff_[0] = cutoff; }
 
         void enable();
+        void display();
 };
 
 

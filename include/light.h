@@ -33,6 +33,7 @@ class Light
         //virtual void set();
         virtual void enable();
         void disable();
+        virtual void display();
 };
 
 
