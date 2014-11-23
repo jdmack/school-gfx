@@ -4,6 +4,7 @@
 #include "camera.h"
 #include "model.h"
 #include "light.h"
+#include "spot_light.h"
 
 namespace Globals
 {
@@ -16,7 +17,7 @@ namespace Globals
     extern Model * focus;
     
     extern Light * light1;
-    extern Light * light2;
+    extern SpotLight * light2;
     extern Matrix4 identity_matrix;
 
 };

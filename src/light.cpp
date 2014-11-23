@@ -1,5 +1,7 @@
+#include <iostream>
 #include "GL/glut.h"
 #include "light.h"
+#include "matrix4.h"
 
 Light::Light()
 {
@@ -10,12 +12,16 @@ Light::Light()
     set_ambient(0.2, 0.2, 0.2, 1.0);
     set_diffuse(0.8, 0.8, 0.8, 1.0);
     set_specular(0.0, 0.0, 0.0, 1.0);
-    set_position(0.2, 10.0, 1.0, 0.0);
+    set_position(0.0, 0.0, 1.0, 1.0);
 
+    constant_atten_[0] = 1.0;
+    linear_atten_[0] = 0.0;
+    quadratic_atten_[0] = 0.0;
 }
 
 Light::Light(int number)
 {
+    std::cerr << "Light(number)" << std::endl;
     number_ = number;
 
     enabled_ = false;
@@ -23,7 +29,7 @@ Light::Light(int number)
     set_ambient(0.2, 0.2, 0.2, 1.0);
     set_diffuse(0.8, 0.8, 0.8, 1.0);
     set_specular(0.0, 0.0, 0.0, 1.0);
-    set_position(0.2, 10.0, 1.0, 0.0);
+    set_position(0.0, 0.0, 1.0, 1.0);
 }
 
 void Light::set_ambient(float a, float b, float c, float d)
@@ -50,27 +56,42 @@ void Light::set_diffuse(float a, float b, float c, float d)
     diffuse_[3] = d;
 }
 
-void Light::set_position(float a, float b, float c, float d)
+void Light::set_position(float x, float y, float z, float w)
 {
-    position_[0] = a;
-    position_[1] = b;
-    position_[2] = c;
-    position_[3] = d;
+    std::cerr << "setting position: " << x << ", " << y << ", " << z << ", " << w << std::endl; 
+    position_[0] = x;
+    position_[1] = y;
+    position_[2] = z;
+    position_[3] = w;
 }
 
 void Light::enable()
 {
-    enabled_ = true;
+    std::cerr << "Light " << number_ << " enabled" << std::endl;
+    //std::cerr << "Light " << number_ << " set" << std::endl;
+    Matrix4 matrix(true);
+    glMatrixMode(GL_MODELVIEW);
+    glLoadMatrixd(matrix.pointer());
+
+    //std::cerr << "ambient: " << ambient_[0] << ", " << ambient_[1] << ", " << ambient_[2] << ", " << ambient_[3] << std::endl; 
+    //std::cerr << "diffuse: " << diffuse_[0] << ", " << diffuse_[1] << ", " << diffuse_[2] << ", " << diffuse_[3] << std::endl; 
+    //std::cerr << "specular_: " << specular_[0] << ", " << specular_[1] << ", " << specular_[2] << ", " << specular_[3] << std::endl; 
+
     glLightfv(GL_LIGHT0 + number_, GL_AMBIENT, ambient_);
     glLightfv(GL_LIGHT0 + number_, GL_DIFFUSE, diffuse_);
     glLightfv(GL_LIGHT0 + number_, GL_SPECULAR, specular_);
     glLightfv(GL_LIGHT0 + number_, GL_POSITION, position_);
-
+    //glLightfv(GL_LIGHT0 + number_, GL_CONSTANT_ATTENUATION, constant_atten_);
+    //glLightfv(GL_LIGHT0 + number_, GL_LINEAR_ATTENUATION, linear_atten_);
+    //glLightfv(GL_LIGHT0 + number_, GL_QUADRATIC_ATTENUATION, quadratic_atten_);
     glEnable(GL_LIGHT0 + number_);
+    enabled_ = true;
+
 }
 
 void Light::disable()
 {
+    std::cerr << "Light " << number_ << " disabled" << std::endl;
     enabled_ = false;
     glDisable(GL_LIGHT0 + number_);
 }

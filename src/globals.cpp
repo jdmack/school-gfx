@@ -2,6 +2,7 @@
 #include "camera.h"
 #include "model.h"
 #include "light.h"
+#include "spot_light.h"
 
 namespace Globals
 {
@@ -15,5 +16,5 @@ namespace Globals
     Model * bear;
     Model * focus;
     Light * light1;
-    Light * light2;
+    SpotLight * light2;
 };

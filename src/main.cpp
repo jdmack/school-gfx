@@ -103,27 +103,27 @@ void keyboard_callback(unsigned char key, int x, int y)
 			break;
 
         case 'x':
-            Globals::focus->matrix_o2w().translate(1.0, 0.0, 0.0);
-            break;
-
-        case 'X':
             Globals::focus->matrix_o2w().translate(-1.0, 0.0, 0.0);
             break;
 
-        case 'y':
-            Globals::focus->matrix_o2w().translate(0.0, 1.0, 0.0);
+        case 'X':
+            Globals::focus->matrix_o2w().translate(1.0, 0.0, 0.0);
             break;
 
-        case 'Y':
+        case 'y':
             Globals::focus->matrix_o2w().translate(0.0, -1.0, 0.0);
             break;
 
+        case 'Y':
+            Globals::focus->matrix_o2w().translate(0.0, 1.0, 0.0);
+            break;
+
         case 'z':
-            Globals::focus->matrix_o2w().translate(0.0, 0.0, 1.0);
+            Globals::focus->matrix_o2w().translate(0.0, 0.0, -1.0);
             break;
 
         case 'Z':
-            Globals::focus->matrix_o2w().translate(0.0, 0.0, -1.0);
+            Globals::focus->matrix_o2w().translate(0.0, 0.0, 1.0);
             break;
 
         case 'j':
@@ -154,19 +154,28 @@ void keyboard_callback(unsigned char key, int x, int y)
         case 'a':
 			break;
 
-        case 'd':
+        case 'l':
+            Globals::light1->disable();
+            Globals::light2->disable();
 			break;
 
-        case 'l':
+        case '1':
             if(Globals::light1->enabled()) {
                 Globals::light1->disable();
-                Globals::light2->enable();
             }
             else {
-                Globals::light2->disable();
                 Globals::light1->enable();
             }
-			break;
+            break;
+
+        case '2':
+            if(Globals::light2->enabled()) {
+                Globals::light2->disable();
+            }
+            else {
+                Globals::light2->enable();
+            }
+            break;
 
 		case 32: // spacebar
 			break;
@@ -275,14 +284,25 @@ void setup()
     //Globals::bunny->set_material(material2);
     Globals::bunny->set_material(material3);
 
-    Globals::light1 = new Light();
+    Globals::light1 = new Light(1);
+    //Globals::light1->set_ambient(0.1, 0.1, 0.1, 1.0);
+    Globals::light1->set_diffuse(1.2, 1.2, 1.2, 1.0);
+    Globals::light1->set_ambient(0.0, 0.0, 0.0, 0.0);
+    //Globals::light1->set_diffuse(0.0, 0.0, 0.0, 0.0);
+    Globals::light1->set_specular(0.0, 0.0, 0.0, 0.0);
 
-    Globals::light2 = new Light();
-    Globals::light1->set_diffuse(5.0, 5.0, 5.0, 1.0);
-    Globals::light2->set_specular(5.0, 5.0, 5.0, 1.0);
-    //Globals::light1->set_specular(0.0, 0.0, 0.0, 1.0);
+    Globals::light2 = new SpotLight(2);
+    Globals::light2->set_position(0.0, 0.0, 10.0, 1.0);
+    Globals::light2->set_direction(0.0, 0.0, -1.0);
 
-    Globals::light1->enable();
+    //Globals::light2->set_ambient(0.1, 0.1, 0.1, 1.0);
+    Globals::light2->set_diffuse(1.0, 1.0, 1.0, 1.0);
+    Globals::light2->set_specular(0.0, 0.0, 0.0, 1.0);
+
+    Globals::light2->set_cutoff(10.0);
+    Globals::light2->set_exponent(45.0);
+
+    //Globals::light2->enable();
 }
 
 
