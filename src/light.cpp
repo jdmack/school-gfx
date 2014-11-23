@@ -1,4 +1,5 @@
 #include <iostream>
+#include <stdlib.h>
 #include "GL/glut.h"
 #include "light.h"
 #include "matrix4.h"

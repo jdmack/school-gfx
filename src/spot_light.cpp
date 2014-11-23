@@ -1,4 +1,5 @@
 #include <iostream>
+#include <stdlib.h>
 #include "GL/glut.h"
 #include "spot_light.h"
 #include "light.h"
