@@ -44,7 +44,8 @@ void Trackball::mouse_move(int x, int y)
             //std::cerr << "velocity: " << velocity << std::endl;
 
             if(velocity > 0.001) {
-                rotate_axis3 = last_point.cross_product(cur_point);
+                //rotate_axis3 = last_point.cross_product(cur_point);
+                rotate_axis3 = cur_point.cross_product(last_point);
                 rotate_axis3.normalize();
                 rot_angle = velocity * kRotateScale;
                 std::cerr << "rotate_axis: " << rotate_axis3.str() << std::endl;
@@ -121,7 +122,7 @@ Vector3 Trackball::trackball_mapping(int x, int y)
 
     Vector3 v = Vector3();
     double new_x = (2.0 * d_x - width) / width;
-    double new_y = (height - 2.0 * d_y) / height;
+    double new_y = - (height - 3.0 * d_y) / height;
     //std::cerr << "new_x: " << new_x << std::endl;
     //std::cerr << "new_y: " << new_y << std::endl;
 
