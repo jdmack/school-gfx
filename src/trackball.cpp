@@ -6,6 +6,8 @@
 #include "vector3.h"
 #include "window.h"
 #include "globals.h"
+#include "triangle.h"
+#include "model.h"
 
 MouseMovement Trackball::movement = NONE;
 Vector3 Trackball::last_point = Vector3();
@@ -23,6 +25,9 @@ void Trackball::mouse_move(int x, int y)
     double pixel_diff;
     double rot_angle, zoom_factor;
     double velocity;
+    float cutoff;
+    float cutoff_factor;
+    Triangle point_at;
 
     Vector3 rotate_axis3;
     Vector4 rotate_axis4;
@@ -38,29 +43,48 @@ void Trackball::mouse_move(int x, int y)
             //std::cerr << "last_point: " << last_point.str() << std::endl;
 
             cur_point = trackball_mapping(x, y);
-            direction = cur_point - last_point;
-            velocity = direction.magnitude();
 
-            //std::cerr << "velocity: " << velocity << std::endl;
+            if(Globals::mouse_light) {
+                for(std::vector<Triangle>::iterator it = Globals::focus->faces().begin(); it != Globals::focus->faces().end(); ++it) {
 
-            if(velocity > 0.001) {
-                //rotate_axis3 = last_point.cross_product(cur_point);
-                rotate_axis3 = cur_point.cross_product(last_point);
-                rotate_axis3.normalize();
-                rot_angle = velocity * kRotateScale;
-                std::cerr << "rotate_axis: " << rotate_axis3.str() << std::endl;
-                //std::cerr << "rot_angle: " << rot_angle << std::endl;
-                
-                rotate_axis4 = Vector4(rotate_axis3.x(), rotate_axis3.y(), rotate_axis3.z(), 0);
+                    if(rayIntersectsTriangle(Vector3(x, y, 0), (*it).vertex1(), (*it).vertex2(), (*it).vertex3())) {
+                        point_at = *it;
+                        break;
 
-                rotation.identity();
-                rotation.rotate(rot_angle, rotate_axis4);
-                //rotation = rotate_matrix * rotation;
-                //rotation = rotate_matrix;
-                //std::cerr << "rotation matrix: " << std::endl;
-                //rotation.print();
-                //Globals::focus->matrix_o2w() = Globals::focus->matrix_obj().multiply(rotation);
-                Globals::focus->matrix_o2w() = Globals::focus->matrix_o2w().multiply(rotation);
+                        std::cerr << "FOUND POINT_AT TRIANGLE" << std::endl;
+                        Globals::light1->set_direction((*it).vertex1().x(), (*it).vertex1().y(), (*it).vertex1().z());
+                        std::cerr << "Point at: (" << (*it).vertex1().x() << ", " <<  (*it).vertex1().y() << ", " 
+                            << (*it).vertex1().z() << ")" << std::endl;
+                        Globals::light1->enable();
+                    }
+                }
+
+            }
+            else {
+                direction = cur_point - last_point;
+                velocity = direction.magnitude();
+
+                //std::cerr << "velocity: " << velocity << std::endl;
+
+                if(velocity > 0.001) {
+                    //rotate_axis3 = last_point.cross_product(cur_point);
+                    rotate_axis3 = cur_point.cross_product(last_point);
+                    rotate_axis3.normalize();
+                    rot_angle = velocity * kRotateScale;
+                    std::cerr << "rotate_axis: " << rotate_axis3.str() << std::endl;
+                    //std::cerr << "rot_angle: " << rot_angle << std::endl;
+                    
+                    rotate_axis4 = Vector4(rotate_axis3.x(), rotate_axis3.y(), rotate_axis3.z(), 0);
+
+                    rotation.identity();
+                    rotation.rotate(rot_angle, rotate_axis4);
+                    //rotation = rotate_matrix * rotation;
+                    //rotation = rotate_matrix;
+                    //std::cerr << "rotation matrix: " << std::endl;
+                    //rotation.print();
+                    //Globals::focus->matrix_o2w() = Globals::focus->matrix_obj().multiply(rotation);
+                    Globals::focus->matrix_o2w() = Globals::focus->matrix_o2w().multiply(rotation);
+                }
             }
             break;
         case ZOOM:
@@ -68,12 +92,20 @@ void Trackball::mouse_move(int x, int y)
             pixel_diff = cur_point.x() - last_point.x();
             zoom_factor = 1.0 + pixel_diff * kZoomScale;
 
-            scaling.identity();
-            scaling.scale(zoom_factor, zoom_factor, zoom_factor);
-            Globals::focus->matrix_obj() = Globals::focus->matrix_obj().multiply(scaling);
-            //scaling = scaling * s;
-            //scaling_mt->setMatrix(scaling);
-            //displayCallback();
+            if(Globals::mouse_light) {
+                cutoff = *Globals::light1->cutoff();
+                cutoff_factor = 1.0 + pixel_diff * kCutoffScale;
+                Globals::light1->set_cutoff(cutoff * cutoff_factor);
+                Globals::light1->enable();
+            }
+            else {
+                scaling.identity();
+                scaling.scale(zoom_factor, zoom_factor, zoom_factor);
+                Globals::focus->matrix_obj() = Globals::focus->matrix_obj().multiply(scaling);
+                //scaling = scaling * s;
+                //scaling_mt->setMatrix(scaling);
+                //displayCallback();
+            }
 
             break;
 
@@ -145,4 +177,47 @@ Vector3 Trackball::trackball_mapping(int x, int y)
     //std::cerr << "trackball_mapping() returning: " << v.str() << std::endl;
 
     return v;
+}
+
+bool Trackball::rayIntersectsTriangle(Vector3 p, Vector3 v0, Vector3 v1, Vector3 v2) 
+{
+
+    Vector3 d = Vector3(0, 0, 1);
+    Vector3 e1, e2, h, s, q;
+    float a, f, u, v;
+    float t;
+    e1 = Vector3(v1 - v0);
+    e2 = Vector3(v2 - v0);
+
+    h = d.cross_product(e2);
+    a = e1.dot_product(h);
+
+    if (a > -0.00001 && a < 0.00001)
+        return(false);
+
+    f = 1 / a;
+    s = Vector3(p - v0);
+    u = f * (s.dot_product(h));
+
+    if (u < 0.0 || u > 1.0)
+        return(false);
+
+    q = s.cross_product(e1);
+    v = f * d.dot_product(q);
+
+    if (v < 0.0 || u + v > 1.0)
+        return(false);
+
+    // at this stage we can compute t to find out where
+    // the intersection point is on the line
+    t = f * e2.dot_product(q);
+
+    if(t > 0.00001)  {// ray intersection
+        std::cerr << "Found: (" << v0.str() << ", " <<  v1.str() << ", " << v2.str() << ")" << std::endl;
+        return(true);
+    }
+
+    else // this means that there is a line intersection
+         // but not a ray intersection
+         return (false);
 }

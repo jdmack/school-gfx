@@ -1,10 +1,12 @@
 varying vec4 diffuse,ambientGlobal, ambient, ecPos;
 varying vec3 normal,halfVector;
-varying float dist;
+/* varying float dist; */
+float dist;
  
  
 void main()
 {
+    vec3 lightDir;
     vec3 n,halfV;
     float NdotL,NdotHV;
     vec4 color = ambientGlobal;

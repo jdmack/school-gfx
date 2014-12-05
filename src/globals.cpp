@@ -10,11 +10,12 @@ namespace Globals
     bool flag = false;
     bool pause = false;
     Matrix4 identity_matrix;
+    bool mouse_light = false;
 
     Model * bunny;
     Model * dragon;
     Model * bear;
     Model * focus;
-    Light * light1;
-    SpotLight * light2;
+    Light * light2;
+    SpotLight * light1;
 };

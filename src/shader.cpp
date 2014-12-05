@@ -48,14 +48,14 @@ Shader::~Shader()
 void
 Shader::bind()
 {
-    std::cerr << "Binding shader" << std::endl;
+    //std::cerr << "Binding shader" << std::endl;
     if(active_)
 	    glUseProgramObjectARB(pid);
 }
 void
 Shader::unbind()
 {
-    std::cerr << "Unbinding shader" << std::endl;
+    //std::cerr << "Unbinding shader" << std::endl;
     if(active_)
 	    glUseProgramObjectARB(0);
 }
@@ -134,5 +134,10 @@ Shader::setup(const char *vs, const char *fs)
 	glDeleteObjectARB(fid);
 	
 	glLinkProgramARB(pid);
+}
+
+void Shader::toggle()
+{
+    active_ = !active_;
 }
 

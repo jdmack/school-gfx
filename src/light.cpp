@@ -87,9 +87,9 @@ void Light::enable()
     glLightfv(GL_LIGHT0 + number_, GL_DIFFUSE, diffuse_);
     glLightfv(GL_LIGHT0 + number_, GL_SPECULAR, specular_);
     glLightfv(GL_LIGHT0 + number_, GL_POSITION, position_);
-    glLightfv(GL_LIGHT0 + number_, GL_CONSTANT_ATTENUATION, constant_atten_);
-    glLightfv(GL_LIGHT0 + number_, GL_LINEAR_ATTENUATION, linear_atten_);
-    glLightfv(GL_LIGHT0 + number_, GL_QUADRATIC_ATTENUATION, quadratic_atten_);
+    //glLightfv(GL_LIGHT0 + number_, GL_CONSTANT_ATTENUATION, constant_atten_);
+    //glLightfv(GL_LIGHT0 + number_, GL_LINEAR_ATTENUATION, linear_atten_);
+    //glLightfv(GL_LIGHT0 + number_, GL_QUADRATIC_ATTENUATION, quadratic_atten_);
     glEnable(GL_LIGHT0 + number_);
     enabled_ = true;
 

@@ -95,9 +95,9 @@ void keyboard_callback(unsigned char key, int x, int y)
             Globals::focus->matrix_o2w().rotate(10, axis);
 			break;
 
-        case 'p':
-            Globals::pause = !Globals::pause;
-			break;
+        //case 'p':
+        //    Globals::pause = !Globals::pause;
+	    //    break;
 
         case 's':
             Globals::focus->matrix_obj().scale(0.9, 0.9, 0.9);
@@ -155,21 +155,28 @@ void keyboard_callback(unsigned char key, int x, int y)
             Globals::focus->matrix_o2w().rotate_z(-10);
 			break;
 
+        case 'p':
+            Globals::focus->shader()->toggle();
+			break;
+
 
         case 'a':
 			break;
 
         case 'l':
-            Globals::light1->disable();
-            Globals::light2->disable();
+            //Globals::light1->disable();
+            //Globals::light2->disable();
+            Globals::mouse_light = !Globals::mouse_light;
 			break;
 
         case '1':
             if(Globals::light1->enabled()) {
                 Globals::light1->disable();
+                //Globals::focus->shader()->set_active(false);
             }
             else {
                 Globals::light1->enable();
+                //Globals::focus->shader()->set_active(true);
             }
             break;
 
@@ -255,8 +262,11 @@ void setup()
     //Globals::focus = Globals::bear;
 
     // setup shaders
-    Shader * bunny_shader = new Shader("shader/minimal.vert", "shader/minimal.frag", true);
+    Shader * bunny_shader = new Shader("shader/spot_light.vert", "shader/spot_light.frag", true);
+    //Shader * bunny_shader = new Shader("shader/minimal.vert", "shader/minimal.frag", true);
     Globals::bunny->set_shader(bunny_shader);
+    Globals::bunny->shader()->printLog();
+    Globals::bunny->shader()->set_active(false);
 
     float no_mat[] = {0.0, 0.0, 0.0, 1.0};
     float mat_ambient[] = {0.7, 0.7, 0.7, 1.0};
@@ -293,23 +303,22 @@ void setup()
     //Globals::bunny->set_material(material2);
     Globals::bunny->set_material(material3);
 
-    Globals::light1 = new Light(1);
-    Globals::light1->set_position(-3.0, 3.0, 0.0, 1.0);
-    Globals::light1->set_ambient(0.0, 0.0, 0.0, 0.0);
-    Globals::light1->set_diffuse(1.2, 1.2, 1.2, 1.0);
-    Globals::light1->set_specular(0.0, 0.0, 0.0, 0.0);
+    Globals::light2 = new Light(1);
+    Globals::light2->set_position(-3.0, 3.0, 0.0, 1.0);
+    Globals::light2->set_ambient(0.0, 0.0, 0.0, 0.0);
+    Globals::light2->set_diffuse(1.2, 1.2, 1.2, 1.0);
+    Globals::light2->set_specular(0.0, 0.0, 0.0, 0.0);
 
-    Globals::light2 = new SpotLight(2);
-    Globals::light2->set_position(0.0, 0.0, 10.0, 1.0);
-    Globals::light2->set_direction(0.0, 0.0, -1.0);
-    Globals::light2->set_direction(-1.0, 1.0, 0.0);
+    Globals::light1 = new SpotLight(0);
+    Globals::light1->set_position(0.0, 0.0, 10.0, 1.0);
+    Globals::light1->set_direction(0.0, 0.0, -1.0);
 
-    Globals::light2->set_ambient(0.1, 0.1, 0.1, 1.0);
-    Globals::light2->set_diffuse(1.0, 1.0, 0.0, 1.0);
-    Globals::light2->set_specular(0.0, 0.0, 0.0, 1.0);
+    Globals::light1->set_ambient(0.1, 0.1, 0.1, 1.0);
+    Globals::light1->set_diffuse(1.0, 1.0, 0.0, 1.0);
+    Globals::light1->set_specular(0.0, 0.0, 0.0, 1.0);
 
-    Globals::light2->set_cutoff(10.0);
-    Globals::light2->set_exponent(45.0);
+    Globals::light1->set_cutoff(10.0);
+    Globals::light1->set_exponent(0.0);
 
     //Globals::light2->enable();
 }

@@ -30,6 +30,8 @@ public:
 	Shader(const char *vert, const char *frag, bool isFile=true);
 	~Shader();
 
+    void set_active(bool active) { active_ = active; }
+
 	/** bind/unbind this shader. */
 	void bind();
 	void unbind();
@@ -46,6 +48,7 @@ public:
 
 	static void enable();
 	static void disable();
+    void toggle();
 
 private:
 	/** read a shader file

@@ -15,9 +15,10 @@ namespace Globals
     extern Model * dragon;
     extern Model * bear;
     extern Model * focus;
+    extern bool mouse_light;
     
-    extern Light * light1;
-    extern SpotLight * light2;
+    extern Light * light2;
+    extern SpotLight * light1;
     extern Matrix4 identity_matrix;
 
 };
