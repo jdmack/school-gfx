@@ -255,10 +255,8 @@ void setup()
     //Globals::focus = Globals::bear;
 
     // setup shaders
-    Shader bunny_shader = Shader("shader/minimal.vert", "shader/minimal.frag", true);
-    //Globals::bunny->set_shader(bunny_shader);
-    bunny_shader.bind();
-    bunny_shader.printLog();
+    Shader * bunny_shader = new Shader("shader/minimal.vert", "shader/minimal.frag", true);
+    Globals::bunny->set_shader(bunny_shader);
 
     float no_mat[] = {0.0, 0.0, 0.0, 1.0};
     float mat_ambient[] = {0.7, 0.7, 0.7, 1.0};

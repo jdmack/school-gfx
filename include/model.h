@@ -24,7 +24,7 @@ class Model : public Object
         Vector3 smallest_y_;
         Vector3 smallest_z_;
 
-        Shader shader_;
+        Shader * shader_;
 
         Vector3 center_;
     public:
@@ -37,9 +37,9 @@ class Model : public Object
         std::vector<Triangle> & faces() { return faces_; }
         std::vector<Color> & colors() { return colors_; }
 
-        Shader & shader() { return shader_; }
+        Shader * shader() { return shader_; }
 
-        void set_shader(Shader shader) { shader_ = shader; }
+        void set_shader(Shader * shader) { shader_ = shader; }
 
         void display(Camera camera = Camera());
         void update(int ticks);

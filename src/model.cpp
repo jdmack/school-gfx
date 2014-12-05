@@ -27,7 +27,7 @@ Model::Model(std::string filename) : Object()
 
 void Model::display(Camera camera)
 {
-    //shader_.bind();
+    shader_->bind();
 
     material_.enable();
 
@@ -62,7 +62,7 @@ void Model::display(Camera camera)
     }
     glEnd();
 
-//    shader_.unbind();
+    shader_->unbind();
 }
 
 void Model::update(int ticks)
