@@ -34,7 +34,7 @@ Shader::Shader(const char *vert, const char *frag, bool isFile)
 
 Shader::~Shader()
 {
-	glDeleteObjectARB(pid);
+    glDeleteObjectARB(pid);
 }
 
 void
