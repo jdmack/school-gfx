@@ -14,11 +14,19 @@ GNU General Public License for more details.
 
 #include <cstdio>
 #include <cstdlib>
+#include <iostream>
 
 #include "shader.h"
 
+Shader::Shader()
+{
+    active_ = false; 
+}
+
 Shader::Shader(const char *vert, const char *frag, bool isFile)
 {
+    active_ = true;
+
 	if(isFile)
 	{
 		char* vv = read(vert);
@@ -40,12 +48,16 @@ Shader::~Shader()
 void
 Shader::bind()
 {
-	glUseProgramObjectARB(pid);
+    std::cerr << "Binding shader" << std::endl;
+    if(active_)
+	    glUseProgramObjectARB(pid);
 }
 void
 Shader::unbind()
 {
-	glUseProgramObjectARB(0);
+    std::cerr << "Unbinding shader" << std::endl;
+    if(active_)
+	    glUseProgramObjectARB(0);
 }
 
 void

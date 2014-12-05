@@ -3,7 +3,7 @@
 
 #include "timer.h"
 
-class Window	  // OpenGL output window related routines
+class GWindow	  // OpenGL output window related routines
 {
     public:
         static int width, height; 	            // window size

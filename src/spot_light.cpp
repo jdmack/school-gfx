@@ -4,6 +4,7 @@
 #include "spot_light.h"
 #include "light.h"
 #include "matrix4.h"
+#include "vector3.h"
 
 SpotLight::SpotLight() : Light()
 {
@@ -50,11 +51,31 @@ void SpotLight::display()
     if(!enabled_) return;
     Light::display();
     Matrix4 matrix(true);
-    matrix.rotate_x(90);
-    matrix.translate(position_[0], position_[1], position_[2]);
+
     glMatrixMode(GL_MODELVIEW);
+
+    // Draw cone
+    Vector3 dir = Vector3(direction_[0], direction_[1], direction_[2]);
+    double x_angle = dir.angle(Vector3(1, 0, 0)) * 180 / kPi;
+    double y_angle = dir.angle(Vector3(0, 1, 0)) * 180 / kPi;
+    double z_angle = dir.angle(Vector3(0, 0, 1)) * 180 / kPi;
+
+    //std::cerr << "x_angle: " << x_angle << std::endl;
+    //std::cerr << "y_angle: " << y_angle << std::endl;
+    //std::cerr << "z_angle: " << z_angle << std::endl;
+    
+    matrix.rotate_x(x_angle);
+    matrix.rotate_y(y_angle);
+    matrix.rotate_z(z_angle);
+
+    glLoadMatrixd(matrix.pointer());
+
+    glutSolidCone(0.2, 1.0, 50, 50);
+
+    matrix.translate(position_[0], position_[1], position_[2]);
+
     glLoadMatrixd(matrix.pointer());
     glColor3f(1.0, 1.0, 1.0);
-    glutSolidCone(0.2, 1.0, 50, 50);
+
 
 }

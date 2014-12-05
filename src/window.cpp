@@ -8,13 +8,13 @@
 #include "globals.h"
 #include "timer.h"
 
-int Window::width  = 512;   // set window width in pixels here
-int Window::height = 512;   // set window height in pixels here
-Timer Window::timer_ = Timer();
+int GWindow::width  = 512;   // set window width in pixels here
+int GWindow::height = 512;   // set window height in pixels here
+Timer GWindow::timer_ = Timer();
 
 //----------------------------------------------------------------------------
 // Callback method called when system is idle.
-void Window::idle_callback()
+void GWindow::idle_callback()
 {
     if(!Globals::pause) {
         Globals::focus->update(timer_.get_ticks());
@@ -27,9 +27,9 @@ void Window::idle_callback()
 
 //----------------------------------------------------------------------------
 // Callback method called by GLUT when graphics window is resized by the user
-void Window::reshape_callback(int w, int h)
+void GWindow::reshape_callback(int w, int h)
 {
-    std::cerr << "Window::reshape_callback called" << std::endl;
+    std::cerr << "GWindow::reshape_callback called" << std::endl;
     width = w;
     height = h;
     glViewport(0, 0, w, h);  // set new viewport size
@@ -42,7 +42,7 @@ void Window::reshape_callback(int w, int h)
 
 //----------------------------------------------------------------------------
 // Callback method called by GLUT when window readraw is necessary or when glutPostRedisplay() was called.
-void Window::display_callback()
+void GWindow::display_callback()
 {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);  // clear color and depth buffers
 

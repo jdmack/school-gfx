@@ -1,3 +1,4 @@
+#include "shader.h"
 #include <stdlib.h>
 #include <cmath>
 #include <GL/glut.h>
@@ -12,9 +13,9 @@
 #include "camera.h"
 #include "object.h"
 
+
 Model::Model() : Object()
 {
-
 }
 
 Model::Model(std::string filename) : Object()
@@ -26,6 +27,8 @@ Model::Model(std::string filename) : Object()
 
 void Model::display(Camera camera)
 {
+    //shader_.bind();
+
     material_.enable();
 
     glMatrixMode(GL_MODELVIEW);         // make sure we're in Objectview mode
@@ -58,6 +61,8 @@ void Model::display(Camera camera)
         glVertex3d(faces_[i].vertex3().x(), faces_[i].vertex3().y(), faces_[i].vertex3().z());
     }
     glEnd();
+
+//    shader_.unbind();
 }
 
 void Model::update(int ticks)

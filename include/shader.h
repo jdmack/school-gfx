@@ -12,8 +12,8 @@
  GNU General Public License for more details.
  */
 
-#ifndef _SHADER_H_
-#define _SHADER_H_
+#ifndef CSE167_SHADER_H_
+#define CSE167_SHADER_H_
 #include "glee.h"
 
 /*! Handles GLSL shaders.  It can load the code from the file or read straight
@@ -23,8 +23,10 @@ class Shader
 public:
 	//unsigned int pid; // prog id
 	GLhandleARB pid; // prog id
+    bool active_;
 
 public:
+	Shader();
 	Shader(const char *vert, const char *frag, bool isFile=true);
 	~Shader();
 

@@ -111,8 +111,8 @@ void Trackball::mouse_func(int button, int state, int x, int y)
 
 Vector3 Trackball::trackball_mapping(int x, int y)
 {
-    double width = (double) Window::width;
-    double height = (double) Window::height;
+    double width = (double) GWindow::width;
+    double height = (double) GWindow::height;
 
     double d_x = (double) x;
     double d_y = (double) y;

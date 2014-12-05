@@ -1,8 +1,9 @@
+#include "glee.h"
+#include "shader.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <iostream>
 
-//#include <GL/GLee.h>
 #include <GL/glut.h>
 
 #include "window.h"
@@ -30,12 +31,12 @@ int main(int argc, char *argv[])
     float shininess[] = {100.0};
     float position[]  = {0.0, 10.0, 1.0, 0.0};	    // lightsource position
 
-    Window::timer_.start();
+    GWindow::timer_.start();
 
     glutInit(&argc, argv);      	      	        // initialize GLUT
     glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB | GLUT_DEPTH);   // open an OpenGL context with double buffering, RGB colors, and depth buffering
     
-    glutInitWindowSize(Window::width, Window::height);      // set initial window size
+    glutInitWindowSize(GWindow::width, GWindow::height);      // set initial window size
     glutCreateWindow("CSE167 Project");    	        // open window and set window title
 
     glEnable(GL_DEPTH_TEST);            	        // enable depth buffering
@@ -60,9 +61,9 @@ int main(int argc, char *argv[])
     //glEnable(GL_LIGHT0);
   
     // Install callback functions:
-    glutDisplayFunc(Window::display_callback);
-    glutReshapeFunc(Window::reshape_callback);
-    glutIdleFunc(Window::idle_callback);
+    glutDisplayFunc(GWindow::display_callback);
+    glutReshapeFunc(GWindow::reshape_callback);
+    glutIdleFunc(GWindow::idle_callback);
     
     // Set keyboard callback functions
     glutKeyboardFunc(keyboard_callback);
@@ -253,6 +254,12 @@ void setup()
     //Globals::focus = Globals::dragon;
     //Globals::focus = Globals::bear;
 
+    // setup shaders
+    Shader bunny_shader = Shader("shader/minimal.vert", "shader/minimal.frag", true);
+    //Globals::bunny->set_shader(bunny_shader);
+    bunny_shader.bind();
+    bunny_shader.printLog();
+
     float no_mat[] = {0.0, 0.0, 0.0, 1.0};
     float mat_ambient[] = {0.7, 0.7, 0.7, 1.0};
     float mat_ambient_color[] = {0.8, 0.8, 0.2, 1.0};
@@ -297,6 +304,7 @@ void setup()
     Globals::light2 = new SpotLight(2);
     Globals::light2->set_position(0.0, 0.0, 10.0, 1.0);
     Globals::light2->set_direction(0.0, 0.0, -1.0);
+    Globals::light2->set_direction(-1.0, 1.0, 0.0);
 
     Globals::light2->set_ambient(0.1, 0.1, 0.1, 1.0);
     Globals::light2->set_diffuse(1.0, 1.0, 0.0, 1.0);

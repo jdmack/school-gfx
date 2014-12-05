@@ -3,6 +3,7 @@
 
 #include <string>
 #include "matrix4.h"
+#define kPi 3.14159265359
 
 class Vector3
 {
@@ -76,6 +77,7 @@ class Vector3
         // Print (display the vector's components numerically on the screen)
         void print();
         std::string str();
+
         double angle(Vector3 v);
 
 };
