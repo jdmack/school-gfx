@@ -56,9 +56,9 @@ void SpotLight::display()
 
     // Draw cone
     Vector3 dir = Vector3(direction_[0], direction_[1], direction_[2]);
-    double x_angle = dir.angle(Vector3(1, 0, 0)) * 180 / kPi;
-    double y_angle = dir.angle(Vector3(0, 1, 0)) * 180 / kPi;
-    double z_angle = dir.angle(Vector3(0, 0, 1)) * 180 / kPi;
+    double x_angle = -dir.angle(Vector3(1, 0, 0)) * 180 / kPi;
+    double y_angle = -dir.angle(Vector3(0, 1, 0)) * 180 / kPi;
+    double z_angle = -dir.angle(Vector3(0, 0, 1)) * 180 / kPi;
 
     //std::cerr << "x_angle: " << x_angle << std::endl;
     //std::cerr << "y_angle: " << y_angle << std::endl;

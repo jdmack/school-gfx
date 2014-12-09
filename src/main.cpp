@@ -58,6 +58,7 @@ int main(int argc, char *argv[])
     // Generate light source:
     //glLightfv(GL_LIGHT0, GL_POSITION, position);
     glEnable(GL_LIGHTING);
+    glLightModelf(GL_LIGHT_MODEL_LOCAL_VIEWER, GL_TRUE);
     //glEnable(GL_LIGHT0);
   
     // Install callback functions:
@@ -161,11 +162,11 @@ void keyboard_callback(unsigned char key, int x, int y)
 
 
         case 'a':
+            Globals::light1->disable();
+            Globals::light2->disable();
 			break;
 
         case 'l':
-            //Globals::light1->disable();
-            //Globals::light2->disable();
             Globals::mouse_light = !Globals::mouse_light;
 			break;
 
@@ -254,59 +255,73 @@ void keyboard_special_callback(int key, int x, int y)
 void setup()
 {
     Globals::bunny = new Model("obj/bunny.obj");
-    //Globals::dragon = new Model("obj/dragon.obj");
-    //Globals::bear = new Model("obj/bear.obj");
+    Globals::dragon = new Model("obj/dragon.obj");
+    Globals::bear = new Model("obj/bear.obj");
 
     Globals::focus = Globals::bunny;
-    //Globals::focus = Globals::dragon;
-    //Globals::focus = Globals::bear;
 
     // setup shaders
     Shader * bunny_shader = new Shader("shader/spot_light.vert", "shader/spot_light.frag", true);
+    bunny_shader->set_active(false);
     //Shader * bunny_shader = new Shader("shader/minimal.vert", "shader/minimal.frag", true);
     Globals::bunny->set_shader(bunny_shader);
-    Globals::bunny->shader()->printLog();
-    Globals::bunny->shader()->set_active(false);
+    Globals::dragon->set_shader(bunny_shader);
+    Globals::bear->set_shader(bunny_shader);
+
 
     float no_mat[] = {0.0, 0.0, 0.0, 1.0};
+
+    float red[] = {0.8, 0.2, 0.2, 1.0};
+    float green[] = {0.2, 0.8, 0.2, 1.0};
+    float blue[] = {0.2, 0.2, 0.8, 1.0};
+
+    float light[] = {0.1, 0.1, 0.1, 1.0};
+    float medium[] = {0.5, 0.5, 0.5, 1.0};
+    float heavy[] = {1.0, 1.0, 1.0, 1.0};
+
+
     float mat_ambient[] = {0.7, 0.7, 0.7, 1.0};
     float mat_ambient_color[] = {0.8, 0.8, 0.2, 1.0};
+    float mat_diffuse_r[] = {0.7, 0.5, 0.5, 1.0};
+    float mat_diffuse_g[] = {0.1, 0.5, 0.8, 1.0};
     float mat_diffuse[] = {0.1, 0.5, 0.8, 1.0};
     float mat_specular[] = {1.0, 1.0, 1.0, 1.0};
     float no_shininess[] = {0.0};
     float low_shininess[] = {5.0};
     float high_shininess[] = {100.0};
-    float mat_emission[] = {0.3, 0.2, 0.2, 0.0};
+    float mat_emission[] = {0.2, 0.2, 0.2, 1.0};
 
     Material material1;
+    material1.set_emission(red);
     material1.set_ambient(no_mat);
-    material1.set_diffuse(mat_diffuse);
-    material1.set_specular(no_mat);
+    material1.set_diffuse(light);
+    material1.set_specular(light);
     material1.set_shininess(no_shininess);
-    material1.set_emission(no_mat);
+    material1.set_emission(red);
 
     Material material2;
-    material2.set_ambient(no_mat);
-    material2.set_diffuse(mat_diffuse);
-    material2.set_specular(mat_specular);
+    material2.set_ambient(green);
+    material2.set_diffuse(light);
+    material2.set_specular(light);
     material2.set_shininess(low_shininess);
-    material2.set_emission(no_mat);
+    material2.set_emission(green);
 
     Material material3;
-    material3.set_ambient(no_mat);
-    material3.set_diffuse(mat_diffuse);
-    material3.set_specular(mat_specular);
-    material3.set_shininess(high_shininess);
-    material3.set_emission(no_mat);
+    material3.set_ambient(blue);
+    material3.set_diffuse(medium);
+    material3.set_specular(heavy);
+    material3.set_shininess(no_shininess);
+    material3.set_emission(blue);
     
-    //Globals::bunny->set_material(material1);
-    //Globals::bunny->set_material(material2);
-    Globals::bunny->set_material(material3);
+    Globals::bunny->set_material(material1);
+    Globals::dragon->set_material(material2);
+    Globals::bear->set_material(material3);
 
     Globals::light2 = new Light(1);
     Globals::light2->set_position(-3.0, 3.0, 0.0, 1.0);
     Globals::light2->set_ambient(0.0, 0.0, 0.0, 0.0);
-    Globals::light2->set_diffuse(1.2, 1.2, 1.2, 1.0);
+    Globals::light2->set_diffuse(0.5, 0.5, 0.5, 1.0);
+    //Globals::light2->set_diffuse(1.2, 1.2, 1.2, 1.0);
     Globals::light2->set_specular(0.0, 0.0, 0.0, 0.0);
 
     Globals::light1 = new SpotLight(0);
