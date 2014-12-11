@@ -70,7 +70,7 @@ void SpotLight::display()
 
     glLoadMatrixd(matrix.pointer());
 
-    glutSolidCone(0.2, 1.0, 50, 50);
+    //glutSolidCone(0.2, 1.0, 50, 50);
 
     matrix.translate(position_[0], position_[1], position_[2]);
 

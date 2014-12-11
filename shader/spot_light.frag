@@ -1,3 +1,4 @@
+#version 120
 varying vec4 diffuse,ambientGlobal, ambient, ecPos;
 varying vec3 normal,halfVector;
 /* varying float dist; */
@@ -28,18 +29,20 @@ void main()
     if (NdotL > 0.0) {
      
         spotEffect = dot(normalize(gl_LightSource[0].spotDirection), normalize(-lightDir));
-        if (spotEffect > gl_LightSource[0].spotCosCutoff) {
+
+        //if (spotEffect > gl_LightSource[0].spotCosCutoff) {
+        if (spotEffect > cos(radians(gl_LightSource[0].spotCutoff))  ) {
             spotEffect = pow(spotEffect, gl_LightSource[0].spotExponent);
             att = spotEffect / (gl_LightSource[0].constantAttenuation +
                     gl_LightSource[0].linearAttenuation * dist +
                     gl_LightSource[0].quadraticAttenuation * dist * dist);
                  
             color += att * (diffuse * NdotL + ambient);
-         
              
             halfV = normalize(halfVector);
             NdotHV = max(dot(n,halfV),0.0);
             color += att * gl_FrontMaterial.specular * gl_LightSource[0].specular * pow(NdotHV,gl_FrontMaterial.shininess);
+
         }
     }
  

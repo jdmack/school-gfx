@@ -21,6 +21,12 @@
 // - Camera has to be transposed and inverted to work right, fix this
 
 
+    Material material1;
+
+    Material material2;
+
+    Material material3;
+
 void keyboard_callback(unsigned char key, int x, int y);
 void keyboard_special_callback(int key, int x, int y);
 void setup();
@@ -29,7 +35,7 @@ int main(int argc, char *argv[])
 {
     float specular[]  = {1.0, 1.0, 1.0, 1.0};
     float shininess[] = {100.0};
-    float position[]  = {0.0, 10.0, 1.0, 0.0};	    // lightsource position
+    //float position[]  = {0.0, 10.0, 1.0, 0.0};	    // lightsource position
 
     GWindow::timer_.start();
 
@@ -171,6 +177,7 @@ void keyboard_callback(unsigned char key, int x, int y)
 			break;
 
         case '1':
+            /*
             if(Globals::light1->enabled()) {
                 Globals::light1->disable();
                 //Globals::focus->shader()->set_active(false);
@@ -179,15 +186,23 @@ void keyboard_callback(unsigned char key, int x, int y)
                 Globals::light1->enable();
                 //Globals::focus->shader()->set_active(true);
             }
+            */
+            Globals::focus->set_material(material1);
             break;
 
         case '2':
+            /*
             if(Globals::light2->enabled()) {
                 Globals::light2->disable();
             }
             else {
                 Globals::light2->enable();
             }
+            */
+            Globals::focus->set_material(material2);
+            break;
+
+        case '3':
             break;
 
 		case 32: // spacebar
@@ -255,8 +270,8 @@ void keyboard_special_callback(int key, int x, int y)
 void setup()
 {
     Globals::bunny = new Model("obj/bunny.obj");
-    Globals::dragon = new Model("obj/dragon.obj");
-    Globals::bear = new Model("obj/bear.obj");
+    //Globals::dragon = new Model("obj/dragon.obj");
+    //Globals::bear = new Model("obj/bear.obj");
 
     Globals::focus = Globals::bunny;
 
@@ -265,64 +280,54 @@ void setup()
     bunny_shader->set_active(false);
     //Shader * bunny_shader = new Shader("shader/minimal.vert", "shader/minimal.frag", true);
     Globals::bunny->set_shader(bunny_shader);
-    Globals::dragon->set_shader(bunny_shader);
-    Globals::bear->set_shader(bunny_shader);
+    //Globals::dragon->set_shader(bunny_shader);
+    //Globals::bear->set_shader(bunny_shader);
 
+    float none[] = {0.0, 0.0, 0.0, 1.0};
 
-    float no_mat[] = {0.0, 0.0, 0.0, 1.0};
-
-    float red[] = {0.8, 0.2, 0.2, 1.0};
-    float green[] = {0.2, 0.8, 0.2, 1.0};
-    float blue[] = {0.2, 0.2, 0.8, 1.0};
+    //float red[] = {0.8, 0.1, 0.1, 1.0};
+    //float green[] = {0.1, 0.2, 0.1, 1.0};
+    //float blue[] = {0.1, 0.1, 0.2, 1.0};
 
     float light[] = {0.1, 0.1, 0.1, 1.0};
-    float medium[] = {0.5, 0.5, 0.5, 1.0};
-    float heavy[] = {1.0, 1.0, 1.0, 1.0};
+    float medium[] = {0.3, 0.3, 0.3, 1.0};
+    float heavy[] = {0.5, 0.5, 0.5, 1.0};
+    //float full[] = {1.0, 1.0, 1.0, 1.0};
 
-
-    float mat_ambient[] = {0.7, 0.7, 0.7, 1.0};
-    float mat_ambient_color[] = {0.8, 0.8, 0.2, 1.0};
-    float mat_diffuse_r[] = {0.7, 0.5, 0.5, 1.0};
-    float mat_diffuse_g[] = {0.1, 0.5, 0.8, 1.0};
-    float mat_diffuse[] = {0.1, 0.5, 0.8, 1.0};
-    float mat_specular[] = {1.0, 1.0, 1.0, 1.0};
     float no_shininess[] = {0.0};
     float low_shininess[] = {5.0};
     float high_shininess[] = {100.0};
-    float mat_emission[] = {0.2, 0.2, 0.2, 1.0};
 
-    Material material1;
-    material1.set_emission(red);
-    material1.set_ambient(no_mat);
+    material1.set_ambient(none);
     material1.set_diffuse(light);
     material1.set_specular(light);
     material1.set_shininess(no_shininess);
-    material1.set_emission(red);
+    //material1.set_emission(red);
 
-    Material material2;
-    material2.set_ambient(green);
-    material2.set_diffuse(light);
-    material2.set_specular(light);
+    material2.set_ambient(none);
+    material2.set_diffuse(medium);
+    material2.set_specular(medium);
     material2.set_shininess(low_shininess);
-    material2.set_emission(green);
+    //material2.set_emission(green);
 
-    Material material3;
-    material3.set_ambient(blue);
+    //material3.set_ambient(blue);
     material3.set_diffuse(medium);
     material3.set_specular(heavy);
-    material3.set_shininess(no_shininess);
-    material3.set_emission(blue);
+    material3.set_shininess(high_shininess);
+    //material3.set_emission(blue);
+
     
     Globals::bunny->set_material(material1);
-    Globals::dragon->set_material(material2);
-    Globals::bear->set_material(material3);
+    //Globals::dragon->set_material(material2);
+    //Globals::bear->set_material(material3);
 
     Globals::light2 = new Light(1);
     Globals::light2->set_position(-3.0, 3.0, 0.0, 1.0);
-    Globals::light2->set_ambient(0.0, 0.0, 0.0, 0.0);
+    //Globals::light2->set_ambient(1.0, 1.0, 1.0, 1.0);
+    Globals::light2->set_ambient(0.0, 0.0, 0.0, 1.0);
     Globals::light2->set_diffuse(0.5, 0.5, 0.5, 1.0);
-    //Globals::light2->set_diffuse(1.2, 1.2, 1.2, 1.0);
-    Globals::light2->set_specular(0.0, 0.0, 0.0, 0.0);
+    //Globals::light2->set_diffuse(0.0, 0.0, 0.0, 1.0);
+    Globals::light2->set_specular(0.5, 0.5, 0.5, 1.0);
 
     Globals::light1 = new SpotLight(0);
     Globals::light1->set_position(0.0, 0.0, 10.0, 1.0);
@@ -335,7 +340,7 @@ void setup()
     Globals::light1->set_cutoff(10.0);
     Globals::light1->set_exponent(0.0);
 
-    //Globals::light2->enable();
+    Globals::light2->enable();
 }
 
 

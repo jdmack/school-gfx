@@ -38,7 +38,7 @@ void Material::set_specular(float a, float b, float c, float d)
 
 void Material::set_shininess(float a)
 {
-    ambient_[0] = a;
+    shininess_[0] = a;
 }
 
 void Material::set_emission(float a, float b, float c, float d)
@@ -76,6 +76,18 @@ void Material::set_emission(float * emission)
 
 void Material::enable()
 {
+    //float ambient[] = {0.2, 0.2, 0.2, 1.0};
+    //float diffuse[] = {0.8, 0.8, 0.8, 1.0};
+    //float specular[] = {0.8, 0.8, 0.8, 1.0};
+    //float shininess[] = {0.0}; 
+    //float emission[] = {0.0, 0.0, 0.0, 1.0};
+
+    //glMaterialfv(GL_FRONT, GL_AMBIENT, ambient);
+    //glMaterialfv(GL_FRONT, GL_DIFFUSE, diffuse);
+    //glMaterialfv(GL_FRONT, GL_SPECULAR, specular);
+    //glMaterialfv(GL_FRONT, GL_SHININESS, shininess);
+    //glMaterialfv(GL_FRONT, GL_EMISSION, emission);
+
     glMaterialfv(GL_FRONT, GL_AMBIENT, ambient_);
     glMaterialfv(GL_FRONT, GL_DIFFUSE, diffuse_);
     glMaterialfv(GL_FRONT, GL_SPECULAR, specular_);

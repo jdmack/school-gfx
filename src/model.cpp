@@ -1,4 +1,6 @@
-#include "shader.h"
+//#include "shader.h"
+#include "model.h"
+
 #include <stdlib.h>
 #include <cmath>
 #include <GL/glut.h>
@@ -8,7 +10,6 @@
 #include <fstream>
 #include <iostream>
 #include <sstream>
-#include "model.h"
 #include "matrix4.h"
 #include "camera.h"
 #include "object.h"
@@ -46,8 +47,7 @@ void Model::display(Camera camera)
     for(unsigned int i = 0; i < faces_.size(); i++) {
         glColor3d(faces_[i].color1().r(), faces_[i].color1().g(), faces_[i].color1().b());
         //glColor3d(faces_[i].normal1().x(), faces_[i].normal1().y(), faces_[i].normal1().z());
-
-        //glColor3d(1.0, 1.0, 1.0);
+        //glColor3d(0.8, 0.0, 0.0);
 
         //glNormal3d(normals_[i].x(), normals_[i].y(), normals_[i].z());
 

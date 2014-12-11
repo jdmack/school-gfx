@@ -1,3 +1,5 @@
+#include "model.h"
+
 #include <stdlib.h>
 #include <iostream>
 #include <cmath>
@@ -7,7 +9,6 @@
 #include "window.h"
 #include "globals.h"
 #include "triangle.h"
-#include "model.h"
 
 MouseMovement Trackball::movement = NONE;
 Vector3 Trackball::last_point = Vector3();

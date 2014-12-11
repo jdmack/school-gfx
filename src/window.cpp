@@ -1,12 +1,13 @@
 #include <iostream>
 
 #include <stdlib.h>
-#include <GL/glut.h>
 
 #include "window.h"
 #include "matrix4.h"
 #include "globals.h"
 #include "timer.h"
+
+#include <GL/glut.h>
 
 int GWindow::width  = 512;   // set window width in pixels here
 int GWindow::height = 512;   // set window height in pixels here

@@ -1,9 +1,10 @@
 #ifndef CSE167_MODEL_H_
 #define CSE167_MODEL_H_
 
+#include <vector>
+
 #include "glee.h"
 #include "shader.h"
-#include <vector>
 #include "vector3.h"
 #include "object.h"
 #include "triangle.h"

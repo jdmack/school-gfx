@@ -1,8 +1,8 @@
 #ifndef CSE167_GLOBALS_H_
 #define CSE167_GLOBALS_H_
 
-#include "camera.h"
 #include "model.h"
+#include "camera.h"
 #include "light.h"
 #include "spot_light.h"
 
