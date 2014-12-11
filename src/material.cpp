@@ -38,7 +38,7 @@ void Material::set_specular(float a, float b, float c, float d)
 
 void Material::set_shininess(float a)
 {
-    ambient_[0] = a;
+    shininess_[0] = a;
 }
 
 void Material::set_emission(float a, float b, float c, float d)

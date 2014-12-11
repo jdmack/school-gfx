@@ -1,6 +1,10 @@
 #ifndef CSE167_VECTOR4_H_
 #define CSE167_VECTOR4_H_
 
+#include "matrix4.h"
+
+class Matrix4;
+
 class Vector4
 {
     private:
@@ -50,6 +54,12 @@ class Vector4
 
         // Overload operator '-' for subtraction
         Vector4 operator-(Vector4 param);
+
+        double dot_product(Vector4 param);
+        double operator*(Vector4 & param);
+
+        Vector4 multiply(Matrix4 param);
+        Vector4 operator*(Matrix4 & param);
 
         // Dehomogenize (make fourth component equal to 1)
         void dehomogenize();

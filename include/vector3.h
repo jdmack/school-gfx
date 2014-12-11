@@ -32,6 +32,7 @@ class Vector3
         void set_y(double y) { y_ = y; }
         void set_z(double z) { z_ = z; }
         void set(double x, double y, double z);
+        void set(int i, double val);
 
         // Overload operator '[]' as alternative to 'get' method
         double & operator[](int coordinate);
@@ -62,6 +63,7 @@ class Vector3
 
         // Cross product
         Vector3 cross_product(Vector3 param);
+        Vector3 operator*(Vector3 param);
 
         // Magnitude (length of vector)
         double magnitude();

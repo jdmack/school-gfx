@@ -148,6 +148,36 @@ Vector4 Vector4::operator-(Vector4 param)
     return Vector4(new_x, new_y, new_z, new_w);
 }
 
+// Dot product
+double Vector4::dot_product(Vector4 param)
+{
+    double dot_product = (x_ * param.x())
+                       + (y_ * param.y())
+                       + (z_ * param.z())
+                       + (w_ * param.w());
+
+    return dot_product;
+}
+
+// Multiply (vector-times-matrix)
+Vector4 Vector4::multiply(Matrix4 param)
+{
+    Vector4 this_v = Vector4(x_, y_, z_, w_);
+    Vector4 result = param.multiply(this_v);
+
+    return result;
+}
+
+double Vector4::operator*(Vector4 & param)
+{
+    return dot_product(param);
+}
+
+Vector4 Vector4::operator*(Matrix4 & param)
+{
+    return multiply(param);
+}
+
 // Dehomogenize (make fourth component equal to 1)
 void Vector4::dehomogenize()
 {

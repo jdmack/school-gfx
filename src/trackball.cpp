@@ -1,13 +1,15 @@
+#include "model.h"
+
 #include <stdlib.h>
 #include <iostream>
 #include <cmath>
-#include "GL/glut.h"
 #include "trackball.h"
 #include "vector3.h"
 #include "window.h"
 #include "globals.h"
 #include "triangle.h"
-#include "model.h"
+
+#include "GL/glut.h"
 
 MouseMovement Trackball::movement = NONE;
 Vector3 Trackball::last_point = Vector3();
@@ -25,15 +27,11 @@ void Trackball::mouse_move(int x, int y)
     double pixel_diff;
     double rot_angle, zoom_factor;
     double velocity;
-    float cutoff;
-    float cutoff_factor;
     Triangle point_at;
 
     Vector3 rotate_axis3;
     Vector4 rotate_axis4;
-    //Matrix4 rotate_matrix;
     Vector3 cur_point;
-    //cur_point = trackball_mapping(x, y);
 
     switch(movement) {
         case ROTATE:
@@ -44,47 +42,29 @@ void Trackball::mouse_move(int x, int y)
 
             cur_point = trackball_mapping(x, y);
 
-            if(Globals::mouse_light) {
-                for(std::vector<Triangle>::iterator it = Globals::focus->faces().begin(); it != Globals::focus->faces().end(); ++it) {
+            direction = cur_point - last_point;
+            velocity = direction.magnitude();
 
-                    if(rayIntersectsTriangle(Vector3(x, y, 0), (*it).vertex1(), (*it).vertex2(), (*it).vertex3())) {
-                        point_at = *it;
-                        break;
+            //std::cerr << "velocity: " << velocity << std::endl;
 
-                        std::cerr << "FOUND POINT_AT TRIANGLE" << std::endl;
-                        Globals::light1->set_direction((*it).vertex1().x(), (*it).vertex1().y(), (*it).vertex1().z());
-                        std::cerr << "Point at: (" << (*it).vertex1().x() << ", " <<  (*it).vertex1().y() << ", " 
-                            << (*it).vertex1().z() << ")" << std::endl;
-                        Globals::light1->enable();
-                    }
-                }
+            if(velocity > 0.001) {
+                //rotate_axis3 = last_point.cross_product(cur_point);
+                rotate_axis3 = cur_point.cross_product(last_point);
+                rotate_axis3.normalize();
+                rot_angle = velocity * kRotateScale;
+                std::cerr << "rotate_axis: " << rotate_axis3.str() << std::endl;
+                //std::cerr << "rot_angle: " << rot_angle << std::endl;
+                
+                rotate_axis4 = Vector4(rotate_axis3.x(), rotate_axis3.y(), rotate_axis3.z(), 0);
 
-            }
-            else {
-                direction = cur_point - last_point;
-                velocity = direction.magnitude();
-
-                //std::cerr << "velocity: " << velocity << std::endl;
-
-                if(velocity > 0.001) {
-                    //rotate_axis3 = last_point.cross_product(cur_point);
-                    rotate_axis3 = cur_point.cross_product(last_point);
-                    rotate_axis3.normalize();
-                    rot_angle = velocity * kRotateScale;
-                    std::cerr << "rotate_axis: " << rotate_axis3.str() << std::endl;
-                    //std::cerr << "rot_angle: " << rot_angle << std::endl;
-                    
-                    rotate_axis4 = Vector4(rotate_axis3.x(), rotate_axis3.y(), rotate_axis3.z(), 0);
-
-                    rotation.identity();
-                    rotation.rotate(rot_angle, rotate_axis4);
-                    //rotation = rotate_matrix * rotation;
-                    //rotation = rotate_matrix;
-                    //std::cerr << "rotation matrix: " << std::endl;
-                    //rotation.print();
-                    //Globals::focus->matrix_o2w() = Globals::focus->matrix_obj().multiply(rotation);
-                    Globals::focus->matrix_o2w() = Globals::focus->matrix_o2w().multiply(rotation);
-                }
+                rotation.identity();
+                rotation.rotate(rot_angle, rotate_axis4);
+                //rotation = rotate_matrix * rotation;
+                //rotation = rotate_matrix;
+                //std::cerr << "rotation matrix: " << std::endl;
+                //rotation.print();
+                //Globals::focus->matrix_o2w() = Globals::focus->matrix_obj().multiply(rotation);
+                Globals::focus->matrix_o2w() = Globals::focus->matrix_o2w().multiply(rotation);
             }
             break;
         case ZOOM:
@@ -92,20 +72,12 @@ void Trackball::mouse_move(int x, int y)
             pixel_diff = cur_point.x() - last_point.x();
             zoom_factor = 1.0 + pixel_diff * kZoomScale;
 
-            if(Globals::mouse_light) {
-                cutoff = *Globals::light1->cutoff();
-                cutoff_factor = 1.0 + pixel_diff * kCutoffScale;
-                Globals::light1->set_cutoff(cutoff * cutoff_factor);
-                Globals::light1->enable();
-            }
-            else {
-                scaling.identity();
-                scaling.scale(zoom_factor, zoom_factor, zoom_factor);
-                Globals::focus->matrix_obj() = Globals::focus->matrix_obj().multiply(scaling);
-                //scaling = scaling * s;
-                //scaling_mt->setMatrix(scaling);
-                //displayCallback();
-            }
+            scaling.identity();
+            scaling.scale(zoom_factor, zoom_factor, zoom_factor);
+            Globals::focus->matrix_obj() = Globals::focus->matrix_obj().multiply(scaling);
+            //scaling = scaling * s;
+            //scaling_mt->setMatrix(scaling);
+            //displayCallback();
 
             break;
 

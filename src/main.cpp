@@ -14,6 +14,7 @@
 #include "trackball.h"
 #include "light.h"
 #include "vector4.h"
+#include "skybox.h"
 
 #define kPi 3.14159265359
 
@@ -29,7 +30,7 @@ int main(int argc, char *argv[])
 {
     float specular[]  = {1.0, 1.0, 1.0, 1.0};
     float shininess[] = {100.0};
-    float position[]  = {0.0, 10.0, 1.0, 0.0};	    // lightsource position
+    //float position[]  = {0.0, 10.0, 1.0, 0.0};	    // lightsource position
 
     GWindow::timer_.start();
 
@@ -42,8 +43,16 @@ int main(int argc, char *argv[])
     glEnable(GL_DEPTH_TEST);            	        // enable depth buffering
     glEnable(GL_NORMALIZE);            	            
     glClear(GL_DEPTH_BUFFER_BIT);       	        // clear depth buffer
-    glClearColor(0.0, 0.0, 0.0, 0.0);   	        // set clear color to black
+    glClearColor(0.0, 0.0, 0.0, 1.0);   	        // set clear color to black
     glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);      // set polygon drawing mode to fill front and back of each polygon
+
+    // NEW STUFF FROM TEXTURE
+    glEnable(GL_TEXTURE_2D);   // enable texture mapping
+    glClearDepth(1.0f);        // depth buffer setup
+    glEnable(GL_DEPTH_TEST);   // enables depth testing
+    glDepthFunc(GL_LEQUAL);    // configure depth testing
+    glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);          // really nice perspective calculations
+
     
     glDisable(GL_CULL_FACE);                        // disable backface culling to render both sides of polygons
     glShadeModel(GL_SMOOTH);             	        // set shading to smooth
@@ -162,32 +171,21 @@ void keyboard_callback(unsigned char key, int x, int y)
 
 
         case 'a':
-            Globals::light1->disable();
-            Globals::light2->disable();
 			break;
 
         case 'l':
-            Globals::mouse_light = !Globals::mouse_light;
 			break;
 
         case '1':
             if(Globals::light1->enabled()) {
                 Globals::light1->disable();
-                //Globals::focus->shader()->set_active(false);
             }
             else {
                 Globals::light1->enable();
-                //Globals::focus->shader()->set_active(true);
             }
             break;
 
         case '2':
-            if(Globals::light2->enabled()) {
-                Globals::light2->disable();
-            }
-            else {
-                Globals::light2->enable();
-            }
             break;
 
 		case 32: // spacebar
@@ -217,16 +215,13 @@ void keyboard_special_callback(int key, int x, int y)
             break;
 
         case GLUT_KEY_F1:
-            Globals::focus = Globals::bunny;
             break;
 
         case GLUT_KEY_F2:
-            Globals::focus = Globals::dragon;
 
             break;
 
         case GLUT_KEY_F3:
-            Globals::focus = Globals::bear;
 
             break;
 
@@ -254,88 +249,42 @@ void keyboard_special_callback(int key, int x, int y)
 
 void setup()
 {
-    Globals::bunny = new Model("obj/bunny.obj");
-    Globals::dragon = new Model("obj/dragon.obj");
-    Globals::bear = new Model("obj/bear.obj");
-
-    Globals::focus = Globals::bunny;
+    //Globals::focus = Globals::bunny;
 
     // setup shaders
     Shader * bunny_shader = new Shader("shader/spot_light.vert", "shader/spot_light.frag", true);
     bunny_shader->set_active(false);
-    //Shader * bunny_shader = new Shader("shader/minimal.vert", "shader/minimal.frag", true);
-    Globals::bunny->set_shader(bunny_shader);
-    Globals::dragon->set_shader(bunny_shader);
-    Globals::bear->set_shader(bunny_shader);
+    //Globals::bunny->set_shader(bunny_shader);
 
+    // setup bezier
+    Vector3 control_p[16];
 
-    float no_mat[] = {0.0, 0.0, 0.0, 1.0};
+    control_p[0] = Vector3(-20, 0, 20);
+    control_p[1] = Vector3(-7, -3, 20);
+    control_p[2] = Vector3(7, -4, 20);
+    control_p[3] = Vector3(20, 0, 20);
+    control_p[4] = Vector3(-20, -2, 7);
+    control_p[5] = Vector3(-7, 0, 7);
+    control_p[6] = Vector3(7, -2, 7);
+    control_p[7] = Vector3(20, -1, 7);
+    control_p[8] = Vector3(-20, -4, -7);
+    control_p[9] = Vector3(-7, -2, -7);
+    control_p[10] = Vector3(7, -3, -7);
+    control_p[11] = Vector3(20, -2, -7);
+    control_p[12] = Vector3(-20, 0, -20);
+    control_p[13] = Vector3(-7, -2, -20);
+    control_p[14] = Vector3(7, -2, -20);
+    control_p[15] = Vector3(20, 0, -20);
 
-    float red[] = {0.8, 0.2, 0.2, 1.0};
-    float green[] = {0.2, 0.8, 0.2, 1.0};
-    float blue[] = {0.2, 0.2, 0.8, 1.0};
+    Globals::bezier_patch = new BezierPatch(control_p, 150, 150);
+    Globals::skybox = new Skybox(20);
 
-    float light[] = {0.1, 0.1, 0.1, 1.0};
-    float medium[] = {0.5, 0.5, 0.5, 1.0};
-    float heavy[] = {1.0, 1.0, 1.0, 1.0};
-
-
-    float mat_ambient[] = {0.7, 0.7, 0.7, 1.0};
-    float mat_ambient_color[] = {0.8, 0.8, 0.2, 1.0};
-    float mat_diffuse_r[] = {0.7, 0.5, 0.5, 1.0};
-    float mat_diffuse_g[] = {0.1, 0.5, 0.8, 1.0};
-    float mat_diffuse[] = {0.1, 0.5, 0.8, 1.0};
-    float mat_specular[] = {1.0, 1.0, 1.0, 1.0};
-    float no_shininess[] = {0.0};
-    float low_shininess[] = {5.0};
-    float high_shininess[] = {100.0};
-    float mat_emission[] = {0.2, 0.2, 0.2, 1.0};
-
-    Material material1;
-    material1.set_emission(red);
-    material1.set_ambient(no_mat);
-    material1.set_diffuse(light);
-    material1.set_specular(light);
-    material1.set_shininess(no_shininess);
-    material1.set_emission(red);
-
-    Material material2;
-    material2.set_ambient(green);
-    material2.set_diffuse(light);
-    material2.set_specular(light);
-    material2.set_shininess(low_shininess);
-    material2.set_emission(green);
-
-    Material material3;
-    material3.set_ambient(blue);
-    material3.set_diffuse(medium);
-    material3.set_specular(heavy);
-    material3.set_shininess(no_shininess);
-    material3.set_emission(blue);
-    
-    Globals::bunny->set_material(material1);
-    Globals::dragon->set_material(material2);
-    Globals::bear->set_material(material3);
-
-    Globals::light2 = new Light(1);
-    Globals::light2->set_position(-3.0, 3.0, 0.0, 1.0);
-    Globals::light2->set_ambient(0.0, 0.0, 0.0, 0.0);
-    Globals::light2->set_diffuse(0.5, 0.5, 0.5, 1.0);
-    //Globals::light2->set_diffuse(1.2, 1.2, 1.2, 1.0);
-    Globals::light2->set_specular(0.0, 0.0, 0.0, 0.0);
-
-    Globals::light1 = new SpotLight(0);
-    Globals::light1->set_position(0.0, 0.0, 10.0, 1.0);
-    Globals::light1->set_direction(0.0, 0.0, -1.0);
-
-    Globals::light1->set_ambient(0.1, 0.1, 0.1, 1.0);
-    Globals::light1->set_diffuse(1.0, 1.0, 0.0, 1.0);
-    Globals::light1->set_specular(0.0, 0.0, 0.0, 1.0);
-
-    Globals::light1->set_cutoff(10.0);
-    Globals::light1->set_exponent(0.0);
-
-    //Globals::light2->enable();
+    Globals::light1 = new Light(0);
+    Globals::light1->set_position(-3.0, 3.0, 0.0, 1.0);
+    Globals::light1->set_ambient(0.0, 0.0, 0.0, 0.0);
+    Globals::light1->set_diffuse(0.5, 0.5, 0.5, 1.0);
+    Globals::light1->set_specular(0.0, 0.0, 0.0, 0.0);
+    Globals::light1->enable();
 }
 
 

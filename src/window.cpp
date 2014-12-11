@@ -1,12 +1,13 @@
 #include <iostream>
 
 #include <stdlib.h>
-#include <GL/glut.h>
 
 #include "window.h"
 #include "matrix4.h"
 #include "globals.h"
 #include "timer.h"
+
+#include <GL/glut.h>
 
 int GWindow::width  = 512;   // set window width in pixels here
 int GWindow::height = 512;   // set window height in pixels here
@@ -17,7 +18,7 @@ Timer GWindow::timer_ = Timer();
 void GWindow::idle_callback()
 {
     if(!Globals::pause) {
-        Globals::focus->update(timer_.get_ticks());
+        //Globals::focus->update(timer_.get_ticks());
     }
     display_callback();         // call display routine to show the object
 
@@ -37,6 +38,7 @@ void GWindow::reshape_callback(int w, int h)
     glLoadIdentity();
     gluPerspective(60.0, double(width)/(double)height, 1.0, 1000.0); // set perspective projection viewing frustum
     glTranslatef(0, 0, -20);    // move camera back 20 units so that it looks at the origin (or else it's in the origin)
+    //glTranslatef(0, 0, -500);
     glMatrixMode(GL_MODELVIEW);
 }
 
@@ -51,10 +53,9 @@ void GWindow::display_callback()
     matrix.identity();
 
     //Globals::focus->display(Globals::camera.matrix());
-    Globals::focus->display();
-
-    Globals::light1->display();
-    Globals::light2->display();
+    //Globals::focus->display();
+    //Globals::bezier_patch->render();
+    Globals::skybox->render();
 
     glFlush();  
     glutSwapBuffers();

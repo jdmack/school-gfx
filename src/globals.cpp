@@ -2,7 +2,8 @@
 #include "camera.h"
 #include "model.h"
 #include "light.h"
-#include "spot_light.h"
+#include "bezier_patch.h"
+#include "skybox.h"
 
 namespace Globals
 {
@@ -10,12 +11,9 @@ namespace Globals
     bool flag = false;
     bool pause = false;
     Matrix4 identity_matrix;
-    bool mouse_light = false;
 
-    Model * bunny;
-    Model * dragon;
-    Model * bear;
     Model * focus;
-    Light * light2;
-    SpotLight * light1;
+    Light * light1;
+    BezierPatch * bezier_patch;
+    Skybox * skybox;
 };

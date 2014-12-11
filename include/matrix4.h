@@ -4,6 +4,8 @@
 #include "vector4.h"
 #define M_PI 3.14159265358979323846
 
+class Vector4;
+
 class Matrix4
 {
     protected:

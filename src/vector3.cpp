@@ -66,6 +66,23 @@ void Vector3::set(double x, double y, double z)
     z_ = z;
 }
 
+void Vector3::set(int i, double val)
+{
+    switch(i) {
+        case 0:
+            x_ = val;
+            break;
+        case 1:
+            y_ = val;
+            break;
+        case 2:
+            z_ = val;
+            break;
+        default:
+            break;
+    }
+}
+
 // Overload operator '[]' as alternative to 'get' method
 double & Vector3::operator[](int coordinate)
 {
@@ -161,6 +178,11 @@ Vector3 Vector3::cross_product(Vector3 param)
     double new_z = ((x_ * param.y()) - (y_ * param.x()));
     
     return Vector3(new_x, new_y, new_z);
+}
+
+Vector3 Vector3::operator*(Vector3 param)
+{
+    return cross_product(param);
 }
 
 // Magnitude (length of vector)

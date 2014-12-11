@@ -12,11 +12,12 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 */
 
+#include "shader.h"
+
 #include <cstdio>
 #include <cstdlib>
 #include <iostream>
 
-#include "shader.h"
 
 Shader::Shader()
 {
