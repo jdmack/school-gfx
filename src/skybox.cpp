@@ -9,24 +9,6 @@
 Skybox::Skybox(double radius)
 {
 	size_ = radius;
-	for(int i = 0; i < 6; i++){
-		facePresent[i] = false;
-	}
-
-	float SkyBoxVertices[] =
-	{	// x, y, z, x, y, z, x, y, z, x, y, z
-		1.0f, -1.0f, -1.0f, 1.0f, -1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, -1.0f, // +X
-		-1.0f, -1.0f, 1.0f, -1.0f, -1.0f, -1.0f, -1.0f, 1.0f, -1.0f, -1.0f, 1.0f, 1.0f, // -X
-		-1.0f, 1.0f, -1.0f, 1.0f, 1.0f, -1.0f, 1.0f, 1.0f, 1.0f, -1.0f, 1.0f, 1.0f, // +Y
-		-1.0f, -1.0f, 1.0f, 1.0f, -1.0f, 1.0f, 1.0f, -1.0f, -1.0f, -1.0f, -1.0f, -1.0f, // -Y
-		1.0f, -1.0f, 1.0f, -1.0f, -1.0f, 1.0f, -1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, // +Z
-		-1.0f, -1.0f, -1.0f, 1.0f, -1.0f, -1.0f, 1.0f, 1.0f, -1.0f, -1.0f, 1.0f, -1.0f  // -Z
-	};
-
-	//glGenBuffers(1, &SkyBoxVBO);
-	//glBindBuffer(GL_ARRAY_BUFFER, SkyBoxVBO);
-	//glBufferData(GL_ARRAY_BUFFER, 288, SkyBoxVertices, GL_STATIC_DRAW);
-	//glBindBuffer(GL_ARRAY_BUFFER, 0);
 	
 	init();
 	
@@ -50,7 +32,7 @@ void Skybox::init()
     top_texture_ = new Texture(texture_top);
 
     // BOTTOM
-    //bottom_texture_ = new Texture(texture_bottom);
+    bottom_texture_ = new Texture(texture_bottom);
 
 
 	//skyShader = new Shader("shader/skybox.vert", "shader/skybox.frag");
@@ -62,15 +44,15 @@ void Skybox::update()
 
 }
 
-void Skybox::display(){
+void Skybox::display()
+{
 
     Object::display();
 	//skyShader->bind();
 
-	glBegin(GL_QUADS);
-
     // FRONT
     front_texture_->bind();
+	glBegin(GL_QUADS);
 
     glTexCoord2f(1, 1);
 	glVertex3f(+size_, -size_, +size_);     // bottom right
@@ -84,10 +66,12 @@ void Skybox::display(){
     glTexCoord2f(1, 0);
 	glVertex3f(+size_, +size_, +size_);     // top right
 
+	glEnd();
     front_texture_->unbind();
 
     // BACK
     back_texture_->bind();
+	glBegin(GL_QUADS);
 
     glTexCoord2f(1, 1);
 	glVertex3f(-size_, -size_, -size_);     // bottom left
@@ -101,10 +85,12 @@ void Skybox::display(){
     glTexCoord2f(1, 0);
 	glVertex3f(-size_, +size_, -size_);     // top left
 
+	glEnd();
     back_texture_->unbind();
 
     // LEFT
     left_texture_->bind();
+	glBegin(GL_QUADS);
 
     glTexCoord2f(1, 1);
 	glVertex3f(-size_, -size_, +size_);     // far bottom
@@ -118,10 +104,12 @@ void Skybox::display(){
     glTexCoord2f(1, 0);
 	glVertex3f(-size_, +size_, +size_);     // far top
 
+	glEnd();
     left_texture_->unbind();
 
     // RIGHT
     right_texture_->bind();
+	glBegin(GL_QUADS);
 
     glTexCoord2f(1, 1);
 	glVertex3f(+size_, -size_, -size_);     // near bottom
@@ -135,32 +123,47 @@ void Skybox::display(){
     glTexCoord2f(1, 0);
 	glVertex3f(+size_, +size_, -size_);     // near top
 
+	glEnd();
     right_texture_->unbind();
 
     // TOP
     top_texture_->bind();
-
-    glTexCoord2f(1, 1);
-	glVertex3f(-size_, +size_, -size_);     // near left
-
-    glTexCoord2f(0, 1);
-	glVertex3f(+size_, +size_, -size_);     // near right
+	glBegin(GL_QUADS);
 
     glTexCoord2f(0, 0);
-	glVertex3f(+size_, +size_, +size_);     // far  right
+	glVertex3f(-size_, +size_, -size_);     // near left
 
     glTexCoord2f(1, 0);
+	glVertex3f(+size_, +size_, -size_);     // near right
+
+    glTexCoord2f(1, 1);
+	glVertex3f(+size_, +size_, +size_);     // far  right
+
+    glTexCoord2f(0, 1);
 	glVertex3f(-size_, +size_, +size_);     // far left
 
+	glEnd();
     top_texture_->unbind();
 
     // BOTOM
-	//glVertex3f(+size_, -size_, -size_);       //
-	//glVertex3f(-size_, -size_, -size_);       //
-	//glVertex3f(-size_, -size_, +size_);       //
-	//glVertex3f(+size_, -size_, +size_);       //
+    bottom_texture_->bind();
+	glBegin(GL_QUADS);
+
+    glTexCoord2f(1, 1);
+	glVertex3f(+size_, -size_, -size_);     // near right
+
+    glTexCoord2f(0, 1);
+	glVertex3f(-size_, -size_, -size_);     // near left
+
+    glTexCoord2f(0, 0);
+	glVertex3f(-size_, -size_, +size_);     // far left
+
+    glTexCoord2f(1, 0);
+	glVertex3f(+size_, -size_, +size_);     // far right
 
 	glEnd();
+    bottom_texture_->unbind();
+
 	//skyShader->unbind();
 }
 
