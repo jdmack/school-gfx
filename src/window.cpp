@@ -19,6 +19,7 @@ void GWindow::idle_callback()
 {
     if(!Globals::pause) {
         //Globals::focus->update(timer_.get_ticks());
+        Globals::bezier_patch->update();
     }
     display_callback();         // call display routine to show the object
 
@@ -37,7 +38,7 @@ void GWindow::reshape_callback(int w, int h)
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
     gluPerspective(60.0, double(width)/(double)height, 1.0, 1000.0); // set perspective projection viewing frustum
-    glTranslatef(0, 0, -20);    // move camera back 20 units so that it looks at the origin (or else it's in the origin)
+    //glTranslatef(0, 0, -20);    // move camera back 20 units so that it looks at the origin (or else it's in the origin)
     //glTranslatef(0, 0, -500);
     glMatrixMode(GL_MODELVIEW);
 }
@@ -54,20 +55,9 @@ void GWindow::display_callback()
 
     //Globals::focus->display(Globals::camera.matrix());
     //Globals::focus->display();
-    //Globals::bezier_patch->render();
+
     Globals::skybox->display();
-
-
-    // TEST TEXTURE
-    //glBegin(GL_QUADS);
-    //glColor3f(1, 1, 1);
-
-    // specify texture coordinates for each vertex
-    // note that textures are stored "upside down"
-    //glTexCoord2f(0, 1); glVertex3f(-2, -1, 0);    // bottom left
-    //glTexCoord2f(1, 1); glVertex3f(2, -1, 0);     // bottom right
-    //glTexCoord2f(1, 0); glVertex3f(2, 1, 0);      // top right
-    //glTexCoord2f(0, 0); glVertex3f(-2, 1, 0);     // top left
+    Globals::bezier_patch->display();
 
     glEnd();
 

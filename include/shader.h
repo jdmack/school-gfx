@@ -14,6 +14,7 @@
 
 #ifndef CSE167_SHADER_H_
 #define CSE167_SHADER_H_
+
 #include "glee.h"
 
 /*! Handles GLSL shaders.  It can load the code from the file or read straight

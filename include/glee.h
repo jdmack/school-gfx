@@ -36,6 +36,7 @@
 #ifndef __glee_h_
 #define __glee_h_
 
+    /*
 #ifdef __gl_h_
 	#error gl.h included before glee.h
 #endif
@@ -51,6 +52,7 @@
 #ifdef __glxext_h_
 	#error glxext.h included before glee.h
 #endif
+    */
 
 #ifdef WIN32
 	#define WIN32_LEAN_AND_MEAN

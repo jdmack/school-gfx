@@ -4,7 +4,6 @@
 #include <stdlib.h>
 #include <iostream>
 
-#include <GL/glut.h>
 
 #include "window.h"
 #include "matrix4.h"
@@ -16,6 +15,8 @@
 #include "vector4.h"
 #include "texture.h"
 //#include "skybox.h"
+
+#include <GL/glut.h>
 
 #define kPi 3.14159265359
 
@@ -54,7 +55,8 @@ int main(int argc, char *argv[])
     glDepthFunc(GL_LEQUAL);    // configure depth testing
     glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);          // really nice perspective calculations
     
-    glDisable(GL_CULL_FACE);                        // disable backface culling to render both sides of polygons
+    glEnable(GL_CULL_FACE);                        // disable backface culling to render both sides of polygons
+    glCullFace(GL_BACK);
     glShadeModel(GL_SMOOTH);             	        // set shading to smooth
     glMatrixMode(GL_PROJECTION); 
   
@@ -145,7 +147,7 @@ void keyboard_callback(unsigned char key, int x, int y)
             Globals::focus->matrix_o2w().rotate_x(10);
 			break;
 
-        case 'E':
+        case 'J':
             Globals::focus->matrix_o2w().rotate_x(-10);
 			break;
 
@@ -170,7 +172,8 @@ void keyboard_callback(unsigned char key, int x, int y)
 			break;
 
 
-        case 'a':
+        case 'e':
+            Globals::bezier_patch->shader()->toggle();
 			break;
 
         case 'l':
@@ -249,44 +252,80 @@ void keyboard_special_callback(int key, int x, int y)
 
 void setup()
 {
-    //Globals::focus = Globals::bunny;
+    // Setup bezier
 
-    // setup shaders
-    Shader * bunny_shader = new Shader("shader/spot_light.vert", "shader/spot_light.frag", true);
-    bunny_shader->set_active(false);
-    //Globals::bunny->set_shader(bunny_shader);
+    GLfloat Points[4][4][3] = {
+            {
+                {  10, -10, 10 },
+                {  10, -10, 10 },
+                { -10, -10, 10 },
+                { -10, -10, 10 }
+            },
+            {
+                {  10, -10, 10 },
+                {  10, -10, 10 },
+                { -10, -10, 10 },
+                { -10, -10, 10 }
+            },
+            {
+                {  10, -10, -10 },
+                {  10, -10, -10 },
+                { -10, -10, -10 },
+                { -10, -10, -10 }
+            },
+            {
+                {  10, -10, -10 },
+                {  10, -10, -10 },
+                { -10, -10, -10 },
+                { -10, -10, -10 }
+            }
+    };
 
-    // setup bezier
-    Vector3 control_p[16];
-
-    control_p[0] = Vector3(-20, 0, 20);
-    control_p[1] = Vector3(-7, -3, 20);
-    control_p[2] = Vector3(7, -4, 20);
-    control_p[3] = Vector3(20, 0, 20);
-    control_p[4] = Vector3(-20, -2, 7);
-    control_p[5] = Vector3(-7, 0, 7);
-    control_p[6] = Vector3(7, -2, 7);
-    control_p[7] = Vector3(20, -1, 7);
-    control_p[8] = Vector3(-20, -4, -7);
-    control_p[9] = Vector3(-7, -2, -7);
-    control_p[10] = Vector3(7, -3, -7);
-    control_p[11] = Vector3(20, -2, -7);
-    control_p[12] = Vector3(-20, 0, -20);
-    control_p[13] = Vector3(-7, -2, -20);
-    control_p[14] = Vector3(7, -2, -20);
-    control_p[15] = Vector3(20, 0, -20);
-
-    Globals::bezier_patch = new BezierPatch(control_p, 150, 150);
+    Globals::bezier_patch = new BezierPatch(Points);
+    
+    // Setup skybox
     Globals::skybox = new Skybox(20);
 
+    // Setup light
     Globals::light1 = new Light(0);
     Globals::light1->set_position(-3.0, 3.0, 0.0, 1.0);
-    Globals::light1->set_ambient(0.0, 0.0, 0.0, 0.0);
+    Globals::light1->set_ambient(0.0, 0.0, 0.0, 1.0);
     Globals::light1->set_diffuse(0.5, 0.5, 0.5, 1.0);
-    Globals::light1->set_specular(0.0, 0.0, 0.0, 0.0);
+    Globals::light1->set_specular(0.4, 0.4, 0.4, 1.0);
     Globals::light1->enable();
 
+    // Setup material
+    float none[] = {0.0, 0.0, 0.0, 1.0};
+
+    //float red[] = {0.8, 0.1, 0.1, 1.0};
+    //float green[] = {0.1, 0.2, 0.1, 1.0};
+    //float blue[] = {0.1, 0.1, 0.2, 1.0};
+
+    /*
+    float light[] = {0.1, 0.1, 0.1, 1.0};
+    float medium[] = {0.3, 0.3, 0.3, 1.0};
+    float heavy[] = {0.5, 0.5, 0.5, 1.0};
+    float full[] = {1.0, 1.0, 1.0, 1.0};
+
+    float no_shininess[] = {0.0};
+    float low_shininess[] = {50.0};
+    float high_shininess[] = {100.0};
+
+    Material material1;
+    material1.set_ambient(none);
+    material1.set_diffuse(light);
+    material1.set_specular(light);
+    material1.set_shininess(low_shininess);
+    //material1.set_emission(red);
+
+    Globals::bezier_patch->set_material(material1);
+    */
+
+
+    // Set focus
     Globals::focus = static_cast<Object *>(Globals::skybox);
+
+
 }
 
 

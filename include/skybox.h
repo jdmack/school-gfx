@@ -1,9 +1,11 @@
 #ifndef CSE167_SKYBOX_H_
 #define CSE167_SKYBOX_H_
 
-#include "shader.h"
-#include "texture.h"
+#include <string>
+
 #include "object.h"
+
+#include <GL/glut.h>
 
 const std::string texture_front  = "texture/PalldioPalace_extern_front.ppm";
 const std::string texture_back   = "texture/PalldioPalace_extern_back.ppm";
@@ -12,23 +14,15 @@ const std::string texture_right  = "texture/PalldioPalace_extern_right.ppm";
 const std::string texture_top    = "texture/PalldioPalace_extern_top.ppm";
 const std::string texture_bottom = "texture/PalldioPalace_extern_base.ppm";
 
-enum face 
-{ 
-    FRONT,
-    BACK,
-    LEFT,
-    RIGHT,
-    TOP,
-    BOTTOM 
-};
+class Texture;
+class Shader;
 
 class Skybox : public Object
 {
-    private :
-        double size_;
+    private:
+        float size_;
+        bool use_map_;
 
-        bool facePresent[6];
-        GLuint skyID;
         Texture * front_texture_;
         Texture * back_texture_;
         Texture * left_texture_;
@@ -36,20 +30,33 @@ class Skybox : public Object
         Texture * top_texture_;
         Texture * bottom_texture_;
 
-        void create_cube_map(std::string front, std::string back, std::string top, std::string bottom, std::string left, std::string right, GLuint * tex_cube);
-        void init();
+        Shader * shader_;
 
-        Shader *shader[5];
-        Shader *skyShader;
+
+        GLuint skybox[6];
+
+        GLuint vbo;
         GLuint vao;
-        GLuint SkyBoxVBO;
+
+        void init();
+        unsigned char * load_PPM(const char * filename, int & width, int & height);
+
 
     public:
-        Skybox(double radius);
-        void update();
-        void display();
-        GLuint getSkyID();
+        Skybox(float size);
 
+        void set_shader(Shader * shader) { shader_ = shader; }
+        Shader * shader() { return shader_; } 
+
+
+        void create_cube_map(std::string front, std::string back, std::string top, std::string bottom, std::string left, std::string right, GLuint* tex_cube);
+
+        void load_side(GLuint texture, GLenum side_target, std::string filename);
+
+        GLuint getSkybox(int i) { return skybox[i]; }
+
+        void display();
+        void update();
 };
 
 #endif

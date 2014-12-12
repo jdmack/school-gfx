@@ -64,7 +64,7 @@ void Light::set_diffuse(float a, float b, float c, float d)
 
 void Light::set_position(float x, float y, float z, float w)
 {
-    std::cerr << "setting position: " << x << ", " << y << ", " << z << ", " << w << std::endl; 
+    //std::cerr << "setting position: " << x << ", " << y << ", " << z << ", " << w << std::endl; 
     position_[0] = x;
     position_[1] = y;
     position_[2] = z;

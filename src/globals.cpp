@@ -16,4 +16,5 @@ namespace Globals
     Light * light1;
     BezierPatch * bezier_patch;
     Skybox * skybox;
+    Shader * reflection;
 };

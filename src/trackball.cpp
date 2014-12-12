@@ -52,7 +52,7 @@ void Trackball::mouse_move(int x, int y)
                 rotate_axis3 = cur_point.cross_product(last_point);
                 rotate_axis3.normalize();
                 rot_angle = velocity * kRotateScale;
-                std::cerr << "rotate_axis: " << rotate_axis3.str() << std::endl;
+                //std::cerr << "rotate_axis: " << rotate_axis3.str() << std::endl;
                 //std::cerr << "rot_angle: " << rot_angle << std::endl;
                 
                 rotate_axis4 = Vector4(rotate_axis3.x(), rotate_axis3.y(), rotate_axis3.z(), 0);
