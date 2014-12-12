@@ -1,6 +1,6 @@
 #include "globals.h"
 #include "camera.h"
-#include "model.h"
+#include "object.h"
 #include "light.h"
 #include "bezier_patch.h"
 #include "skybox.h"
@@ -12,7 +12,7 @@ namespace Globals
     bool pause = false;
     Matrix4 identity_matrix;
 
-    Model * focus;
+    Object * focus;
     Light * light1;
     BezierPatch * bezier_patch;
     Skybox * skybox;

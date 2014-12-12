@@ -14,7 +14,8 @@
 #include "trackball.h"
 #include "light.h"
 #include "vector4.h"
-#include "skybox.h"
+#include "texture.h"
+//#include "skybox.h"
 
 #define kPi 3.14159265359
 
@@ -52,7 +53,6 @@ int main(int argc, char *argv[])
     glEnable(GL_DEPTH_TEST);   // enables depth testing
     glDepthFunc(GL_LEQUAL);    // configure depth testing
     glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);          // really nice perspective calculations
-
     
     glDisable(GL_CULL_FACE);                        // disable backface culling to render both sides of polygons
     glShadeModel(GL_SMOOTH);             	        // set shading to smooth
@@ -166,7 +166,7 @@ void keyboard_callback(unsigned char key, int x, int y)
 			break;
 
         case 'p':
-            Globals::focus->shader()->toggle();
+            //Globals::focus->shader()->toggle();
 			break;
 
 
@@ -285,6 +285,8 @@ void setup()
     Globals::light1->set_diffuse(0.5, 0.5, 0.5, 1.0);
     Globals::light1->set_specular(0.0, 0.0, 0.0, 0.0);
     Globals::light1->enable();
+
+    Globals::focus = static_cast<Object *>(Globals::skybox);
 }
 
 

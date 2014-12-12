@@ -1,7 +1,7 @@
 #ifndef CSE167_GLOBALS_H_
 #define CSE167_GLOBALS_H_
 
-#include "model.h"
+#include "object.h"
 #include "camera.h"
 #include "light.h"
 #include "bezier_patch.h"
@@ -14,7 +14,7 @@ namespace Globals
     extern bool pause;
     extern Matrix4 identity_matrix;
 
-    extern Model * focus;
+    extern Object * focus;
     extern Light * light1;
     extern BezierPatch * bezier_patch;
     extern Skybox * skybox;

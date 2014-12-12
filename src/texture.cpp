@@ -6,17 +6,37 @@
 
 #include "texture.h"
 
+Texture::Texture()
+{
+
+}
+
+Texture::Texture(std::string filename)
+{
+    id_ = load_texture(filename);
+}
+
+void Texture::bind()
+{
+    glBindTexture(GL_TEXTURE_2D, id_);
+}
+
+void Texture::unbind()
+{
+    glBindTexture(GL_TEXTURE_2D, 0);
+}
+
 // load image file into texture object
-void Texture::load_texture()
+GLuint Texture::load_texture(std::string filename)
 {
     GLuint texture[1];     // storage for one texture
     int twidth, theight;   // texture width/height [pixels]
     unsigned char* tdata;  // texture pixel data
   
     // Load image file
-    tdata = load_PPM("texture/PalldioPalace_extern_back.ppm", twidth, theight);
+    tdata = load_PPM(filename.c_str(), twidth, theight);
 
-    if(tdata == NULL) return;
+    if(tdata == NULL) return -1;
   
     // Create ID for texture
     glGenTextures(1, &texture[0]);   
@@ -30,6 +50,8 @@ void Texture::load_texture()
     // Set bi-linear filtering for both minification and magnification
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR); 
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+
+    return texture[0];
     
 }
 

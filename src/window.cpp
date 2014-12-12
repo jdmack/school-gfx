@@ -55,7 +55,21 @@ void GWindow::display_callback()
     //Globals::focus->display(Globals::camera.matrix());
     //Globals::focus->display();
     //Globals::bezier_patch->render();
-    Globals::skybox->render();
+    Globals::skybox->display();
+
+
+    // TEST TEXTURE
+    //glBegin(GL_QUADS);
+    //glColor3f(1, 1, 1);
+
+    // specify texture coordinates for each vertex
+    // note that textures are stored "upside down"
+    //glTexCoord2f(0, 1); glVertex3f(-2, -1, 0);    // bottom left
+    //glTexCoord2f(1, 1); glVertex3f(2, -1, 0);     // bottom right
+    //glTexCoord2f(1, 0); glVertex3f(2, 1, 0);      // top right
+    //glTexCoord2f(0, 0); glVertex3f(-2, 1, 0);     // top left
+
+    glEnd();
 
     glFlush();  
     glutSwapBuffers();
