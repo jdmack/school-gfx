@@ -101,6 +101,7 @@ void Model::parse(std::string filename)
         tokens = split(line, ' ');
         if(tokens.size() <= 0) continue;
 
+        // Vertex
         if(tokens.at(0).compare("v") == 0) {
             //Parse rest of tokens into doubles
             x = std::stod(tokens.at(1));
@@ -122,6 +123,18 @@ void Model::parse(std::string filename)
             colors_.push_back(Color(r, g, b));
         }
 
+        // Texture Coordinate
+        else if(tokens.at(0).compare("vt") == 0) {
+            //x = std::stod(tokens.at(1));
+            //y = std::stod(tokens.at(2));
+            //z = std::stod(tokens.at(3));
+
+            //Vector3 normal = Vector3(x, y, z);
+            //normal.normalize();
+            //normals_.push_back(normal);
+        }
+
+        // Normal
         else if(tokens.at(0).compare("vn") == 0) {
             x = std::stod(tokens.at(1));
             y = std::stod(tokens.at(2));
@@ -131,6 +144,8 @@ void Model::parse(std::string filename)
             normal.normalize();
             normals_.push_back(normal);
         }
+
+        // Face
         else if(tokens.at(0).compare("f") == 0) {
 
             std::vector<std::string> face_tokens;

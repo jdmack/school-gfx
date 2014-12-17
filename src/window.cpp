@@ -51,8 +51,10 @@ void GWindow::display_callback()
     Matrix4 matrix = Matrix4();
     matrix.identity();
 
+
     //Globals::focus->display(Globals::camera.matrix());
     //Globals::focus->display();
+    Globals::floor->display();
 
     //Globals::skybox->display();
 

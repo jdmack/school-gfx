@@ -245,6 +245,9 @@ void keyboard_special_callback(int key, int x, int y)
 void setup()
 {
     
+    // Setup floor
+    Globals::floor = new Floor();
+
     // Setup skybox
     //Globals::skybox = new Skybox(20);
 

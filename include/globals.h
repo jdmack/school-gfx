@@ -6,6 +6,7 @@
 #include "light.h"
 #include "shader.h"
 #include "skybox.h"
+#include "floor.h"
 
 namespace Globals
 {
@@ -17,6 +18,7 @@ namespace Globals
     extern Object * focus;
     extern Light * light1;
     extern Skybox * skybox;
+    extern Floor * floor;
 
 };
 
