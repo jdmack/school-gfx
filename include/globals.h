@@ -4,9 +4,8 @@
 #include "object.h"
 #include "camera.h"
 #include "light.h"
-#include "skybox.h"
 #include "shader.h"
-#include "bezier_patch.h"
+#include "skybox.h"
 
 namespace Globals
 {
@@ -17,9 +16,7 @@ namespace Globals
 
     extern Object * focus;
     extern Light * light1;
-    extern BezierPatch * bezier_patch;
     extern Skybox * skybox;
-    extern Shader * reflection;
 
 };
 

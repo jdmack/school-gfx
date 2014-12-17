@@ -2,7 +2,6 @@
 #define CSE167_SKYBOX_H_
 
 #include <string>
-
 #include "object.h"
 
 #include <GL/glut.h>

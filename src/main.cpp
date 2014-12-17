@@ -40,7 +40,7 @@ int main(int argc, char *argv[])
     glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB | GLUT_DEPTH);   // open an OpenGL context with double buffering, RGB colors, and depth buffering
     
     glutInitWindowSize(GWindow::width, GWindow::height);      // set initial window size
-    glutCreateWindow("CSE167 Project");    	        // open window and set window title
+    glutCreateWindow("CSE167 Final Project");    	        // open window and set window title
 
     glEnable(GL_DEPTH_TEST);            	        // enable depth buffering
     glEnable(GL_NORMALIZE);            	            
@@ -168,24 +168,16 @@ void keyboard_callback(unsigned char key, int x, int y)
 			break;
 
         case 'p':
-            //Globals::focus->shader()->toggle();
 			break;
 
 
         case 'e':
-            Globals::bezier_patch->shader()->toggle();
 			break;
 
         case 'l':
 			break;
 
         case '1':
-            if(Globals::light1->enabled()) {
-                Globals::light1->disable();
-            }
-            else {
-                Globals::light1->enable();
-            }
             break;
 
         case '2':
@@ -252,39 +244,9 @@ void keyboard_special_callback(int key, int x, int y)
 
 void setup()
 {
-    // Setup bezier
-
-    GLfloat Points[4][4][3] = {
-            {
-                {  10, -10, 10 },
-                {  10, -10, 10 },
-                { -10, -10, 10 },
-                { -10, -10, 10 }
-            },
-            {
-                {  10, -10, 10 },
-                {  10, -10, 10 },
-                { -10, -10, 10 },
-                { -10, -10, 10 }
-            },
-            {
-                {  10, -10, -10 },
-                {  10, -10, -10 },
-                { -10, -10, -10 },
-                { -10, -10, -10 }
-            },
-            {
-                {  10, -10, -10 },
-                {  10, -10, -10 },
-                { -10, -10, -10 },
-                { -10, -10, -10 }
-            }
-    };
-
-    Globals::bezier_patch = new BezierPatch(Points);
     
     // Setup skybox
-    Globals::skybox = new Skybox(20);
+    //Globals::skybox = new Skybox(20);
 
     // Setup light
     Globals::light1 = new Light(0);
@@ -295,7 +257,7 @@ void setup()
     Globals::light1->enable();
 
     // Setup material
-    float none[] = {0.0, 0.0, 0.0, 1.0};
+    //float none[] = {0.0, 0.0, 0.0, 1.0};
 
     //float red[] = {0.8, 0.1, 0.1, 1.0};
     //float green[] = {0.1, 0.2, 0.1, 1.0};
@@ -317,13 +279,10 @@ void setup()
     material1.set_specular(light);
     material1.set_shininess(low_shininess);
     //material1.set_emission(red);
-
-    Globals::bezier_patch->set_material(material1);
     */
 
 
     // Set focus
-    Globals::focus = static_cast<Object *>(Globals::skybox);
 
 
 }

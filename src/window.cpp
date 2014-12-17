@@ -19,7 +19,6 @@ void GWindow::idle_callback()
 {
     if(!Globals::pause) {
         //Globals::focus->update(timer_.get_ticks());
-        Globals::bezier_patch->update2();
     }
     display_callback();         // call display routine to show the object
 
@@ -38,8 +37,7 @@ void GWindow::reshape_callback(int w, int h)
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
     gluPerspective(60.0, double(width)/(double)height, 1.0, 1000.0); // set perspective projection viewing frustum
-    //glTranslatef(0, 0, -20);    // move camera back 20 units so that it looks at the origin (or else it's in the origin)
-    //glTranslatef(0, 0, -500);
+    glTranslatef(0, 0, -20);    // move camera back 20 units so that it looks at the origin (or else it's in the origin)
     glMatrixMode(GL_MODELVIEW);
 }
 
@@ -56,8 +54,7 @@ void GWindow::display_callback()
     //Globals::focus->display(Globals::camera.matrix());
     //Globals::focus->display();
 
-    Globals::skybox->display();
-    Globals::bezier_patch->display();
+    //Globals::skybox->display();
 
     glEnd();
 
