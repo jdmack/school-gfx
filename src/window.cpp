@@ -19,7 +19,7 @@ void GWindow::idle_callback()
 {
     if(!Globals::pause) {
         //Globals::focus->update(timer_.get_ticks());
-        Globals::bezier_patch->update();
+        Globals::bezier_patch->update2();
     }
     display_callback();         // call display routine to show the object
 
