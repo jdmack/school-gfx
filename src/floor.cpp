@@ -5,14 +5,14 @@
 
 #include "GL/glut.h"
 
-Floor::Floor()
+Floor::Floor() : Object()
 {
     size_ = kDefaultSize;
     color_ = kDefaultColor;
     height_ = kDefaultHeight;
 }
 
-Floor::Floor(double size)
+Floor::Floor(double size) : Object()
 {
     size_ = size;
     color_ = kDefaultColor;

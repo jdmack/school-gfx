@@ -8,6 +8,9 @@
 #include "skybox.h"
 #include "floor.h"
 #include "model.h"
+#include "sphere.h"
+#include "cube.h"
+#include "particle_effect.h"
 
 namespace Globals
 {
@@ -20,7 +23,15 @@ namespace Globals
     extern Light * light1;
     extern Skybox * skybox;
     extern Floor * floor;
-    extern Shader * shadow_shader;
+    extern Shader * toon_shader;
+    extern Sphere * sphere;
+    extern Cube * cube;
+    
+    extern Model * sword1;
+    extern Model * sword2;
+    extern Model * arena;
+
+    extern ParticleEffect * particle;
 };
 
 #endif

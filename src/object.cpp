@@ -1,34 +1,21 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <iostream>
-#include <GL/glut.h>
 #include "object.h"
 #include "matrix4.h"
 #include "camera.h"
 
+#include <GL/glut.h>
+
 Object::Object()
 {
-    angle = 0.0;
-    spin_ = 1;
     matrix_.identity();
     matrix_obj_.identity();
     matrix_o2w_.identity();
-}
 
-void Object::spin(double deg)
-{
-    angle += deg;
-    if(angle > 360.0 || angle < -360.0) {
-        angle = 0.0;
-    }
-    
-    matrix_obj_.rotate_y(deg * spin_);
+    shader_ = nullptr;
+    texture_ = nullptr;
 
-}
-
-void Object::toggle_spin()
-{
-    spin_ *= -1;
 }
 
 void Object::reset()
@@ -46,7 +33,7 @@ void Object::display(Camera camera)
 
     start_display(camera);
 
-// Draw stuff here
+    // Draw stuff here
 
     end_display();
 
@@ -55,6 +42,9 @@ void Object::display(Camera camera)
 void Object::start_display(Camera camera)
 {
     material_.enable();
+    if(shader_ != nullptr) shader_->bind();
+    if(texture_ != nullptr) texture_->bind();
+
 
     glMatrixMode(GL_MODELVIEW);         // make sure we're in Objectview mode
 
@@ -73,6 +63,9 @@ void Object::start_display(Camera camera)
 
 void Object::end_display()
 {
+    if(texture_ != nullptr) texture_->unbind();
+    if(shader_ != nullptr) shader_->unbind();
+
     glPopMatrix();
 }
 

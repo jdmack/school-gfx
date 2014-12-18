@@ -48,7 +48,7 @@ Color Color::operator/(double param)
 std::string Color::str()
 {
     std::stringstream ss;
-    ss << "{" << r_ << ", " << g_ << ", " << b_ << ">";
+    ss << "{" << r_ << ", " << g_ << ", " << b_ << "}";
     return ss.str();
 }
 

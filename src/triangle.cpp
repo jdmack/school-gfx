@@ -2,7 +2,7 @@
 
 Triangle::Triangle()
 {
-
+    texture_key_ = "none";
 }
 
 
@@ -17,4 +17,6 @@ Triangle::Triangle(Vector3 v1, Vector3 n1, Color c1, Vector3 v2, Vector3 n2, Col
     color1_ = c1;
     color2_ = c2;
     color3_ = c3;
+
+    texture_key_ = "none";
 }

@@ -11,6 +11,7 @@ class Triangle
         Vector3 normal1_, normal2_, normal3_;
         Vector3 texel1_, texel2_, texel3_;
         Color color1_, color2_, color3_;
+        std::string texture_key_;
     
     public:
         Triangle();
@@ -32,6 +33,8 @@ class Triangle
         Color & color2() { return color2_; }
         Color & color3() { return color3_; }
 
+        std::string texture_key() { return texture_key_; }
+
         void set_vertex1(Vector3 v) { vertex1_ = v; }
         void set_vertex2(Vector3 v) { vertex2_ = v; }
         void set_vertex3(Vector3 v) { vertex3_ = v; }
@@ -47,6 +50,8 @@ class Triangle
         void set_color1(Color c) { color1_ = c; }
         void set_color2(Color c) { color2_ = c; }
         void set_color3(Color c) { color3_ = c; }
+
+        void set_texture_key(std::string key) { texture_key_ = key; }
 };
 
 

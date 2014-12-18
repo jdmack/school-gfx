@@ -1,7 +1,5 @@
-#include "shader.h"
 #include <stdlib.h>
 #include <cmath>
-#include <GL/glut.h>
 
 #include <string>
 #include <vector>
@@ -13,35 +11,53 @@
 #include "camera.h"
 #include "object.h"
 
+#include <GL/glut.h>
 
 Model::Model() : Object()
 {
-    shader_ = nullptr;
-    texture_ = nullptr;
 }
 
 Model::Model(std::string filename) : Object()
 {
-
-    shader_ = nullptr;
-    texture_ = nullptr;
-
     parse(filename);
 }
 
 
 void Model::display(Camera camera)
 {
-    Object::start_display(camera);
+    //std::string current_texture = "none";
 
-    if(shader_ != nullptr) shader_->bind();
-    if(texture_ != nullptr) texture_->bind();
+    Object::start_display(camera);
 
     // Draw point cloud
     glBegin(GL_TRIANGLES);
 
     for(unsigned int i = 0; i < faces_.size(); i++) {
+        /*
+        if(faces_[i].texture_key() != current_texture) {
+
+            // End current triangles so we can change textures
+            glEnd();
+
+            // Unbind current texture unless its "none"
+            if(current_texture != "none") {
+                textures_.at(current_texture)->unbind();
+            }
+            
+            // Update current texture
+            current_texture = faces_[i].texture_key();
+
+            // Bind new texture unless it's "none"
+            if(current_texture != "none") {
+                textures_.at(current_texture)->bind();
+                glBegin(GL_TRIANGLES);
+            }
+        }
+        */
+
+
         glColor3d(faces_[i].color1().r(), faces_[i].color1().g(), faces_[i].color1().b());
+
         //glColor3d(faces_[i].normal1().x(), faces_[i].normal1().y(), faces_[i].normal1().z());
 
         //glColor3d(1.0, 1.0, 1.0);
@@ -61,9 +77,6 @@ void Model::display(Camera camera)
         glVertex3d(faces_[i].vertex3().x(), faces_[i].vertex3().y(), faces_[i].vertex3().z());
     }
     glEnd();
-
-    if(texture_ != nullptr) texture_->unbind();
-    if(shader_ != nullptr) shader_->unbind();
 
     Object::end_display();
 }
@@ -87,6 +100,8 @@ void Model::parse(std::string filename)
     unsigned int v1, v2, v3;
     unsigned int t1, t2, t3;
     unsigned int n1, n2, n3;
+    //unsigned int counter = 0;
+    //std::string current_texture = "none";
 
     std::ifstream infile(filename);
 
@@ -101,6 +116,7 @@ void Model::parse(std::string filename)
     std::string token;
 
     while(std::getline(infile, line)) {
+        //std::cerr << "Line: " << ++counter << std::endl;
         //std::cerr << "Parsing: " << line << std::endl;
         tokens = split(line, ' ');
         if(tokens.size() <= 0) continue;
@@ -154,6 +170,18 @@ void Model::parse(std::string filename)
             std::vector<std::string> face_tokens;
 
             token = tokens.at(1);
+            /*
+            if(token.find("//") != std::string::npos) {
+                //face_tokens = split(token, "//");
+
+                v1 = std::stoi(token.substr(0, token.find("//")));
+                //v1 = std::stoi(face_tokens.at(0)) - 1;
+                t1 = -1;
+                //n1 = std::stoi(face_tokens.at(1)) - 1;
+                n1 = std::stoi(token.substr(token.find("//") + 2));
+            }
+            else {
+                */
             face_tokens = split(token, '/');
             if(face_tokens.size() >= 3) {
                 v1 = std::stoi(face_tokens.at(0)) - 1;
@@ -163,22 +191,47 @@ void Model::parse(std::string filename)
                 //std::cerr << "token 1: " << face_tokens.at(1) << std::endl;
                 //std::cerr << "token 2: " << face_tokens.at(2) << std::endl;
             }
+            //}
             
             token = tokens.at(2);
+            /*
+            if(token.find("//") != std::string::npos) {
+                //face_tokens = split(token, "//");
+                //v2 = std::stoi(face_tokens.at(0)) - 1;
+                v2 = std::stoi(token.substr(0, token.find("//")));
+                t2 = -1;
+                //n2 = std::stoi(face_tokens.at(1)) - 1;
+                n2 = std::stoi(token.substr(token.find("//") + 2));
+            }
+            else {
+                */
             face_tokens = split(token, '/');
             if(face_tokens.size() >= 3) {
                 v2 = std::stoi(face_tokens.at(0)) - 1;
                 t2 = std::stoi(face_tokens.at(1)) - 1;
                 n2 = std::stoi(face_tokens.at(2)) - 1;
             }
+            //}
             
             token = tokens.at(3);
+            /*
+            if(token.find("//") != std::string::npos) {
+                //face_tokens = split(token, "//");
+                //v3 = std::stoi(face_tokens.at(0)) - 1;
+                v3 = std::stoi(token.substr(0, token.find("//")));
+                t3 = -1;
+                //n3 = std::stoi(face_tokens.at(1)) - 1;
+                n3 = std::stoi(token.substr(token.find("//") + 2));
+            }
+            else {
+                */
             face_tokens = split(token, '/');
             if(face_tokens.size() >= 3) {
                 v3 = std::stoi(face_tokens.at(0)) - 1;
                 t3 = std::stoi(face_tokens.at(1)) - 1;
                 n3 = std::stoi(face_tokens.at(2)) - 1;
             }
+            //}
 
 
             if((v1 >= vertices_.size()) || (v2 >= vertices_.size()) || (v3 >= vertices_.size())) {
@@ -186,8 +239,10 @@ void Model::parse(std::string filename)
                 continue;
             }
             if((t1 >= texels_.size()) || (t2 >= texels_.size()) || (t3 >= texels_.size())) {
-                std::cerr << "Error: Texels out of range: " << t1 << ", " << t2 << ", " << t3 << std::endl;
-                continue;
+                //if((t1 != -1) && (t2 != -1) && (t3 != -1)) {
+                    std::cerr << "Error: Texels out of range: " << t1 << ", " << t2 << ", " << t3 << std::endl;
+                    continue;
+                //}
             }
             if((n1 >= normals_.size()) || (n2 >= normals_.size()) || (n3 >= normals_.size())) {
                 std::cerr << "Error: Normals out of range: " << n1 << ", " << n2 << ", " << n3 << std::endl;
@@ -195,14 +250,35 @@ void Model::parse(std::string filename)
             }
 
             Triangle triangle = Triangle(vertices_[v1], normals_[n1], colors_[v1], vertices_[v2], normals_[n2], colors_[v2], vertices_[v3], normals_[n3], colors_[v3]);
+            /*
+            if((t1 = -1) || (t2 == -1) || (t3 == -1)) {
+                triangle.set_texel1(Vector3(0.0, 0.0, 0.0));
+                triangle.set_texel2(Vector3(0.0, 0.0, 0.0));
+                triangle.set_texel3(Vector3(0.0, 0.0, 0.0));
+            }
+            else {
+                */
             triangle.set_texel1(texels_[t1]);
             triangle.set_texel2(texels_[t2]);
             triangle.set_texel3(texels_[t3]);
+            //}
+            //triangle.set_texture_key(current_texture);
             faces_.push_back(triangle);
             //faces_.push_back(Triangle(vertices_[v1], normals_[n1], colors_[v1], vertices_[v2], normals_[n2], colors_[v2], vertices_[v3], normals_[n3], colors_[v3]));
-
         }
+        /*
+        else if(tokens.at(0).compare("usemtl") == 0) {
+            std::string tex_key = tokens.at(1);
 
+            std::map<std::string, Texture *>::iterator it = textures_.find(tex_key);
+            if(it == textures_.end()) {
+
+                Texture * texture = new Texture("texture/" + tex_key + ".ppm");
+                textures_[tex_key] = texture;
+            }
+            current_texture = tex_key;
+        }
+        */
     }
 
     //std::cerr << "Vertices: " << vertices_.size() << std::endl;

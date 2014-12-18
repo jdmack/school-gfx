@@ -7,6 +7,8 @@
 #include "camera.h"
 #include "color.h"
 #include "material.h"
+#include "shader.h"
+#include "texture.h"
 
 class Object
 {
@@ -14,11 +16,13 @@ class Object
         Matrix4 matrix_;
         Matrix4 matrix_obj_;
         Matrix4 matrix_o2w_;
-        double angle;
+        Vector3 position_;
+
         Color color_;
         Material material_;
-        int spin_;
-        Vector3 position_;
+        Shader * shader_;
+        Texture * texture_;
+
 
     public:
         // constructors
@@ -28,20 +32,18 @@ class Object
         Matrix4& matrix() { return matrix_; } 
         Matrix4& matrix_obj() { return matrix_obj_; } 
         Matrix4& matrix_o2w() { return matrix_o2w_; } 
+		Vector3& position() { return position_; }
 
         Color & color() { return color_; }
         Material & material() { return material_; }
+        Shader * shader() { return shader_; }
+        Texture * texture() { return texture_; }
        
-        int get_spin() { return spin_; }
-		Vector3& position() { return position_; }
-
         // mutators
         void set_color(Color color) { color_ = color; }
         void set_material(Material material) { material_ = material; }
-        void set_spin(int spin) { spin_ = spin; }
-
-        void spin(double);      // spin cube [degrees]
-        void toggle_spin();
+        void set_shader(Shader * shader) { shader_ = shader; }
+        void set_texture(Texture * texture) { texture_ = texture; }
 
         virtual void display(Camera camera = Camera());
         virtual void update(int ticks);

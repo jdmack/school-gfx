@@ -14,7 +14,7 @@ Texture::Texture()
 Texture::Texture(std::string filename)
 {
     id_ = load_texture(filename);
-    std::cerr << "Texture loaded(id: " << id_ << ")" << std::endl;
+    std::cerr << "Texture loaded(id: " << id_ << ", file: " << filename << ")" << std::endl;
 }
 
 void Texture::bind()

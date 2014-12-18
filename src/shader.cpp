@@ -50,14 +50,14 @@ void
 Shader::bind()
 {
     //std::cerr << "Binding shader" << std::endl;
-    //if(active_)
+    if(active_)
 	    glUseProgramObjectARB(pid);
 }
 void
 Shader::unbind()
 {
     //std::cerr << "Unbinding shader" << std::endl;
-    //if(active_)
+    if(active_)
 	    glUseProgramObjectARB(0);
 }
 
