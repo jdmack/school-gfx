@@ -269,7 +269,9 @@ void setup()
     //Globals::cube = new Cube();
     
     // Setup floor
-    //Globals::floor = new Floor();
+    Texture * floor_texture = new Texture("texture/sand.ppm");
+    Globals::floor = new Floor();
+    Globals::floor->set_texture(floor_texture);
 
     // Setup swords
     Globals::sword1 = new Model("obj/sword1.obj");

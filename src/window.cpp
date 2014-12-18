@@ -73,7 +73,7 @@ void GWindow::display_callback()
     //Globals::focus->display(Globals::camera.matrix());
     //Globals::sword1->display();
     //Globals::sword2->display();
-    //Globals::floor->display();
+    Globals::floor->display();
     //Globals::arena->display();
     //Globals::cube->display();
 

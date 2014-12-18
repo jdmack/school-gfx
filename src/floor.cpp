@@ -26,6 +26,7 @@ void Floor::update(int ticks)
 
 void Floor::display(Camera camera)
 {
+    double tex = size_ / 10;
     Object::start_display(camera);
 
     glBegin(GL_QUADS);
@@ -34,9 +35,16 @@ void Floor::display(Camera camera)
 
     glNormal3f(0.0, 1.0, 0.0);
 
+    glTexCoord2f(-tex, tex);
     glVertex3f(-size_, height_, size_ );
+
+    glTexCoord2f(tex, tex);
     glVertex3f(size_, height_, size_ );
+
+    glTexCoord2f(tex, -tex);
     glVertex3f(size_, height_, -size_);
+
+    glTexCoord2f(-tex, -tex);
     glVertex3f(-size_, height_, -size_);
     glEnd();
 
