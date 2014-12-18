@@ -39,6 +39,8 @@ int main(int argc, char *argv[])
     glutInit(&argc, argv);      	      	        // initialize GLUT
     glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB | GLUT_DEPTH);   // open an OpenGL context with double buffering, RGB colors, and depth buffering
     
+    GWindow::width = glutGet(GLUT_SCREEN_WIDTH) - 10;
+    GWindow::height = glutGet(GLUT_SCREEN_HEIGHT) - 70;
     glutInitWindowSize(GWindow::width, GWindow::height);      // set initial window size
     glutCreateWindow("CSE167 Final Project");    	        // open window and set window title
 
@@ -247,6 +249,20 @@ void setup()
     // Setup floor
     Globals::floor = new Floor();
 
+    // Setup swords
+    Model * sword1 = new Model("obj/sword1.obj");
+    
+    sword1->matrix_obj().rotate_y(-90);
+    sword1->matrix_obj().rotate_x(90);
+
+
+
+    Texture * texture = new Texture("texture/sword1.ppm");
+    sword1->set_texture(texture);
+
+    
+
+
     // Setup skybox
     //Globals::skybox = new Skybox(20);
 
@@ -286,7 +302,8 @@ void setup()
 
 
     // Set focus
-    Globals::focus = new Model("obj/sword1.obj");
+    Globals::focus = static_cast<Object *>(sword1);
+
     //Globals::focus = new Model("obj/bunny.obj");
 
 }

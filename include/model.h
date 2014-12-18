@@ -8,6 +8,7 @@
 #include "object.h"
 #include "triangle.h"
 #include "color.h"
+#include "texture.h"
 
 class Model : public Object
 {
@@ -26,6 +27,7 @@ class Model : public Object
         Vector3 smallest_z_;
 
         Shader * shader_;
+        Texture * texture_;
 
         Vector3 center_;
     public:
@@ -40,8 +42,10 @@ class Model : public Object
         std::vector<Color> & colors() { return colors_; }
 
         Shader * shader() { return shader_; }
+        Texture * texture() { return texture_; }
 
         void set_shader(Shader * shader) { shader_ = shader; }
+        void set_texture(Texture * texture) { texture_ = texture; }
 
         void display(Camera camera = Camera());
         void update(int ticks);
