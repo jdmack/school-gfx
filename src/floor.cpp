@@ -26,6 +26,8 @@ void Floor::update(int ticks)
 
 void Floor::display(Camera camera)
 {
+    Object::display();
+
     glBegin(GL_QUADS);
 
     glColor3f(color_.r(), color_.g(), color_.b());

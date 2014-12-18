@@ -53,10 +53,11 @@ void GWindow::display_callback()
 
 
     //Globals::focus->display(Globals::camera.matrix());
-    //Globals::focus->display();
+    Globals::focus->display();
     Globals::floor->display();
 
     //Globals::skybox->display();
+    Globals::light1->display();
 
     glEnd();
 

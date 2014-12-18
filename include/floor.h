@@ -8,7 +8,8 @@
 
 const double kDefaultSize = 200;
 const double kDefaultHeight = -10;
-const Color kDefaultColor = Color(0.2, 0.2, 0.2);
+//const Color kDefaultColor = Color(0.8, 0.8, 0.8);
+const Color kDefaultColor = Color(1.0, 1.0, 1.0);
 
 class Floor : public Object
 {

@@ -7,6 +7,7 @@
 #include "shader.h"
 #include "skybox.h"
 #include "floor.h"
+#include "model.h"
 
 namespace Globals
 {
@@ -19,7 +20,6 @@ namespace Globals
     extern Light * light1;
     extern Skybox * skybox;
     extern Floor * floor;
-
 };
 
 #endif

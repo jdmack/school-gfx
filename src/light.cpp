@@ -110,6 +110,6 @@ void Light::display()
     matrix.translate(position_[0], position_[1], position_[2]);
     glMatrixMode(GL_MODELVIEW);
     glLoadMatrixd(matrix.pointer());
-    glColor3f(1.0, 1.0, 1.0);
+    glColor3f(0.0, 1.0, 0.0);
     glutSolidSphere(0.2, 50, 50);
 }
