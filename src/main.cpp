@@ -38,11 +38,15 @@ int main(int argc, char *argv[])
 
     glutInit(&argc, argv);      	      	        // initialize GLUT
     glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB | GLUT_DEPTH);   // open an OpenGL context with double buffering, RGB colors, and depth buffering
+
     
     GWindow::width = glutGet(GLUT_SCREEN_WIDTH) - 10;
     GWindow::height = glutGet(GLUT_SCREEN_HEIGHT) - 70;
     glutInitWindowSize(GWindow::width, GWindow::height);      // set initial window size
     glutCreateWindow("CSE167 Final Project");    	        // open window and set window title
+
+    // Display OpenGL Version
+    std::cerr << "OpenGL Version: " << glGetString(GL_VERSION) << std::endl;
 
     glEnable(GL_DEPTH_TEST);            	        // enable depth buffering
     glEnable(GL_NORMALIZE);            	            
@@ -87,6 +91,7 @@ int main(int argc, char *argv[])
     glutMotionFunc(Trackball::mouse_move);
 
     setup();
+
 
     glutMainLoop();
     return 0;
