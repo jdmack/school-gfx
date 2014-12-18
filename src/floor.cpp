@@ -26,7 +26,7 @@ void Floor::update(int ticks)
 
 void Floor::display(Camera camera)
 {
-    Object::display();
+    Object::start_display(camera);
 
     glBegin(GL_QUADS);
 
@@ -39,6 +39,8 @@ void Floor::display(Camera camera)
     glVertex3f(size_, height_, -size_);
     glVertex3f(-size_, height_, -size_);
     glEnd();
+
+    Object::end_display();
 
 }
 

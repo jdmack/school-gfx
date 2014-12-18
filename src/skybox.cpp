@@ -177,10 +177,10 @@ void Skybox::load_side(GLuint texture, GLenum side_target, std::string filename)
 
 
 
-void Skybox::display()
+void Skybox::display(Camera camera)
 {
 
-    Object::display();
+    Object::start_display(camera);
 
     if(use_map_) {
 
@@ -299,6 +299,8 @@ void Skybox::display()
 */
 
     }
+
+    Object::end_display();
 }
 
 /** Load a ppm file from disk.

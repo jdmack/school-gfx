@@ -10,6 +10,8 @@
 
 #include <GL/glut.h>
 
+extern Camera camera;
+extern Camera light;
 extern float p_camera[3];
 extern float l_camera[3];
 extern float p_light[3];
@@ -34,8 +36,8 @@ void GWindow::idle_callback()
     //timer_.start();
 
 
-    p_light[0] = 30.0 * std::cos(glutGet(GLUT_ELAPSED_TIME)/1000.0);
-    p_light[2] = 30.0 * std::sin(glutGet(GLUT_ELAPSED_TIME)/1000.0);
+    //p_light[0] = 30.0 * std::cos(glutGet(GLUT_ELAPSED_TIME)/1000.0);
+    //p_light[2] = 30.0 * std::sin(glutGet(GLUT_ELAPSED_TIME)/1000.0);
 
     display_callback();         // call display routine to show the object
 
@@ -51,9 +53,12 @@ void GWindow::reshape_callback(int w, int h)
     glViewport(0, 0, w, h);  // set new viewport size
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
-    gluPerspective(45, width/height,10,40000);
+
     //gluPerspective(60.0, double(width)/(double)height, 1.0, 1000.0); // set perspective projection viewing frustum
-    glTranslatef(0, 0, -20);    // move camera back 20 units so that it looks at the origin (or else it's in the origin)
+    //gluPerspective(45, width / height, 10, 40000);    // from tutorial
+    gluPerspective(60, width / height, 10, 1000.0);     // hybrid
+
+    //glTranslatef(0, 0, -20);    // move camera back 20 units so that it looks at the origin (or else it's in the origin)
     glMatrixMode(GL_MODELVIEW);
 }
 
@@ -85,16 +90,17 @@ void GWindow::display_callback()
     // Disable color rendering, we only want to write to the Z-Buffer
     glColorMask(GL_FALSE, GL_FALSE, GL_FALSE, GL_FALSE);
 
-    setupMatrices(p_light[0],p_light[1],p_light[2],l_light[0],l_light[1],l_light[2]);
+    //setupMatrices(p_light[0],p_light[1],p_light[2],l_light[0],l_light[1],l_light[2]);
+    setupMatrices(light.e().x(), light.e().y(), light.e().z(), light.d().x(), light.d().y(), light.d().z());
 
     // Culling switching, rendering only backface, this is done to avoid self-shadowing
     glEnable(GL_CULL_FACE);
     glCullFace(GL_FRONT);
-    drawObjects();
+    //drawObjects();
 
     // Draw objects
-    //Globals::focus->display();
-    //Globals::floor->display();
+    Globals::focus->display(light);
+    Globals::floor->display(light);
 
     //Save modelview/projection matrice into texture7, also add a biais
     setTextureMatrix();
@@ -115,13 +121,14 @@ void GWindow::display_callback()
     glActiveTextureARB(GL_TEXTURE7);
     glBindTexture(GL_TEXTURE_2D,depthTextureId);
 
-    setupMatrices(p_camera[0],p_camera[1],p_camera[2],l_camera[0],l_camera[1],l_camera[2]);
+    //setupMatrices(p_camera[0],p_camera[1],p_camera[2],l_camera[0],l_camera[1],l_camera[2]);
+    setupMatrices(camera.e().x(), camera.e().y(), camera.e().z(), camera.d().x(), camera.d().y(), camera.d().z());
 
 
     glCullFace(GL_BACK);
     glDisable(GL_CULL_FACE);
 
-    drawObjects();
+    //drawObjects();
 
 
     /*
@@ -149,8 +156,8 @@ void GWindow::display_callback()
 
 
     //Globals::focus->display(Globals::camera.matrix());
-    //Globals::focus->display();
-    //Globals::floor->display();
+    Globals::focus->display(camera);
+    Globals::floor->display(camera);
 
 
     //Globals::skybox->display();
@@ -247,7 +254,8 @@ void GWindow::setupMatrices(float position_x, float position_y, float position_z
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
     //gluPerspective(60, width/height, 1.0, 1000.0);
-    gluPerspective(45,width/height,10,40000);
+    //gluPerspective(45, width / height, 10, 40000);
+    gluPerspective(60, width / height, 10, 1000.0);
 
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();

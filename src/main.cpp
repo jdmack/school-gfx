@@ -23,7 +23,8 @@
 // TODO:
 // - Camera has to be transposed and inverted to work right, fix this
 
-
+Camera camera = Camera(Vector3(32, 20, 0), Vector3(2, 0, -10), Vector3(0, 1, 0));
+Camera light = Camera(Vector3(3, 20, 0), Vector3(0, 0, -5), Vector3(0, 1, 0));
 
 
 const int kShadowMapRatio = 1;
@@ -294,7 +295,7 @@ void setup()
     
     sword1->matrix_obj().rotate_y(-90);
     sword1->matrix_obj().rotate_x(90);
-
+    sword1->matrix_o2w().translate(0, 10, 0);
 
 
     Texture * texture = new Texture("texture/sword1.ppm");
@@ -358,8 +359,6 @@ void generateShadowFBO()
     int shadowMapWidth = GWindow::width * kShadowMapRatio;
     int shadowMapHeight = GWindow::height * kShadowMapRatio;
 
-    //GLfloat borderColor[4] = {0,0,0,0};
-
     GLenum FBOstatus;
 
     // Try to use a texture depth component
@@ -373,9 +372,6 @@ void generateShadowFBO()
     // Remove artefact on the edges of the shadowmap
     glTexParameterf( GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP );
     glTexParameterf( GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP );
-
-    //glTexParameterfv( GL_TEXTURE_2D, GL_TEXTURE_BORDER_COLOR, borderColor );
-
 
 
     // No need to force GL_DEPTH_COMPONENT24, drivers usually give you the max precision if available

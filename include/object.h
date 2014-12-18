@@ -46,6 +46,9 @@ class Object
         virtual void display(Camera camera = Camera());
         virtual void update(int ticks);
         virtual void reset();
+
+        void start_display(Camera camera);
+        void end_display();
 };
 
 #endif

@@ -32,19 +32,10 @@ Model::Model(std::string filename) : Object()
 
 void Model::display(Camera camera)
 {
+    Object::start_display(camera);
+
     if(shader_ != nullptr) shader_->bind();
     if(texture_ != nullptr) texture_->bind();
-
-    material_.enable();
-
-    glMatrixMode(GL_MODELVIEW);         // make sure we're in Objectview mode
-
-    // Tell OpenGL what ObjectView matrix to use:
-    matrix().identity();
-    matrix().set(matrix().multiply(matrix_obj()));
-    matrix().set(matrix().multiply(matrix_o2w()));
-    matrix().set(matrix().multiply(camera.c()));
-    glLoadMatrixd(matrix().pointer());
 
     // Draw point cloud
     glBegin(GL_TRIANGLES);
@@ -73,6 +64,8 @@ void Model::display(Camera camera)
 
     if(texture_ != nullptr) texture_->unbind();
     if(shader_ != nullptr) shader_->unbind();
+
+    Object::end_display();
 }
 
 void Model::update(int ticks)

@@ -43,19 +43,37 @@ void Object::reset()
 
 void Object::display(Camera camera)
 {
-    //material_.enable();
+
+    start_display(camera);
+
+// Draw stuff here
+
+    end_display();
+
+}
+
+void Object::start_display(Camera camera)
+{
+    material_.enable();
 
     glMatrixMode(GL_MODELVIEW);         // make sure we're in Objectview mode
 
     // Tell OpenGL what ObjectView matrix to use:
+
+    glPushMatrix();
 
     matrix().identity();
     matrix().set(matrix().multiply(matrix_obj()));
     matrix().set(matrix().multiply(matrix_o2w()));
     matrix().set(matrix().multiply(camera.c()));
     glLoadMatrixd(matrix().pointer());
+    
 
+}
 
+void Object::end_display()
+{
+    glPopMatrix();
 }
 
 void Object::update(int ticks)

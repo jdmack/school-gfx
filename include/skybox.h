@@ -54,7 +54,7 @@ class Skybox : public Object
 
         GLuint getSkybox(int i) { return skybox[i]; }
 
-        void display();
+        void display(Camera camera = Camera());
         void update();
 };
 

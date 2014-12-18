@@ -61,5 +61,5 @@ void Camera::calc()
     c_.transpose();
 
     // invert because we need to multiple by camera inverse 
-    //c_.invert();
+    c_.invert();
 }
