@@ -61,8 +61,8 @@ int main(int argc, char *argv[])
 
     glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);          // really nice perspective calculations
 
-    //glEnable(GL_CULL_FACE);                        // disable backface culling to render both sides of polygons
-    //glCullFace(GL_BACK);
+    glEnable(GL_CULL_FACE);                        // disable backface culling to render both sides of polygons
+    glCullFace(GL_BACK);
 
     glShadeModel(GL_SMOOTH);             	        // set shading to smooth
     glMatrixMode(GL_PROJECTION); 
@@ -307,7 +307,7 @@ void setup()
 
 
     // Setup skybox
-    //Globals::skybox = new Skybox(20);
+    //Globals::skybox = new Skybox(200);
 
     // Setup light
     Globals::light1 = new Light(0);
@@ -345,10 +345,12 @@ void setup()
 
 
     // Set focus
-    Globals::focus = static_cast<Object *>(Globals::sword1);
+    //Globals::focus = static_cast<Object *>(Globals::sword1);
     //Globals::focus = static_cast<Object *>(Globals::cube);
     //Globals::focus = static_cast<Object *>(Globals::sphere);
     //Globals::focus = static_cast<Object *>(Globals::arena);
+
+    //Globals::focus = static_cast<Object *>(Globals::skybox);
 
     //Globals::focus = new Model("obj/bunny.obj");
 

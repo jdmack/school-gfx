@@ -6,12 +6,12 @@
 
 #include <GL/glut.h>
 
-const std::string texture_front  = "texture/PalldioPalace_extern_front.ppm";
-const std::string texture_back   = "texture/PalldioPalace_extern_back.ppm";
-const std::string texture_left   = "texture/PalldioPalace_extern_left.ppm";
-const std::string texture_right  = "texture/PalldioPalace_extern_right.ppm";
-const std::string texture_top    = "texture/PalldioPalace_extern_top.ppm";
-const std::string texture_bottom = "texture/PalldioPalace_extern_base.ppm";
+const std::string texture_front  = "texture/desert_skybox_front.ppm";
+const std::string texture_back   = "texture/desert_skybox_back.ppm";
+const std::string texture_left   = "texture/desert_skybox_left.ppm";
+const std::string texture_right  = "texture/desert_skybox_right.ppm";
+const std::string texture_top    = "texture/desert_skybox_top.ppm";
+const std::string texture_bottom = "texture/desert_skybox_bottom.ppm";
 
 class Texture;
 class Shader;

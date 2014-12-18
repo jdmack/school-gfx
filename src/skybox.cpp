@@ -16,12 +16,12 @@ Skybox::Skybox(float size)
 
 void Skybox::init()
 {
-    //front_texture_ = new Texture(texture_front);
-    //back_texture_ = new Texture(texture_back);
-    //left_texture_ = new Texture(texture_left);
-    //right_texture_ = new Texture(texture_right);
-    //top_texture_ = new Texture(texture_top);
-    //bottom_texture_ = new Texture(texture_bottom);
+    front_texture_ = new Texture(texture_front);
+    back_texture_ = new Texture(texture_back);
+    left_texture_ = new Texture(texture_left);
+    right_texture_ = new Texture(texture_right);
+    top_texture_ = new Texture(texture_top);
+    bottom_texture_ = new Texture(texture_bottom);
 
 	float points[] = {
 		-size_,  size_, -size_,
@@ -210,8 +210,7 @@ void Skybox::display(Camera camera)
         glDisable(GL_TEXTURE_2D);
     }
     else {
-/*
-        shader_->bind();
+        //shader_->bind();
 
         // FRONT
         front_texture_->bind();
@@ -272,13 +271,13 @@ void Skybox::display(Camera camera)
         // TOP
         top_texture_->bind();
         glBegin(GL_QUADS);
-        glTexCoord2f(0, 0);
-        glVertex3f(-size_, +size_, -size_);     // near left
-        glTexCoord2f(1, 0);
-        glVertex3f(+size_, +size_, -size_);     // near right
         glTexCoord2f(1, 1);
-        glVertex3f(+size_, +size_, +size_);     // far  right
+        glVertex3f(-size_, +size_, -size_);     // near left
         glTexCoord2f(0, 1);
+        glVertex3f(+size_, +size_, -size_);     // near right
+        glTexCoord2f(0, 0);
+        glVertex3f(+size_, +size_, +size_);     // far  right
+        glTexCoord2f(1, 0);
         glVertex3f(-size_, +size_, +size_);     // far left
         glEnd();
         top_texture_->unbind();
@@ -296,7 +295,6 @@ void Skybox::display(Camera camera)
         glVertex3f(+size_, -size_, +size_);     // far right
         glEnd();
         bottom_texture_->unbind();
-*/
 
     }
 
