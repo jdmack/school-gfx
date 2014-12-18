@@ -24,58 +24,93 @@
 // - Camera has to be transposed and inverted to work right, fix this
 
 
+
+
+const int kShadowMapRatio = 1;
+
+
+//Camera position
+float p_camera[3] = {32,20,0};
+
+//Camera lookAt
+float l_camera[3] = {2,0,-10};
+
+//Light position
+float p_light[3] = {3,20,0};
+
+//Light lookAt
+float l_light[3] = {0,0,-5};
+
+GLuint depthTextureId;
+GLuint fboId;
+GLuint shadowMapUniform;
+
+
 void keyboard_callback(unsigned char key, int x, int y);
 void keyboard_special_callback(int key, int x, int y);
 void setup();
+void generateShadowFBO();
 
 int main(int argc, char *argv[])
 {
-    float specular[]  = {1.0, 1.0, 1.0, 1.0};
-    float shininess[] = {100.0};
+    //float specular[]  = {1.0, 1.0, 1.0, 1.0};
+    //float shininess[] = {100.0};
     //float position[]  = {0.0, 10.0, 1.0, 0.0};	    // lightsource position
 
-    GWindow::timer_.start();
+    //GWindow::timer_.start();
 
     glutInit(&argc, argv);      	      	        // initialize GLUT
     glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB | GLUT_DEPTH);   // open an OpenGL context with double buffering, RGB colors, and depth buffering
 
     
-    GWindow::width = glutGet(GLUT_SCREEN_WIDTH) - 10;
-    GWindow::height = glutGet(GLUT_SCREEN_HEIGHT) - 70;
+    //GWindow::width = glutGet(GLUT_SCREEN_WIDTH) - 10;
+    //GWindow::height = glutGet(GLUT_SCREEN_HEIGHT) - 70;
+    GWindow::width = 640;
+    GWindow::height = 480;
     glutInitWindowSize(GWindow::width, GWindow::height);      // set initial window size
+    glutInitWindowPosition(100, 100);
     glutCreateWindow("CSE167 Final Project");    	        // open window and set window title
 
     // Display OpenGL Version
     std::cerr << "OpenGL Version: " << glGetString(GL_VERSION) << std::endl;
 
+
+    generateShadowFBO();
+
+
     glEnable(GL_DEPTH_TEST);            	        // enable depth buffering
-    glEnable(GL_NORMALIZE);            	            
-    glClear(GL_DEPTH_BUFFER_BIT);       	        // clear depth buffer
+    //glEnable(GL_NORMALIZE);            	            
+    //glClear(GL_DEPTH_BUFFER_BIT);       	        // clear depth buffer
     glClearColor(0.0, 0.0, 0.0, 1.0);   	        // set clear color to black
-    glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);      // set polygon drawing mode to fill front and back of each polygon
+    //glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);      // set polygon drawing mode to fill front and back of each polygon
 
     // NEW STUFF FROM TEXTURE
-    glEnable(GL_TEXTURE_2D);   // enable texture mapping
-    glClearDepth(1.0f);        // depth buffer setup
-    glEnable(GL_DEPTH_TEST);   // enables depth testing
-    glDepthFunc(GL_LEQUAL);    // configure depth testing
+    //glEnable(GL_TEXTURE_2D);   // enable texture mapping
+    //glClearDepth(1.0f);        // depth buffer setup
+    //glDepthFunc(GL_LEQUAL);    // configure depth testing
+
+    //glEnable(GL_CULL_FACE);
     glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);          // really nice perspective calculations
+
+
+
+
     
     //glEnable(GL_CULL_FACE);                        // disable backface culling to render both sides of polygons
     //glCullFace(GL_BACK);
-    glShadeModel(GL_SMOOTH);             	        // set shading to smooth
-    glMatrixMode(GL_PROJECTION); 
+
+    //glShadeModel(GL_SMOOTH);             	        // set shading to smooth
+    //glMatrixMode(GL_PROJECTION); 
   
     // Generate material properties:
-    glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, specular);
-    glMaterialfv(GL_FRONT_AND_BACK, GL_SHININESS, shininess);
-    glColorMaterial(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE);
-    glEnable(GL_COLOR_MATERIAL);
+    //glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, specular);
+    //glMaterialfv(GL_FRONT_AND_BACK, GL_SHININESS, shininess);
+    //glColorMaterial(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE);
+    //glEnable(GL_COLOR_MATERIAL);
 
     // Enable Lighting
-    // Generate light source:
-    glEnable(GL_LIGHTING);
-    glLightModelf(GL_LIGHT_MODEL_LOCAL_VIEWER, GL_TRUE);
+    //glEnable(GL_LIGHTING);
+    //glLightModelf(GL_LIGHT_MODEL_LOCAL_VIEWER, GL_TRUE);
   
     // Install callback functions:
     glutDisplayFunc(GWindow::display_callback);
@@ -273,12 +308,13 @@ void setup()
 
     // Setup light
     Globals::light1 = new Light(0);
-    Globals::light1->set_position(0.0, 10.0, 0.0, 1.0);
+    //Globals::light1->set_position(0.0, 10.0, 0.0, 1.0);
+    Globals::light1->set_position(2.0, 20.0, 0.0, 1.0);
     Globals::light1->set_ambient(0.0, 0.0, 0.0, 1.0);
     //Globals::light1->set_diffuse(0.5, 0.5, 0.5, 1.0);
     Globals::light1->set_diffuse(0.8, 0.8, 0.8, 1.0);
     Globals::light1->set_specular(0.4, 0.4, 0.4, 1.0);
-    Globals::light1->enable();
+    //Globals::light1->enable();
 
     // Setup material
     //float none[] = {0.0, 0.0, 0.0, 1.0};
@@ -305,6 +341,10 @@ void setup()
     //material1.set_emission(red);
     */
 
+    // Setup shadow shader 
+    Globals::shadow_shader = new Shader("shader/shadow.vert", "shader/shadow.frag");
+    shadowMapUniform = glGetUniformLocationARB(Globals::shadow_shader->getPid(), "ShadowMap");
+
 
     // Set focus
     Globals::focus = static_cast<Object *>(sword1);
@@ -313,5 +353,53 @@ void setup()
 
 }
 
+void generateShadowFBO()
+{
+    int shadowMapWidth = GWindow::width * kShadowMapRatio;
+    int shadowMapHeight = GWindow::height * kShadowMapRatio;
+
+    //GLfloat borderColor[4] = {0,0,0,0};
+
+    GLenum FBOstatus;
+
+    // Try to use a texture depth component
+    glGenTextures(1, &depthTextureId);
+    glBindTexture(GL_TEXTURE_2D, depthTextureId);
+
+    // GL_LINEAR does not make sense for depth texture. However, next tutorial shows usage of GL_LINEAR and PCF
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+
+    // Remove artefact on the edges of the shadowmap
+    glTexParameterf( GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP );
+    glTexParameterf( GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP );
+
+    //glTexParameterfv( GL_TEXTURE_2D, GL_TEXTURE_BORDER_COLOR, borderColor );
+
+
+
+    // No need to force GL_DEPTH_COMPONENT24, drivers usually give you the max precision if available
+    glTexImage2D( GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT, shadowMapWidth, shadowMapHeight, 0, GL_DEPTH_COMPONENT, GL_UNSIGNED_BYTE, 0);
+    glBindTexture(GL_TEXTURE_2D, 0);
+
+    // create a framebuffer object
+    glGenFramebuffersEXT(1, &fboId);
+    glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, fboId);
+
+    // Instruct openGL that we won't bind a color texture with the currently binded FBO
+    glDrawBuffer(GL_NONE);
+    glReadBuffer(GL_NONE);
+
+    // attach the texture to FBO depth attachment point
+    glFramebufferTexture2DEXT(GL_FRAMEBUFFER_EXT, GL_DEPTH_ATTACHMENT_EXT,GL_TEXTURE_2D, depthTextureId, 0);
+
+    // check FBO status
+    FBOstatus = glCheckFramebufferStatusEXT(GL_FRAMEBUFFER_EXT);
+    if(FBOstatus != GL_FRAMEBUFFER_COMPLETE_EXT)
+        printf("GL_FRAMEBUFFER_COMPLETE_EXT failed, CANNOT use FBO\n");
+
+    // switch back to window-system-provided framebuffer
+    glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, 0);
+}
 
 

@@ -4,6 +4,7 @@
 #include "light.h"
 #include "skybox.h"
 #include "floor.h"
+#include "shader.h"
 
 namespace Globals
 {
@@ -16,4 +17,5 @@ namespace Globals
     Light * light1;
     Skybox * skybox;
     Floor * floor;
+    Shader * shadow_shader;
 };

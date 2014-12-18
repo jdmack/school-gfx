@@ -20,6 +20,7 @@ namespace Globals
     extern Light * light1;
     extern Skybox * skybox;
     extern Floor * floor;
+    extern Shader * shadow_shader;
 };
 
 #endif
