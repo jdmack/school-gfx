@@ -34,6 +34,8 @@ void GWindow::idle_callback()
             Globals::particle->update(timer_.get_ticks());
         }
     }
+    Globals::sword1->update(timer_.get_ticks());
+    Globals::sword2->update(timer_.get_ticks());
 
     //std::cerr << "FPS: " << 1 / (double) timer_.get_ticks() * 1000 << std::endl;
     timer_.start();
@@ -71,11 +73,11 @@ void GWindow::display_callback()
 
 
     //Globals::focus->display(Globals::camera.matrix());
-    //Globals::sword1->display();
-    //Globals::sword2->display();
+    Globals::sword1->display();
+    Globals::sword2->display();
     Globals::floor->display();
     //Globals::arena->display();
-    //Globals::cube->display();
+    Globals::cube->display();
 
     if(Globals::particle != nullptr) {
         Globals::particle->display();

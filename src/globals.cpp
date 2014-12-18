@@ -7,6 +7,7 @@
 #include "shader.h"
 #include "sphere.h"
 #include "cube.h"
+#include "sword.h"
 
 namespace Globals
 {
@@ -19,12 +20,12 @@ namespace Globals
     Light * light1;
     Skybox * skybox;
     Floor * floor;
-    Shader * toon_shader;
+    Shader * shader;
     Sphere * sphere;
     Cube * cube;
 
-    Model * sword1;
-    Model * sword2;
+    Sword * sword1;
+    Sword * sword2;
     Model * arena;
 
     ParticleEffect * particle;

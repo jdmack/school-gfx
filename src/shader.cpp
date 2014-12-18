@@ -21,7 +21,7 @@ GNU General Public License for more details.
 
 Shader::Shader()
 {
-    active_ = false; 
+    active_ = true; 
 }
 
 Shader::Shader(const char *vert, const char *frag, bool isFile)
@@ -140,5 +140,8 @@ Shader::setup(const char *vs, const char *fs)
 void Shader::toggle()
 {
     active_ = !active_;
+    if(active_) std::cerr << "Setting Shader ACTIVE" << std::endl;
+    else std::cerr << "Setting Shader INACTIVE" << std::endl;
+
 }
 

@@ -61,8 +61,8 @@ int main(int argc, char *argv[])
 
     glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);          // really nice perspective calculations
 
-    glEnable(GL_CULL_FACE);                        // disable backface culling to render both sides of polygons
-    glCullFace(GL_BACK);
+    //glEnable(GL_CULL_FACE);                        // disable backface culling to render both sides of polygons
+    //glCullFace(GL_BACK);
 
     glShadeModel(GL_SMOOTH);             	        // set shading to smooth
     glMatrixMode(GL_PROJECTION); 
@@ -74,8 +74,8 @@ int main(int argc, char *argv[])
     //glEnable(GL_COLOR_MATERIAL);
 
     // Enable Lighting
-    //glEnable(GL_LIGHTING);
-    //glLightModelf(GL_LIGHT_MODEL_LOCAL_VIEWER, GL_TRUE);
+    glEnable(GL_LIGHTING);
+    glLightModelf(GL_LIGHT_MODEL_LOCAL_VIEWER, GL_TRUE);
   
     // Install callback functions:
     glutDisplayFunc(GWindow::display_callback);
@@ -192,6 +192,11 @@ void keyboard_callback(unsigned char key, int x, int y)
             Globals::particle = new ParticleEffect(Vector3(0,0,0));
 			break;
 
+        case 'h':
+                Globals::sword1->current_animation()->stop();
+                Globals::sword2->current_animation()->stop();
+            break;
+
         case '1':
             Globals::focus = static_cast<Object *>(Globals::sword1);
             break;
@@ -266,7 +271,12 @@ void keyboard_special_callback(int key, int x, int y)
 void setup()
 {
     //Globals::sphere = new Sphere(4);
-    //Globals::cube = new Cube();
+    Globals::cube = new Cube(4);
+    Globals::cube->matrix_o2w().rotate_y(30);
+    Globals::cube->matrix_o2w().translate(0, -6, 20);
+
+    Texture * cube_texture = new Texture("texture/crate.ppm");
+    Globals::cube->set_texture(cube_texture);
     
     // Setup floor
     Texture * floor_texture = new Texture("texture/sand.ppm");
@@ -274,36 +284,31 @@ void setup()
     Globals::floor->set_texture(floor_texture);
 
     // Setup swords
-    Globals::sword1 = new Model("obj/sword1.obj");
+    Globals::sword1 = new Sword("obj/sword1.obj");
     Globals::sword1->matrix_obj().rotate_y(-90);
     Globals::sword1->matrix_obj().rotate_x(90);
     Globals::sword1->matrix_obj().rotate_z(-40);
     Globals::sword1->matrix_o2w().translate(-10, 0, 0);
 
-    /*
-    Globals::sword2 = new Model("obj/sword1.obj");
+    Globals::sword2 = new Sword("obj/sword1.obj");
     Globals::sword2->matrix_obj().rotate_y(90);
     Globals::sword2->matrix_obj().rotate_x(-90);
     Globals::sword2->matrix_obj().rotate_z(40);
     Globals::sword2->matrix_o2w().translate(10, 0, 0);
-    */
     
     //Globals::arena = new Model("obj/arena.obj");
 
     Texture * sword_texture = new Texture("texture/sword1.ppm");
     Globals::sword1->set_texture(sword_texture);
-    //Globals::sword2->set_texture(texture);
+    Globals::sword2->set_texture(sword_texture);
 
-    //Texture * cube_texture = new Texture("texture/crate.ppm");
-    //Globals::cube->set_texture(cube_texture);
 
-    //Globals::toon_shader = new Shader("shader/toon.vert", "shader/toon.frag");    
-    //Shader * shader = new Shader("shader/perpixel.vert", "shader/perpixel.frag");    
-    //Globals::sword1->set_shader(shader);
-    //Globals::cube->set_shader(shader);
-    //Globals::floor->set_shader(Globals::toon_shader);
-    //Globals::sphere->set_shader(Globals::toon_shader);
+    Globals::shader = new Shader("shader/perpixel.vert", "shader/perpixel.frag");    
 
+    Globals::sword1->set_shader(Globals::shader);
+    Globals::sword2->set_shader(Globals::shader);
+    Globals::floor->set_shader(Globals::shader);
+    Globals::cube->set_shader(Globals::shader);
 
 
     // Setup skybox
@@ -345,10 +350,11 @@ void setup()
 
 
     // Set focus
-    //Globals::focus = static_cast<Object *>(Globals::sword1);
+    Globals::focus = static_cast<Object *>(Globals::sword1);
     //Globals::focus = static_cast<Object *>(Globals::cube);
     //Globals::focus = static_cast<Object *>(Globals::sphere);
     //Globals::focus = static_cast<Object *>(Globals::arena);
+    //Globals::focus = static_cast<Object *>(Globals::floor);
 
     //Globals::focus = static_cast<Object *>(Globals::skybox);
 

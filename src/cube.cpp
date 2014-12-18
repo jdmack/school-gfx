@@ -14,9 +14,9 @@ Cube::Cube() : Object()
     size_ = kDefaultCubeSize;
 }
 
-Cube::Cube(double size_) : Object()
+Cube::Cube(double size) : Object()
 {
-    size_ = size_;
+    size_ = size;
 }
 
 

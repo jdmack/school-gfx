@@ -45,8 +45,8 @@ class Model : public Object
         void set_texture(Texture * texture) { texture_ = texture; }
 
         void display(Camera camera = Camera());
-        void update(int ticks);
-        void reset();
+        virtual void update(int ticks);
+        virtual void reset();
 
         void parse(std::string filename);
 

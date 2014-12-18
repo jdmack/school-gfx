@@ -11,6 +11,7 @@
 #include "sphere.h"
 #include "cube.h"
 #include "particle_effect.h"
+#include "sword.h"
 
 namespace Globals
 {
@@ -23,12 +24,12 @@ namespace Globals
     extern Light * light1;
     extern Skybox * skybox;
     extern Floor * floor;
-    extern Shader * toon_shader;
+    extern Shader * shader;
     extern Sphere * sphere;
     extern Cube * cube;
     
-    extern Model * sword1;
-    extern Model * sword2;
+    extern Sword * sword1;
+    extern Sword * sword2;
     extern Model * arena;
 
     extern ParticleEffect * particle;
