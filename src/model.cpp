@@ -240,7 +240,7 @@ void Model::parse(std::string filename)
             }
             if((t1 >= texels_.size()) || (t2 >= texels_.size()) || (t3 >= texels_.size())) {
                 //if((t1 != -1) && (t2 != -1) && (t3 != -1)) {
-                    std::cerr << "Error: Texels out of range: " << t1 << ", " << t2 << ", " << t3 << std::endl;
+                //    std::cerr << "Error: Texels out of range: " << t1 << ", " << t2 << ", " << t3 << std::endl;
                     continue;
                 //}
             }

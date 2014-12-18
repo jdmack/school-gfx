@@ -18,7 +18,7 @@ Sword::Sword() : Model()
 
 Sword::Sword(std::string filename) : Model(filename)
 {
-    //next_animation_ = nullptr;
+    next_animation_ = nullptr;
     current_animation_ = new IdleBob(this);
 
     parse(filename);
@@ -28,7 +28,22 @@ Sword::Sword(std::string filename) : Model(filename)
 
 void Sword::update(int ticks)
 {
-    current_animation_->update(ticks);
+    bool return_value;
+    if(current_animation_ != nullptr) {
+        return_value = current_animation_->update(ticks);
+
+        if(return_value) {
+            //delete current_animation_;
+
+            current_animation_ = next_animation_;
+            next_animation_ = nullptr;
+
+            if(current_animation_ == nullptr) {
+                current_animation_ = new IdleBob(this);
+            }
+        }
+
+    }
 }
 
 void Sword::reset()

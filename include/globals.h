@@ -10,8 +10,9 @@
 #include "model.h"
 #include "sphere.h"
 #include "cube.h"
-#include "particle_effect.h"
 #include "sword.h"
+
+class ParticleEffect;
 
 namespace Globals
 {
@@ -25,6 +26,7 @@ namespace Globals
     extern Skybox * skybox;
     extern Floor * floor;
     extern Shader * shader;
+    extern Shader * particle_shader;
     extern Sphere * sphere;
     extern Cube * cube;
     

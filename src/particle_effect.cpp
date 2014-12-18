@@ -4,6 +4,7 @@
 
 #include "particle.h"
 #include "particle_effect.h"
+#include "globals.h"
 
 #include <GL/glut.h>
 
@@ -23,8 +24,8 @@ ParticleEffect::ParticleEffect() : Object()
     }
 
     std::cerr << "ParticleEffect created: " << particles_.size() << std::endl;
-
-
+    
+    shader_ = Globals::particle_shader;
 }
 
 ParticleEffect::ParticleEffect(Vector3 point) : ParticleEffect()

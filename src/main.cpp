@@ -14,6 +14,8 @@
 #include "light.h"
 #include "vector4.h"
 #include "texture.h"
+#include "particle_effect.h"
+#include "swing.h"
 //#include "skybox.h"
 
 #include <GL/glut.h>
@@ -23,6 +25,8 @@
 // TODO:
 // - Camera has to be transposed and inverted to work right, fix this
 
+
+bool fullscreen = true;
 
 void keyboard_callback(unsigned char key, int x, int y);
 void keyboard_special_callback(int key, int x, int y);
@@ -44,6 +48,7 @@ int main(int argc, char *argv[])
     glutInitWindowSize(GWindow::width, GWindow::height);      // set initial window size
     //glutInitWindowPosition(100, 100);
     glutCreateWindow("CSE167 Final Project");    	        // open window and set window title
+    glutFullScreen();
 
     // Display OpenGL Version
     std::cerr << "OpenGL Version: " << glGetString(GL_VERSION) << std::endl;
@@ -66,6 +71,13 @@ int main(int argc, char *argv[])
 
     glShadeModel(GL_SMOOTH);             	        // set shading to smooth
     glMatrixMode(GL_PROJECTION); 
+
+
+    // Round points
+    glEnable(GL_BLEND);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+    glEnable(GL_POINT_SMOOTH);
+    glHint(GL_POINT_SMOOTH_HINT, GL_NICEST);
   
     // Generate material properties:
     //glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, specular);
@@ -174,11 +186,14 @@ void keyboard_callback(unsigned char key, int x, int y)
 			break;
 
         case 'p':
-            Globals::focus->shader()->toggle();
+            Globals::shader->toggle();
 			break;
 
-
-        case 'e':
+        case 'u':
+            if(Globals::sword1->current_animation() != nullptr) {
+                Globals::sword1->current_animation()->stop();
+                Globals::sword1->set_next_animation(new Swing(Globals::sword1));
+            }
 			break;
 
         case 'n':
@@ -265,6 +280,19 @@ void keyboard_special_callback(int key, int x, int y)
         // F9
         case GLUT_KEY_F9:
             break;
+
+        // F12
+        case GLUT_KEY_F12:
+            if(fullscreen) {
+                fullscreen = false;
+                //GWindow::reshape_callback(GWindow::width, GWindow::height);
+                glutReshapeWindow(GWindow::width, GWindow::height);
+            }
+            else {
+                fullscreen = true;
+                glutFullScreen();
+            }
+            break;
     }
 }
 
@@ -296,7 +324,8 @@ void setup()
     Globals::sword2->matrix_obj().rotate_z(40);
     Globals::sword2->matrix_o2w().translate(10, 0, 0);
     
-    //Globals::arena = new Model("obj/arena.obj");
+    Globals::arena = new Model("obj/arena.obj");
+    Globals::arena->matrix_o2w().translate(0, -13.8, 0);
 
     Texture * sword_texture = new Texture("texture/sword1.ppm");
     Globals::sword1->set_texture(sword_texture);
@@ -304,15 +333,17 @@ void setup()
 
 
     Globals::shader = new Shader("shader/perpixel.vert", "shader/perpixel.frag");    
+    Globals::particle_shader= new Shader("shader/minimal.vert", "shader/minimal.frag");    
 
     Globals::sword1->set_shader(Globals::shader);
     Globals::sword2->set_shader(Globals::shader);
     Globals::floor->set_shader(Globals::shader);
     Globals::cube->set_shader(Globals::shader);
+    //Globals::arena->set_shader(Globals::shader);
 
 
     // Setup skybox
-    //Globals::skybox = new Skybox(200);
+    //Globals::skybox = new Skybox(2000);
 
     // Setup light
     Globals::light1 = new Light(0);

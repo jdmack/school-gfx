@@ -5,6 +5,9 @@
 IdleBob::IdleBob() : Animation()
 {
     height_velocity_ = rand() % 50 / (double)100;
+    if(height_velocity_ < .3) {
+        height_velocity_ *= 2;
+    }
     current_height_ = 0;
     max_height_ = 1;
     direction_ = rand() % 2;

@@ -9,6 +9,8 @@
 #include "cube.h"
 #include "sword.h"
 
+#include "particle_effect.h"
+
 namespace Globals
 {
     Camera camera = Camera();
@@ -21,6 +23,7 @@ namespace Globals
     Skybox * skybox;
     Floor * floor;
     Shader * shader;
+    Shader * particle_shader;
     Sphere * sphere;
     Cube * cube;
 
