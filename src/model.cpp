@@ -27,7 +27,7 @@ Model::Model(std::string filename) : Object()
 
 void Model::display(Camera camera)
 {
-    shader_->bind();
+    if(shader_ != nullptr) shader_->bind();
 
     material_.enable();
 
@@ -62,7 +62,7 @@ void Model::display(Camera camera)
     }
     glEnd();
 
-    shader_->unbind();
+    if(shader_ != nullptr) shader_->unbind();
 }
 
 void Model::update(int ticks)
@@ -82,6 +82,7 @@ void Model::parse(std::string filename)
     double x, y, z;
     double r, g, b;
     unsigned int v1, v2, v3;
+    //unsigned int t1, t2, t3;
     unsigned int n1, n2, n3;
 
     std::ifstream infile(filename);
@@ -114,8 +115,8 @@ void Model::parse(std::string filename)
                 b = std::stod(tokens.at(6));
             }
             else {
-                r = 1.0;
-                g = 1.0;
+                r = 0.0;
+                g = 0.0;
                 b = 1.0;
             }
 
@@ -129,9 +130,8 @@ void Model::parse(std::string filename)
             //y = std::stod(tokens.at(2));
             //z = std::stod(tokens.at(3));
 
-            //Vector3 normal = Vector3(x, y, z);
-            //normal.normalize();
-            //normals_.push_back(normal);
+            //Vector3 texel = Vector3(x, y, 0);
+            //texels_.push_back(texel);
         }
 
         // Normal
@@ -153,18 +153,19 @@ void Model::parse(std::string filename)
             token = tokens.at(1);
             face_tokens = split(token, '/');
             if(face_tokens.size() >= 3) {
+                v1 = std::stoi(face_tokens.at(0)) - 1;
+                //t1 = std::stoi(face_tokens.at(1)) - 1;
+                n1 = std::stoi(face_tokens.at(2)) - 1;
                 //std::cerr << "token 0: " << face_tokens.at(0) << std::endl;
                 //std::cerr << "token 1: " << face_tokens.at(1) << std::endl;
                 //std::cerr << "token 2: " << face_tokens.at(2) << std::endl;
-                //std::cerr << "tokens: " << face_tokens.size() << std::endl;
-                v1 = std::stoi(face_tokens.at(0)) - 1;
-                n1 = std::stoi(face_tokens.at(2)) - 1;
             }
             
             token = tokens.at(2);
             face_tokens = split(token, '/');
             if(face_tokens.size() >= 3) {
                 v2 = std::stoi(face_tokens.at(0)) - 1;
+                //t2 = std::stoi(face_tokens.at(1)) - 1;
                 n2 = std::stoi(face_tokens.at(2)) - 1;
             }
             
@@ -172,6 +173,7 @@ void Model::parse(std::string filename)
             face_tokens = split(token, '/');
             if(face_tokens.size() >= 3) {
                 v3 = std::stoi(face_tokens.at(0)) - 1;
+                //t3 = std::stoi(face_tokens.at(1)) - 1;
                 n3 = std::stoi(face_tokens.at(2)) - 1;
             }
 
@@ -180,16 +182,28 @@ void Model::parse(std::string filename)
                 std::cerr << "Error: Vertices out of range: " << v1 << ", " << v2 << ", " << v3 << std::endl;
                 continue;
             }
+            //if((n1 >= texels_.size()) || (n2 >= texels_.size()) || (n3 >= texels_.size())) {
+           //     std::cerr << "Error: Texels out of range: " << t1 << ", " << t2 << ", " << t3 << std::endl;
+            //    continue;
+            //}
             if((n1 >= normals_.size()) || (n2 >= normals_.size()) || (n3 >= normals_.size())) {
                 std::cerr << "Error: Normals out of range: " << n1 << ", " << n2 << ", " << n3 << std::endl;
                 continue;
             }
+
+            //Triangle triangle = Triangle(vertices_[v1], normals_[n1], colors_[v1], vertices_[v2], normals_[n2], colors_[v2], vertices_[v3], normals_[n3], colors_[v3]);
+            //triangle.set_texel1(texels_[t1]);
+            //triangle.set_texel2(texels_[t2]);
+            //triangle.set_texel3(texels_[t3]);
+            //faces_.push_back(triangle);
             faces_.push_back(Triangle(vertices_[v1], normals_[n1], colors_[v1], vertices_[v2], normals_[n2], colors_[v2], vertices_[v3], normals_[n3], colors_[v3]));
+
         }
 
     }
 
     //std::cerr << "Vertices: " << vertices_.size() << std::endl;
+    //std::cerr << "Texels: " << texels_.size() << std::endl;
     //std::cerr << "Normals: " << normals_.size() << std::endl;
     //std::cerr << "Colors: " << colors_.size() << std::endl;
     //std::cerr << "Faces: " << faces_.size() << std::endl;

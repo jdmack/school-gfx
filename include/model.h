@@ -13,6 +13,7 @@ class Model : public Object
 {
     private:
         std::vector<Vector3> vertices_;
+        std::vector<Vector3> texels_;
         std::vector<Vector3> normals_;
         std::vector<Triangle> faces_;
         std::vector<Color> colors_;
@@ -33,6 +34,7 @@ class Model : public Object
         Model(std::string filename);
 
         std::vector<Vector3> & vertices() { return vertices_; }
+        std::vector<Vector3> & texels() { return texels_; }
         std::vector<Vector3> & normals() { return normals_; }
         std::vector<Triangle> & faces() { return faces_; }
         std::vector<Color> & colors() { return colors_; }

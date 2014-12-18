@@ -55,8 +55,8 @@ int main(int argc, char *argv[])
     glDepthFunc(GL_LEQUAL);    // configure depth testing
     glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);          // really nice perspective calculations
     
-    glEnable(GL_CULL_FACE);                        // disable backface culling to render both sides of polygons
-    glCullFace(GL_BACK);
+    //glEnable(GL_CULL_FACE);                        // disable backface culling to render both sides of polygons
+    //glCullFace(GL_BACK);
     glShadeModel(GL_SMOOTH);             	        // set shading to smooth
     glMatrixMode(GL_PROJECTION); 
   
@@ -66,11 +66,10 @@ int main(int argc, char *argv[])
     glColorMaterial(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE);
     glEnable(GL_COLOR_MATERIAL);
 
+    // Enable Lighting
     // Generate light source:
-    //glLightfv(GL_LIGHT0, GL_POSITION, position);
     glEnable(GL_LIGHTING);
     glLightModelf(GL_LIGHT_MODEL_LOCAL_VIEWER, GL_TRUE);
-    //glEnable(GL_LIGHT0);
   
     // Install callback functions:
     glutDisplayFunc(GWindow::display_callback);
@@ -253,9 +252,10 @@ void setup()
 
     // Setup light
     Globals::light1 = new Light(0);
-    Globals::light1->set_position(-3.0, 3.0, 0.0, 1.0);
+    Globals::light1->set_position(0.0, 10.0, 0.0, 1.0);
     Globals::light1->set_ambient(0.0, 0.0, 0.0, 1.0);
-    Globals::light1->set_diffuse(0.5, 0.5, 0.5, 1.0);
+    //Globals::light1->set_diffuse(0.5, 0.5, 0.5, 1.0);
+    Globals::light1->set_diffuse(0.8, 0.8, 0.8, 1.0);
     Globals::light1->set_specular(0.4, 0.4, 0.4, 1.0);
     Globals::light1->enable();
 
@@ -286,7 +286,8 @@ void setup()
 
 
     // Set focus
-
+    Globals::focus = new Model("obj/sword1.obj");
+    //Globals::focus = new Model("obj/bunny.obj");
 
 }
 
