@@ -21,9 +21,24 @@ Object::Object()
 void Object::reset()
 {
     matrix_.identity();
+    //matrix_obj_.identity();
+    //matrix_o2w_.identity();
+    matrix_obj_ = saved_obj_;
+    matrix_o2w_ = saved_o2w_;
+    set_color(Color(0.0, 1.0, 0.0));
+
+    position() = Vector3(0.0, 0.0, 0.0);
+
+}
+
+void Object::identity()
+{
+    matrix_.identity();
     matrix_obj_.identity();
     matrix_o2w_.identity();
+
     set_color(Color(0.0, 1.0, 0.0));
+
     position() = Vector3(0.0, 0.0, 0.0);
 
 }
@@ -71,5 +86,11 @@ void Object::end_display()
 
 void Object::update(int ticks)
 {
+    
+}
 
+void Object::save()
+{
+    saved_obj_ = matrix_obj_; 
+    saved_o2w_ = matrix_o2w_; 
 }

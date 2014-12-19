@@ -24,6 +24,7 @@ IdleBob::IdleBob(Sword * sword) : IdleBob()
 
 bool IdleBob::update(int ticks)
 {
+    if(pause_) return false;
     if(stop_) {
         if((current_height_ <= 0.1) && (current_height_ >= -0.1)) {
             current_height_ += -current_height_;

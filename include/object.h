@@ -18,6 +18,9 @@ class Object
         Matrix4 matrix_o2w_;
         Vector3 position_;
 
+        Matrix4 saved_obj_;
+        Matrix4 saved_o2w_;
+
         Color color_;
         Material material_;
         Shader * shader_;
@@ -48,6 +51,9 @@ class Object
         virtual void display(Camera camera = Camera());
         virtual void update(int ticks);
         virtual void reset();
+
+        void save();
+        void identity();
 
         void start_display(Camera camera);
         void end_display();

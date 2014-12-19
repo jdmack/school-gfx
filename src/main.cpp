@@ -118,7 +118,11 @@ void keyboard_callback(unsigned char key, int x, int y)
     Vector3 camera_look_at;
     switch (key) {
         case 'r':
-            Globals::focus->reset();
+            //Globals::focus->reset();
+            Globals::sword1->reset();
+            Globals::sword2->reset();
+            Globals::cube->reset();
+            Globals::arena->reset();
 			break;
 
         case 'c':
@@ -221,7 +225,15 @@ void keyboard_callback(unsigned char key, int x, int y)
             break;
 
         case '3':
+            Globals::focus = static_cast<Object *>(Globals::cube);
+            break;
+
+        case '4':
             Globals::focus = static_cast<Object *>(Globals::arena);
+            break;
+
+        case '5':
+            Globals::focus = static_cast<Object *>(Globals::floor);
             break;
 
 		case 32: // spacebar
@@ -302,6 +314,7 @@ void setup()
     Globals::cube = new Cube(4);
     Globals::cube->matrix_o2w().rotate_y(30);
     Globals::cube->matrix_o2w().translate(0, -6, 20);
+    Globals::cube->save();
 
     Texture * cube_texture = new Texture("texture/crate.ppm");
     Globals::cube->set_texture(cube_texture);
@@ -317,15 +330,18 @@ void setup()
     Globals::sword1->matrix_obj().rotate_x(90);
     Globals::sword1->matrix_obj().rotate_z(-40);
     Globals::sword1->matrix_o2w().translate(-10, 0, 0);
+    Globals::sword1->save();
 
     Globals::sword2 = new Sword("obj/sword1.obj");
     Globals::sword2->matrix_obj().rotate_y(90);
     Globals::sword2->matrix_obj().rotate_x(-90);
     Globals::sword2->matrix_obj().rotate_z(40);
     Globals::sword2->matrix_o2w().translate(10, 0, 0);
+    Globals::sword2->save();
     
     Globals::arena = new Model("obj/arena.obj");
     Globals::arena->matrix_o2w().translate(0, -13.8, 0);
+    Globals::arena->save();
 
     Texture * sword_texture = new Texture("texture/sword1.ppm");
     Globals::sword1->set_texture(sword_texture);

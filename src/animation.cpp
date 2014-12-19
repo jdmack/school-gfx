@@ -3,6 +3,7 @@
 Animation::Animation()
 {
     stop_ = false;
+    pause_ = false;
 }
 
 Animation::Animation(Sword * sword) : Animation()
@@ -18,4 +19,9 @@ bool Animation::update(int ticks)
 void Animation::stop()
 {
     stop_ = true;
+}
+
+void Animation::toggle_pause()
+{
+    pause_ = !pause_;
 }

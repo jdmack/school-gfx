@@ -48,5 +48,6 @@ void Sword::update(int ticks)
 
 void Sword::reset()
 {
-
+    Model::reset();
+    current_animation_ = new IdleBob(this);
 }
