@@ -64,7 +64,11 @@ void Trackball::mouse_move(int x, int y)
                 //std::cerr << "rotation matrix: " << std::endl;
                 //rotation.print();
                 //Globals::focus->matrix_o2w() = Globals::focus->matrix_obj().multiply(rotation);
-                Globals::focus->matrix_o2w() = Globals::focus->matrix_o2w().multiply(rotation);
+                Matrix4 save_mat = Globals::focus->matrix_obj();
+                Globals::focus->matrix_obj().identity();
+                Globals::focus->matrix_obj() = Globals::focus->matrix_obj().multiply(rotation);
+
+                Globals::focus->matrix_obj() = Globals::focus->matrix_obj().multiply(save_mat);
             }
             break;
         case ZOOM:

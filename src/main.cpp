@@ -317,6 +317,7 @@ void setup()
     Globals::cube->save();
 
     Texture * cube_texture = new Texture("texture/crate.ppm");
+    //Texture * cube_texture = new Texture("texture/companion_cube.ppm");
     Globals::cube->set_texture(cube_texture);
     
     // Setup floor
