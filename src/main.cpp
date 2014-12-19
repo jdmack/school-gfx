@@ -123,6 +123,7 @@ void keyboard_callback(unsigned char key, int x, int y)
             Globals::sword2->reset();
             Globals::cube->reset();
             Globals::arena->reset();
+            Globals::floor->reset();
 			break;
 
         case 'c':
@@ -214,6 +215,10 @@ void keyboard_callback(unsigned char key, int x, int y)
         case 'h':
                 Globals::sword1->current_animation()->stop();
                 Globals::sword2->current_animation()->stop();
+            break;
+
+        case 'v':
+                Globals::focus->toggle_visible();
             break;
 
         case '1':
@@ -323,6 +328,7 @@ void setup()
     // Setup floor
     Texture * floor_texture = new Texture("texture/sand.ppm");
     Globals::floor = new Floor();
+    Globals::floor->save();
     Globals::floor->set_texture(floor_texture);
 
     // Setup swords

@@ -16,6 +16,8 @@ Object::Object()
     shader_ = nullptr;
     texture_ = nullptr;
 
+    visible_ = true;
+
 }
 
 void Object::reset()
@@ -28,6 +30,7 @@ void Object::reset()
     set_color(Color(0.0, 1.0, 0.0));
 
     position() = Vector3(0.0, 0.0, 0.0);
+    visible_ = true;
 
 }
 
@@ -93,4 +96,9 @@ void Object::save()
 {
     saved_obj_ = matrix_obj_; 
     saved_o2w_ = matrix_o2w_; 
+}
+
+void Object::toggle_visible()
+{
+    visible_ = !visible_;
 }

@@ -26,6 +26,8 @@ void Floor::update(int ticks)
 
 void Floor::display(Camera camera)
 {
+    if(!visible_) return;
+
     double tex = size_ / 10;
     Object::start_display(camera);
 

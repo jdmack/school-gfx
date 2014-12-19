@@ -22,6 +22,8 @@ Cube::Cube(double size) : Object()
 
 void Cube::display(Camera camera)
 {
+    if(!visible_) return;
+
     Object::start_display(camera);
     glColor3f(0.0, 1.0, 0.0);
 

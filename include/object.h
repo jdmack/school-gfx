@@ -26,6 +26,7 @@ class Object
         Shader * shader_;
         Texture * texture_;
 
+        bool visible_;
 
     public:
         // constructors
@@ -54,6 +55,7 @@ class Object
 
         void save();
         void identity();
+        void toggle_visible();
 
         void start_display(Camera camera);
         void end_display();

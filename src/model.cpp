@@ -25,6 +25,7 @@ Model::Model(std::string filename) : Object()
 
 void Model::display(Camera camera)
 {
+    if(!visible_) return;
     //std::string current_texture = "none";
 
     Object::start_display(camera);
